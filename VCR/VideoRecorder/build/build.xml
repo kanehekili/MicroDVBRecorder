@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Build recorder" default="deploy">
+	<target name="build_dir">
+    	<property file="build.properties"/>
+		<property name="stage" value="stage"/>
+		<property name="rootDir" value="${stage}/mdvbrec"/>
+		<property name="bin" value="${rootDir}/bin"/>
+		<property name="data" value="${rootDir}/data"/>
+		<property name="log" value="${rootDir}/log"/>
+		<property name="web" value="${rootDir}/web"/>
+		<property name="xmltv" value="${rootDir}/xmltv"/>
+		<delete dir="${stage}"/>
+		<mkdir dir="${stage}"/>
+		<mkdir dir="${rootDir}"/>
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${data}"/>
+		<mkdir dir="${log}"/>
+		<mkdir dir="${web}"/>
+		<mkdir dir="${xmltv}"/>
+
+		<property name="source" value="../src"/>
+		<property name="srcBin" value="${source}/bin"/>
+		<property name="srcData" value="${source}/data"/>
+		<property name="srcWeb" value="${source}/web"/>
+		
+		<copy todir="${stage}">
+			<fileset file="*.sh">
+			</fileset>
+		</copy>
+		
+		<copy todir="${bin}">
+			<fileset dir="${srcBin}">
+			</fileset>
+		</copy>
+		<chmod perm="755">
+			<fileset dir="${bin}"/>
+		</chmod>	
+		<copy todir="${data}">
+			<fileset dir="${srcData}">
+			</fileset>
+		</copy>
+		
+		<copy todir="${web}">
+			<fileset dir="${srcWeb}">
+			</fileset>
+		</copy>
+		<touch file="${web}/webdvb.log"/>
+		<delete file="${web}/Log.txt"/>
+		<copy todir="${rootDir}">
+			<fileset dir="${source}" includes="*.py">
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="deploy" depends="build_dir">
+		<delete>
+			<fileset dir="." includes="**/*.tar*"/>
+		</delete>	
+		<tar destfile="mdvbrec${version}.tar">
+			<fileset dir="${stage}"/>
+		</tar>
+		<delete dir="${stage}"/>
+	</target>
+</project>	

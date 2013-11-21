@@ -1,0 +1,1 @@
+Folder used to store the retrieved EPG Data. The name of the file is "EPGList.xmltv" 

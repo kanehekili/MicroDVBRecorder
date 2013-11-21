@@ -1,0 +1,148 @@
+.overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    bottom: 0;
+    cursor: default;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    visibility: hidden;
+    z-index: 1;
+
+    -webkit-transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    -ms-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+}
+.overlay:target {
+    visibility: visible;
+     opacity: 1;
+}
+.popup {
+    background-color: #fff;
+    border: 3px solid #fff;
+    display: inline-block;
+    left: 50%;
+    opacity: 0;
+    padding: 15px;
+    position: fixed;
+    top: 40%;
+    visibility: hidden;
+    /*display:none;*/
+    z-index: 10;
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+
+    -webkit-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    -moz-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    -ms-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    -o-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+
+    -webkit-transition: opacity .5s, top .5s;
+    -moz-transition: opacity .5s, top .5s;
+    -ms-transition: opacity .5s, top .5s;
+    -o-transition: opacity .5s, top .5s;
+    transition: opacity .5s, top .5s;
+}
+.overlay:target+.popup {
+    top: 50%;
+    opacity: 1;
+    visibility: visible;
+    display:block;
+
+}
+/* defines the circle around X on the upper right side */
+.close {
+    background-color: rgba(255, 0, 0, 0.8);
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: -15px;
+    width: 30px;
+
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
+}
+/* the sign X or an icon... */
+.close:before {
+    color: rgba(255, 255, 255, 0.9);
+    content: "OK";
+    font-size: 12px;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
+}
+.close:hover {
+    background-color: rgba(64, 128, 128, 0.8);
+}
+/*.popup p, .popup div {*/
+.popup p,.popup h2 {
+    margin-bottom: 5 px;
+    text-align:center;
+}
+.popup p {
+	background-color:#00FF00;
+	-webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
+}
+/*
+.popup label {
+    display: inline-block;
+    text-align: middle;
+    width: 120px;
+}
+*/
+/*frame for select list*/
+.SelectFrame {
+   display:inline-block;
+   height:400px;
+   width:450px;
+   background:#F8EEEE;
+   margin:5px;
+  overflow-y:scroll;
+  border:2px inset;
+}
+/*row/cell definition*/
+.InfoTime{
+	/* display:inline-block; this does not work as in the programm list, since the data tends to go to the bottom*/
+	display: table-cell; 
+	min-width: 100px;
+	padding:5px;
+	border-right:2px inset;
+	white-space: normal;
+}
+.InfoTime b{
+   margin:0;
+}
+.InfoText{
+    /*display:inline-block; dito*/
+    display: table-cell;
+    white-space: normal;
+    padding-left: 5px;
+    width:100%;
+}
+.InfoRow{
+	font-size: 12px;
+	white-space: nowrap;
+	display: table-row;
+}

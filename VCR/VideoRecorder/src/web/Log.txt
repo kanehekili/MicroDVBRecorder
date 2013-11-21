@@ -1,0 +1,338 @@
+2013-11-20 22:17:42,294 Setup channel infos
+2013-11-20 22:17:43,017 Idle
+2013-11-20 22:17:43,018 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-20 22:18:04,472 GET:/web/index.html
+2013-11-20 22:18:04,546 GET:/web/css/webdefault.css
+2013-11-20 22:18:04,596 GET:/web/css/overlay.css
+2013-11-20 22:18:04,687 GET:/web/js/main.js
+2013-11-20 22:18:04,719 GET:/web/js/model.js
+2013-11-20 22:18:04,839 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-20 22:18:04,845 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-20 22:18:05,988 Setup channel infos
+2013-11-20 22:18:06,754 Idle
+2013-11-20 22:18:25,352 GET:/web/img/NotAvailable.png
+2013-11-20 22:22:22,896 channel info is corrupt
+2013-11-20 22:22:22,896 channel info is corrupt
+2013-11-20 22:22:22,896 channel info is corrupt
+2013-11-20 22:22:22,897 channel info is corrupt
+2013-11-20 22:22:22,897 channel info is corrupt
+2013-11-20 22:22:22,897 channel info is corrupt
+2013-11-20 22:22:22,898 channel info is corrupt
+2013-11-20 22:22:22,898 channel info is corrupt
+2013-11-20 22:22:22,899 channel info is corrupt
+2013-11-20 22:22:22,899 channel info is corrupt
+2013-11-20 22:22:22,899 channel info is corrupt
+2013-11-20 22:22:22,900 channel info is corrupt
+2013-11-20 22:22:22,900 channel info is corrupt
+2013-11-20 22:22:22,900 channel info is corrupt
+2013-11-20 22:22:22,901 channel info is corrupt
+2013-11-20 22:22:22,901 channel info is corrupt
+2013-11-20 22:22:22,902 channel info is corrupt
+2013-11-20 22:22:22,902 channel info is corrupt
+2013-11-20 22:22:22,902 channel info is corrupt
+2013-11-20 22:22:22,903 channel info is corrupt
+2013-11-20 22:22:22,903 channel info is corrupt
+2013-11-20 22:22:22,903 channel info is corrupt
+2013-11-20 22:22:22,904 channel info is corrupt
+2013-11-20 22:22:22,904 channel info is corrupt
+2013-11-20 22:22:22,904 channel info is corrupt
+2013-11-20 22:22:22,905 channel info is corrupt
+2013-11-20 22:22:22,905 channel info is corrupt
+2013-11-20 22:22:22,905 channel info is corrupt
+2013-11-20 22:22:22,906 channel info is corrupt
+2013-11-20 22:22:22,906 channel info is corrupt
+2013-11-20 22:22:22,907 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-20 22:22:42,244 GET:/web/index.html
+2013-11-20 22:22:42,277 GET:/web/css/webdefault.css
+2013-11-20 22:22:42,344 GET:/web/css/overlay.css
+2013-11-20 22:22:42,348 GET:/web/js/main.js
+2013-11-20 22:22:42,351 GET:/web/js/model.js
+2013-11-20 22:22:42,355 GET:/web/js/toolbox.js
+2013-11-20 22:22:42,408 GET:/web/img/robot-icon.png
+2013-11-20 22:22:42,425 GET:/web/img/multimedia.svg
+2013-11-20 22:22:42,437 GET:/web/img/open_folder.png
+2013-11-20 22:22:42,441 GET:/web/img/filter_list.png
+2013-11-20 22:22:42,444 GET:/web/img/go-down.svg
+2013-11-20 22:22:42,447 GET:/web/img/go-up.svg
+2013-11-20 22:22:42,524 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-20 22:23:06,950 GET:/web/index.html
+2013-11-20 22:23:06,980 GET:/web/css/webdefault.css
+2013-11-20 22:23:06,983 GET:/web/css/overlay.css
+2013-11-20 22:23:06,985 GET:/web/js/main.js
+2013-11-20 22:23:06,987 GET:/web/js/model.js
+2013-11-20 22:23:07,049 GET:/web/js/toolbox.js
+2013-11-20 22:23:07,125 GET:/web/img/robot-icon.png
+2013-11-20 22:23:07,134 GET:/web/img/multimedia.svg
+2013-11-20 22:23:07,137 GET:/web/img/open_folder.png
+2013-11-20 22:23:07,140 GET:/web/img/filter_list.png
+2013-11-20 22:23:07,143 GET:/web/img/go-down.svg
+2013-11-20 22:23:07,146 GET:/web/img/go-up.svg
+2013-11-20 22:23:07,251 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-20 22:25:13,020 Setup channel infos
+2013-11-20 22:25:13,829 Idle
+2013-11-20 22:25:13,830 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-20 22:25:16,480 GET:/web/index.html
+2013-11-20 22:25:16,509 GET:/web/css/webdefault.css
+2013-11-20 22:25:16,579 GET:/web/css/overlay.css
+2013-11-20 22:25:16,583 GET:/web/js/main.js
+2013-11-20 22:25:16,586 GET:/web/js/model.js
+2013-11-20 22:25:16,589 GET:/web/js/toolbox.js
+2013-11-20 22:25:16,650 GET:/web/img/robot-icon.png
+2013-11-20 22:25:16,654 GET:/web/img/multimedia.svg
+2013-11-20 22:25:16,657 GET:/web/img/open_folder.png
+2013-11-20 22:25:16,660 GET:/web/img/filter_list.png
+2013-11-20 22:25:16,663 GET:/web/img/go-down.svg
+2013-11-20 22:25:16,666 GET:/web/img/go-up.svg
+2013-11-20 22:25:16,754 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-20 22:25:16,760 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-20 22:25:17,994 Setup channel infos
+2013-11-20 22:25:18,738 Idle
+2013-11-20 22:25:19,786 GET:/web/img/NotAvailable.png
+2013-11-20 22:25:19,793 GET:/web/img/RecIcon.png
+2013-11-20 22:25:31,505 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 13:58:48,710 Setup channel infos
+2013-11-21 13:58:48,781 Idle
+2013-11-21 13:58:48,781 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-21 13:58:58,367 GET:/web/index.html
+2013-11-21 13:58:58,439 GET:/web/css/webdefault.css
+2013-11-21 13:58:58,474 GET:/web/js/main.js
+2013-11-21 13:58:58,780 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 13:58:58,791 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 13:58:58,982 Setup channel infos
+2013-11-21 13:58:59,056 Idle
+2013-11-21 13:59:01,020 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 22:36:30,369 Setup channel infos
+2013-11-21 22:36:31,107 Idle
+2013-11-21 22:36:31,107 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-21 22:40:22,717 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 22:40:22,723 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 22:40:23,904 Setup channel infos
+2013-11-21 22:40:24,637 Idle
+2013-11-21 22:40:59,305 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-21 22:41:01,259 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 22:41:03,245 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-21 22:41:37,598 Processing post data:{"cmd":"LIST_REC","arg":"","data":""}
+2013-11-21 22:41:41,166 Processing post data:{"cmd":"MARK_Programm","arg":"{\"error\":null,\"timetext\":\"<b>RTL Television</b><i> Fri 22</i><br><small>01:52-02:35</small>\",\"time\":\"01:52\",\"date\":\"22.Nov\",\"text\":\"<b>Allein unter Bauern</b><br>Legal, illegal, ganz egal <i>(40)</i>\",\"title\":\"Allein unter Bauern\",\"type\":2,\"channel\":\"RTL Television\",\"jobID\":\"40\"}","data":""}
+2013-11-21 22:41:41,248 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-21 22:42:52,055 GET:/web/Log.txt
+2013-11-21 23:05:30,459 Setup channel infos
+2013-11-21 23:05:31,143 Idle
+2013-11-21 23:05:31,144 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-21 23:05:37,951 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-21 23:05:38,989 Setup channel infos
+2013-11-21 23:05:39,662 Idle
+2013-11-21 23:21:51,168 Setup channel infos
+2013-11-21 23:21:51,855 Idle
+2013-11-21 23:21:51,856 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-21 23:22:04,409 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:22:05,468 Setup channel infos
+2013-11-21 23:22:06,153 Idle
+2013-11-21 23:32:34,757 Setup channel infos
+2013-11-21 23:34:57,272 Idle
+2013-11-21 23:34:57,274 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-21 23:35:10,585 GET:/web/index.html
+2013-11-21 23:35:10,618 GET:/web/css/webdefault.css
+2013-11-21 23:35:10,621 GET:/web/css/overlay.css
+2013-11-21 23:35:10,815 GET:/web/js/main.js
+2013-11-21 23:35:10,818 GET:/web/js/model.js
+2013-11-21 23:35:10,821 GET:/web/js/toolbox.js
+2013-11-21 23:35:10,928 GET:/web/img/robot-icon.png
+2013-11-21 23:35:10,932 GET:/web/img/multimedia.svg
+2013-11-21 23:35:10,936 GET:/web/img/open_folder.png
+2013-11-21 23:35:10,941 GET:/web/img/filter_list.png
+2013-11-21 23:35:10,947 GET:/web/img/go-down.svg
+2013-11-21 23:35:10,952 GET:/web/img/go-up.svg
+2013-11-21 23:35:11,044 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 23:35:11,049 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:35:12,203 Setup channel infos
+2013-11-21 23:36:22,513 Idle
+2013-11-21 23:36:53,886 GET:/web/img/NotAvailable.png
+2013-11-21 23:36:54,003 GET:/web/img/RecIcon.png
+2013-11-21 23:37:04,185 Processing post data:{"cmd":"LIST_REC","arg":"","data":""}
+2013-11-21 23:37:33,238 GET:/web/index.html
+2013-11-21 23:37:33,265 GET:/web/css/webdefault.css
+2013-11-21 23:37:33,315 GET:/web/css/overlay.css
+2013-11-21 23:37:33,318 GET:/web/js/main.js
+2013-11-21 23:37:33,321 GET:/web/js/model.js
+2013-11-21 23:37:33,324 GET:/web/js/toolbox.js
+2013-11-21 23:37:33,378 GET:/web/img/robot-icon.png
+2013-11-21 23:37:33,380 GET:/web/img/multimedia.svg
+2013-11-21 23:37:33,383 GET:/web/img/open_folder.png
+2013-11-21 23:37:33,386 GET:/web/img/filter_list.png
+2013-11-21 23:37:33,389 GET:/web/img/go-down.svg
+2013-11-21 23:37:33,392 GET:/web/img/go-up.svg
+2013-11-21 23:37:33,478 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 23:38:23,231 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:38:32,652 GET:/web/img/NotAvailable.png
+2013-11-21 23:38:32,656 GET:/web/img/RecIcon.png
+2013-11-21 23:39:17,208 GET:/web/index.html
+2013-11-21 23:39:17,251 GET:/web/css/webdefault.css
+2013-11-21 23:39:17,271 GET:/web/css/overlay.css
+2013-11-21 23:39:17,273 GET:/web/js/main.js
+2013-11-21 23:39:17,275 GET:/web/js/model.js
+2013-11-21 23:39:17,294 GET:/web/img/open_folder.png
+2013-11-21 23:39:17,308 GET:/web/img/filter_list.png
+2013-11-21 23:39:17,313 GET:/web/img/go-down.svg
+2013-11-21 23:39:17,319 GET:/web/img/multimedia.svg
+2013-11-21 23:39:17,322 GET:/web/img/go-up.svg
+2013-11-21 23:39:17,441 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 23:39:34,941 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:39:39,269 GET:/web/img/NotAvailable.png
+2013-11-21 23:39:39,276 GET:/web/img/RecIcon.png
+2013-11-21 23:39:39,443 GET:/web/favicon.ico
+2013-11-21 23:45:51,938 GET:/web/index.html
+2013-11-21 23:45:51,957 GET:/web/css/webdefault.css
+2013-11-21 23:45:51,966 GET:/web/css/overlay.css
+2013-11-21 23:45:51,974 GET:/web/js/main.js
+2013-11-21 23:45:51,983 GET:/web/js/model.js
+2013-11-21 23:45:51,990 GET:/web/js/toolbox.js
+2013-11-21 23:45:51,992 GET:/web/img/robot-icon.png
+2013-11-21 23:45:52,008 GET:/web/img/multimedia.svg
+2013-11-21 23:45:52,011 GET:/web/img/open_folder.png
+2013-11-21 23:45:52,013 GET:/web/img/filter_list.png
+2013-11-21 23:45:52,020 GET:/web/img/go-down.svg
+2013-11-21 23:45:52,031 GET:/web/img/go-up.svg
+2013-11-21 23:45:52,115 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 23:49:01,584 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:49:02,042 GET:/web/img/NotAvailable.png
+2013-11-21 23:49:02,052 GET:/web/img/RecIcon.png
+2013-11-21 23:50:31,410 GET:/web/index.html
+2013-11-21 23:50:31,430 GET:/web/css/webdefault.css
+2013-11-21 23:50:31,436 GET:/web/css/overlay.css
+2013-11-21 23:50:31,448 GET:/web/js/main.js
+2013-11-21 23:50:31,452 GET:/web/js/model.js
+2013-11-21 23:50:31,456 GET:/web/js/toolbox.js
+2013-11-21 23:50:31,464 GET:/web/img/robot-icon.png
+2013-11-21 23:50:31,479 GET:/web/img/multimedia.svg
+2013-11-21 23:50:31,482 GET:/web/img/open_folder.png
+2013-11-21 23:50:31,485 GET:/web/img/filter_list.png
+2013-11-21 23:50:31,488 GET:/web/img/go-down.svg
+2013-11-21 23:50:31,490 GET:/web/img/go-up.svg
+2013-11-21 23:50:31,516 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-21 23:50:31,525 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-21 23:50:31,998 GET:/web/img/NotAvailable.png
+2013-11-21 23:50:32,004 GET:/web/img/RecIcon.png
+2013-11-21 23:50:35,359 Processing post data:{"cmd":"REQ_Programs","arg":"RTL Television","data":""}
+2013-11-21 23:50:37,561 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 23:50:40,488 Processing post data:{"cmd":"REQ_Programs","arg":"RTL Television","data":""}
+2013-11-21 23:50:41,515 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 23:50:42,467 Processing post data:{"cmd":"REQ_Programs","arg":"SWR Fernsehen BW","data":""}
+2013-11-21 23:50:44,171 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 23:50:45,020 Processing post data:{"cmd":"REQ_Programs","arg":"SWR Fernsehen BW","data":""}
+2013-11-21 23:50:46,729 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-21 23:50:47,424 Processing post data:{"cmd":"REQ_Programs","arg":"SWR Fernsehen BW","data":""}
+2013-11-21 23:52:49,668 Processing post data:{"cmd":"REQ_Programs","arg":"RTL Television","data":""}
+2013-11-22 00:00:41,259 GET:/web/
+2013-11-22 00:00:41,321 GET:/web/js/main.js
+2013-11-22 00:00:41,438 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-22 00:00:41,444 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-22 00:02:44,484 GET:/web/js/main.js
+2013-11-22 00:02:44,519 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-22 00:02:44,524 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-22 00:03:00,979 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-22 00:03:01,829 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-22 00:03:03,795 Processing post data:{"cmd":"REQ_Programs","arg":"ZDFinfo","data":""}
+2013-11-22 00:03:05,505 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-22 00:03:50,169 Setup channel infos
+2013-11-22 00:03:50,854 Idle
+2013-11-22 00:03:50,855 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-22 00:03:53,059 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-22 00:03:54,087 Setup channel infos
+2013-11-22 00:03:54,753 Idle
+2013-11-22 00:03:54,943 Processing post data:{"cmd":"REQ_Programs","arg":"ZDFinfo","data":""}
+2013-11-22 00:03:56,204 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-22 00:03:57,173 Processing post data:{"cmd":"REQ_Programs","arg":"ZDFinfo","data":""}
+2013-11-22 00:03:58,269 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:03:59,475 Processing post data:{"cmd":"REQ_Programs","arg":"ZDFinfo","data":""}
+2013-11-22 00:04:00,788 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:04:02,067 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:04:03,355 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:04:18,460 Setup channel infos
+2013-11-22 00:04:19,158 Idle
+2013-11-22 00:04:19,158 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-22 00:04:20,596 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:04:21,618 Setup channel infos
+2013-11-22 00:04:22,320 Idle
+2013-11-22 00:04:23,198 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:04:24,862 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:04:26,771 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:04:28,507 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:04:30,531 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:05:34,438 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:05:36,469 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:05:37,976 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:05:39,757 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:05:41,224 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:05:43,069 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:07:25,534 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:07:31,108 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:07:39,403 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:07:42,573 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:08:23,203 Processing post data:{"cmd":"LIST_AUTO","arg":"","data":""}
+2013-11-22 00:08:30,056 Processing post data:{"cmd":"LIST_REC","arg":"","data":""}
+2013-11-22 00:08:43,374 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:16:04,772 Setup channel infos
+2013-11-22 00:16:05,456 Idle
+2013-11-22 00:16:05,456 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-22 00:16:10,060 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:16,083 Setup channel infos
+2013-11-22 00:16:16,782 Idle
+2013-11-22 00:16:21,081 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:16:22,675 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:24,036 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:16:25,220 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:26,538 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:16:28,630 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:30,383 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:16:32,172 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:33,750 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:16:35,580 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:37,063 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:16:39,103 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:16:40,819 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:16:42,692 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:16:52,205 Processing post data:{"cmd":"REQ_Programs","arg":"Tele5","data":""}
+2013-11-22 00:16:59,993 Processing post data:{"cmd":"REQ_Programs","arg":"SWR Fernsehen BW","data":""}
+2013-11-22 00:17:09,969 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:17:38,857 Processing post data:{"cmd":"REQ_Programs","arg":"Bayerisches FS Süd","data":""}
+2013-11-22 00:17:40,907 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:17:43,345 Processing post data:{"cmd":"REQ_Programs","arg":"RTL Television","data":""}
+2013-11-22 00:17:46,513 Processing post data:{"cmd":"REQ_Programs","arg":"Das Erste","data":""}
+2013-11-22 00:18:01,139 Setup channel infos
+2013-11-22 00:18:01,205 Idle
+2013-11-22 00:18:01,205 Linking file:/home/matze/JWSP/python/VideoRecorder/src/log/webdvb.log
+2013-11-22 00:18:06,250 Processing post data:{"cmd":"REQ_Programs","arg":"neo/KiKA","data":""}
+2013-11-22 00:18:06,414 Setup channel infos
+2013-11-22 00:18:06,480 Idle
+2013-11-22 00:18:07,838 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:18:09,453 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:18:10,688 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:18:12,354 Processing post data:{"cmd":"REQ_Programs","arg":"arte","data":""}
+2013-11-22 00:18:13,435 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:18:14,154 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:18:15,419 Processing post data:{"cmd":"REQ_Programs","arg":"Phoenix","data":""}
+2013-11-22 00:18:40,005 GET:/web/index.html
+2013-11-22 00:18:40,033 GET:/web/css/webdefault.css
+2013-11-22 00:18:40,089 GET:/web/css/overlay.css
+2013-11-22 00:18:40,090 GET:/web/js/main.js
+2013-11-22 00:18:40,091 GET:/web/js/model.js
+2013-11-22 00:18:40,091 GET:/web/js/toolbox.js
+2013-11-22 00:18:40,148 GET:/web/img/robot-icon.png
+2013-11-22 00:18:40,150 GET:/web/img/multimedia.svg
+2013-11-22 00:18:40,151 GET:/web/img/open_folder.png
+2013-11-22 00:18:40,152 GET:/web/img/filter_list.png
+2013-11-22 00:18:40,154 GET:/web/img/go-down.svg
+2013-11-22 00:18:40,156 GET:/web/img/go-up.svg
+2013-11-22 00:18:40,242 Processing post data:{"cmd":"REQ_Channels","arg":"","data":""}
+2013-11-22 00:18:40,247 Processing post data:{"cmd":"REQ_Programs","arg":"ZDF","data":""}
+2013-11-22 00:18:40,472 GET:/web/img/NotAvailable.png
+2013-11-22 00:18:40,475 GET:/web/img/RecIcon.png
+2013-11-22 00:18:58,686 Processing post data:{"cmd":"REQ_Programs","arg":"3sat","data":""}
+2013-11-22 00:19:02,262 Processing post data:{"cmd":"REQ_Programs","arg":"ZDFinfo","data":""}
+2013-11-22 00:19:04,348 Processing post data:{"cmd":"REQ_Programs","arg":"Das Erste","data":""}
+2013-11-22 00:19:08,550 Processing post data:{"cmd":"REQ_Programs","arg":"Bayerisches FS Süd","data":""}
+2013-11-22 00:19:11,564 Processing post data:{"cmd":"REQ_Programs","arg":"Das Erste","data":""}
+2013-11-22 00:19:13,182 Processing post data:{"cmd":"REQ_Programs","arg":"Bayerisches FS Süd","data":""}
+2013-11-22 00:19:16,484 Processing post data:{"cmd":"REQ_Programs","arg":"BR-alpha","data":""}
+2013-11-22 00:19:19,876 Processing post data:{"cmd":"REQ_Programs","arg":"EinsPlus","data":""}
+2013-11-22 00:19:31,505 Processing post data:{"cmd":"REQ_Programs","arg":"RTL Television","data":""}

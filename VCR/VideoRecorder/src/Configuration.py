@@ -1,0 +1,229 @@
+# -*- coding: utf-8 -*-
+'''
+Created on Oct 11, 2012
+
+@author: matze
+'''
+import os
+
+from datetime import timedelta
+import logging
+import ConfigParser
+
+class Config():
+
+    HomeDir = os.path.dirname(__file__)
+    UserPath=os.path.expanduser("~")
+    
+    LogPath="log"
+    XMLPath = "xmltv"
+    BinPath = "bin"
+    ZapPath = ".tzap"
+    WebPath="web"
+    ResourcePath=os.path.join(WebPath,"img")
+    RecordDestination = os.path.join("Videos","Recordings")
+    ConfigPath = os.path.join(HomeDir,XMLPath,"Config.conf")
+
+        
+    ChannelFile = "channels.conf"
+    AutoSelectFile="AutoSelect.conf"
+    RecQueueFile="RecordQueue.xml"
+    VCRMarkerFile="MODE_VCR"
+    ServerMarkerFile="MODE_SERVER"
+    EPGFile = "EPGList.xmltv"
+    TimeFile="EPGTime.txt"
+    
+    XMLFileTyp=".xmltv"
+    MPGFileTyp=".m2t" #Type of file to store
+    FUTURE_ITEMS_ONLY=True
+    
+    POLICY_SERVER =0xB0
+    POLICY_VCR =0xB1
+    MODE_NONE =0xA0
+    MODE_SLEEP =0xA1
+    MODE_HIBERNATE=0xA2
+    
+    
+    RecordTimeMargin = timedelta(minutes=5)
+    #Use sleep/hibernation on idle
+    #DAEMON_POLICY = POLICY_VCR
+    DAEMON_POLICY = POLICY_SERVER
+    SUSPEND_MODE = MODE_SLEEP
+
+    def __init__(self):
+        if os.path.isfile(self.ConfigPath):
+            self._loadConfig()
+        else:
+            self._writeDefaultConfig()
+
+    
+    def setupLogging(self,fileName): 
+        path = os.path.join(self.HomeDir,self.LogPath,fileName)
+        logging.basicConfig(filename=path,level=logging.DEBUG,format='%(asctime)s %(message)s')           
+
+    def getCachedXMLTVFilePath(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.EPGFile)
+    
+    def getEPGTimestampPath(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.TimeFile)
+    
+    def getAutoSelectPath(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.AutoSelectFile)
+    
+    def getRecQueuePath(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.RecQueueFile)
+    
+    def getLoggingPath(self):
+        return os.path.join(self.HomeDir,self.LogPath);
+    
+    def getWebPath(self):
+        return os.path.join(self.HomeDir,self.WebPath);
+    #path where to put the recordings in
+    def getRecordingPath(self):
+        return os.path.join(self.UserPath,self.RecordDestination)
+    
+    #config and record queue data
+    def getResourcePath(self):
+        return os.path.join(self.HomeDir,self.ResourcePath)
+    
+    #path of the xmltv files - not used anymore 
+    def getXMLPath(self):
+        return os.path.join(self.HomeDir,self.XMLPath)
+    
+    #path for the additional progs 
+    def getBinPath(self):
+        return os.path.join(self.HomeDir,self.BinPath)
+    
+    def getChannelFilePath(self):
+        return os.path.join(self.UserPath,self.ZapPath,self.ChannelFile)
+    
+    def getEnergySaverFileMarker(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.VCRMarkerFile)
+    
+    def getServerFileMarker(self):
+        return os.path.join(self.HomeDir,self.XMLPath,self.ServerMarkerFile)
+    
+    def getFilePath(self,filePath,fileName):
+        return os.path.join(filePath,fileName)
+    
+    def getLogger(self):
+        return logging
+
+    def logInfo(self,aString):
+        logging.log(logging.INFO,aString)
+
+    def logError(self,aString):
+        logging.log(logging.ERROR,aString)
+    
+    def logClose(self):
+        logging.shutdown() 
+
+    def _loadConfig(self):
+        c = ConfigAccessor(self.ConfigPath)
+        c.read()
+        margin = c.getInt("RECORDMARGIN")
+        Config.RecordTimeMargin = timedelta(minutes=margin)
+        policy = c.get("DAEMON_POLICY")
+        if policy.upper() == "SERVER":
+            Config.DAEMON_POLICY = Config.POLICY_SERVER
+        else:
+            Config.DAEMON_POLICY= Config.POLICY_VCR
+        suspendMode=c.get("SUSPEND_MODE")
+        if suspendMode.upper() == "SLEEP":
+            Config.SUSPEND_MODE=Config.MODE_SLEEP
+        else:
+            Config.SUSPEND_MODE=Config.MODE_HIBERNATE
+        
+    
+#     RecordTimeMargin= timedelta(minutes=5)
+#     #Use sleep/hibernation on idle
+#     DAEMON_POLICY = POLICY_VCR
+#     #DAEMON_POLICY = POLICY_SERVER
+#     SUSPEND_MODE = MODE_SLEEP
+
+    
+    def _writeDefaultConfig(self):
+        c = ConfigAccessor(self.ConfigPath)
+        c.add("RECORDMARGIN","5")
+        c.add("DAEMON_POLICY","SERVER")
+        c.add("SUSPEND_MODE","SLEEP")
+        c.store()
+
+ 
+class ConfigAccessor():
+    __SECTION="Mdvbrec"
+
+    def __init__(self,filePath):
+        self._path=filePath
+        self.parser = ConfigParser.ConfigParser()
+        self.parser.add_section(self.__SECTION)
+        
+    def read(self):
+        self.parser.read(self._path)
+        
+    def add(self,key,value):
+        self.parser.set(self.__SECTION,key,value)
+    
+    def get(self,key):
+        if self.parser.has_option(self.__SECTION, key):
+            return self.parser.get(self.__SECTION,key)
+        return None
+
+    def getInt(self,key):
+        if self.parser.has_option(self.__SECTION, key):
+            return self.parser.getint(self.__SECTION,key)
+        return None
+        
+    def store(self):
+        try:
+            with open(self._path, 'w') as aFile:
+                self.parser.write(aFile)
+        except IOError:
+            return False
+        return True           
+
+class MessageListener():
+    MSG_STATUS = 0xF2
+    MSG_EPG = 0xF3
+    MSG_REFRESH = 0xF4
+    '''
+    singleton class for connecting dispatcher and listeners of messages
+    listeners must implement the message for which they were registered   
+    '''
+
+    class __impl:
+        """ Implementation of the singleton interface """
+        def __init__(self):
+            self._listeners={}     
+        
+        def addListener(self,mode,function):
+            self._listeners.setdefault(mode,function)
+        
+#        def removeListener(self,aListener):
+#            self._listeners.remove(aListener)
+        
+        def signalMessage(self, mode, *arguments):
+            argList = arguments
+            registeredFunction = self._listeners.setdefault(mode,None)
+            if registeredFunction:
+                registeredFunction(*argList)
+            
+    # storage for the instance reference
+    __instance = None
+
+    def __init__(self):
+        """ Create singleton instance """
+        # Check whether we already have an instance
+        if MessageListener.__instance is None:
+            # Create and remember instance
+            MessageListener.__instance = MessageListener.__impl()
+
+        # Store instance reference as the only member in the handle
+        self.__dict__['_Singleton__instance'] = MessageListener.__instance
+
+    def __getattr__(self, attr):
+        """ Delegate access to implementation """
+        return getattr(self.__instance, attr)
+
+    def __setattr__(self, attr, value):
+        """ Delegate access to implementation """                    

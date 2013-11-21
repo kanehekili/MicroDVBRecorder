@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Micro Recorder</title>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Frontend to the micro DVB recorder">
+		<link rel="stylesheet" type="text/css" href="./css/webdefault.css" />
+		<link rel="stylesheet" type="text/css" href="./css/overlay.css" />
+		<script type="text/javascript" src="./js/main.js"></script>
+		<script type="text/javascript" src="./js/model.js"></script>
+		<script type="text/javascript" src="./js/toolbox.js"></script>
+	</head>
+
+	
+	<body onload="initialize();">
+	
+	<div id="wrap">
+		<div id="main">
+			<div id="header">Micro DVB Recorder</div>
+			<div id="function">
+
+				<a href="#autoselect_form">
+					<div id="dropzone" class="icoAction">
+						<img src="img/robot-icon.png" height= "36" width="36">
+					</div>
+				</a>
+	     		<a href="#recList_form" id="reclistBtn" class="icoAction">
+					<img src="img/multimedia.svg" height= "36" width="36">
+				</a>
+				<a id="logBtn" class="icoAction">
+					<img src="img/open_folder.png" height= "36" width="36">
+				</a>
+  				<a id="filterBtn" class="icoAction">
+					<img src="img/filter_list.png" height= "36" width="36">
+				</a>
+				<a id="nextPageBtn" class="icoAction">
+					<img src="img/go-down.svg" height= "36" width="36">
+				</a>
+				<a id="prevPageBtn" class="icoAction">
+					<img src="img/go-up.svg" height= "36" width="36">
+				</a>
+			</div>
+		</div>
+		
+		<div id="datasection">
+			<div id="leftPanel">
+				<div id="channelsHeader"  class="tablehead">Channels</div>
+				<div id="channelsscroller" class="yscroller">
+					<ul id="channel_contents"></ul>
+				</div>
+			</div>
+			<div id="rightPanel">
+				<div id= "programmHeader" class="tablehead">
+					<div class="phead1">Rec</div>
+					<div class="phead2">Program Info</div>
+			    </div>
+				<div id= "programmscroller" class="yscroller">
+					<div id= "programmbody"></div>
+				</div>
+										
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">Footer
+	</div>
+	<div id="search">
+		<input type="text" name="name" value="">
+	</div>			
+
+    <!--The overlays -->	
+	<!-- Reclist OVERLAY #1 -->
+	<a class="overlay" id="recList_form"></a>
+	<div class="popup">
+		<h2>Recording List</h2>
+		<p>Double click to remove a recording</p>
+		<!-- Define seperator and list -->
+		<hr>
+		<div class=SelectFrame id="recordlist">
+		</div>	
+		<hr>
+		<input type="button" value="Change time" />
+		<a class="close" href="#close"></a>
+	</div>
+
+    <!-- AutoSelect #2 -->
+	<a class="overlay" id="autoselect_form"></a>
+	<div class="popup">
+		<h2>Autoselect List</h2>
+		<p>Double click to remove an entry</p>
+		<hr>
+		<div class=SelectFrame id="autoselectlist">
+		</div>
+		<hr>
+		<a class="close" href="#close"></a>
+	</div>
+	</body>
+</html>

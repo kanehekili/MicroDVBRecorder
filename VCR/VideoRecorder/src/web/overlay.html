@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="utf-8" />
+        <title>CSS3 Modal List Popup</title>
+        <link href="css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="css/modal.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <header>
+            <h2>CSS3 Modal Popups</h2>
+        </header>
+
+       <div class="main">
+            <div class="panel">
+                <a href="#recList_form" id="recListButton">Recording list</a>
+		<a href="#autoselect_form" id="autoSelectButton">Auto Select list</a>
+             </div>
+        </div>
+
+       <!-- popup form #1 -->
+        <a href="#x" class="overlay" id="recList_form"></a>
+        <div class="popup">
+            <h2>Recording List</h2>
+            <p>Double click to remove a recording</p>
+	    <!-- Define seperator and list -->
+	    <hr>
+	    <ul class=recList>
+	    <li><b>20:35</b> House <i>ZDF</i>
+            <li><b>21:20</b> Kids <i>ZDF info</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+            </ul>
+	    <hr>
+            <input type="button" value="Change time" />
+            <a class="close" href="#close"></a>
+	</div>
+
+       <!-- popup form #2 -->
+        <a href="#y" class="overlay" id="autoselect_form"></a>
+        <div class="popup">
+            <h2>Autoselect List</h2>
+	    <div class=SelectFrame>
+	    <ul class=recList>
+	    <li><b>20:35</b> House <i>ZDF</i>
+            <li><b>21:20</b> Kids <i>ZDF info</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+	    <li><b>22:15</b> Carneval <i>neo/KIKA</i>
+            </ul>
+
+	    </div>
+	    <a class="close" href="#close"></a>
+	</div>
+ 

@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/home/matze/.local/share/mdvbrec/data/dvbrec_tv.svg
+Name[en_US]=Matzes DVBRecorder
+Exec=python /home/matze/.local/share/mdvbrec/DVBRecorder.py
+Comment[en_US]=Matze's DVB Recorder
+Name=Matzes DVBRecorder
+Comment=Matze's DVB Recorder
+Icon=/home/matze/.local/share/mdvbrec/data/dvbrec_tv.svg
+Categories=AudioVideo;
+NoDisplay=false

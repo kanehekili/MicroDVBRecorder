@@ -1,0 +1,304 @@
+* {margin:0;
+	padding:0;
+	font-family: Helvetica, Arial, sans-serif;
+} 
+body{ /*prevents accidental the text selection */
+ -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  -user-select: none;
+  	background:#F2EFE2;/*siver for llarge screens?*/
+   font-size:0.9em;
+}
+
+/* Du musst margin auf 0 für alle Elemente setzen und immer 
+ * padding statt margin für vertikale AbstÃ¤nde (top und bottom) verwenden,
+ *  anderenfalls werden diese margin-Werte zur Gesamthöhe addiert 
+ * und der Footer wird zu weit nach unten geschoben, was 
+ * vertikale Scrollbalken im Browser erzeugt. */
+
+html, body, #wrap {height: 100%;}
+
+body > #wrap {height: auto; min-height: 100%;}
+
+#main {
+    overflow:auto;
+	padding-bottom: 45px;/* Muss genau so hoch sein wie der Footer */
+	}  
+
+#footer {
+	position: relative;
+	margin-top: -45px; /* Negativer Wert der Footer-Höhe */
+	padding-left: 5px;
+	height: 45px;
+	clear:both;
+	/*Firefox:*/
+	background:linear-gradient(to bottom, rgba(205,210,214,1) 0%,rgba(155,155,155,1) 16%,rgba(205,210,214,1) 84%,rgba(155,155,155,1) 94%);
+	/*Chrome:*/
+	background: -webkit-gradient(linear, left top, left bottom,from(rgba(205,210,214,1)),color-stop(16%,rgba(155,155,155,1)),color-stop( 84%,rgba(205,210,214,1)),color-stop(94%,rgba(155,155,155,1)));
+	/*font-size: 16px;*/
+	text-align: left;
+	line-height:45px;/*Thats the y- text in center adjusting trick */
+}
+
+#search{
+	position: absolute;
+	right: 10px;
+	bottom: 0px;
+	height: 45px;
+	line-height:45px;
+	
+}
+
+#search input{
+	font-size: 13px;
+	padding: 3px;
+}
+
+
+#header {
+	text-align: center;
+	line-height: 45px;
+	color:#efefef;
+	font-size: 1.5rem; /* was 24px; rem takes the size from main*/
+	/*Chrome*/
+	background:-webkit-gradient(linear,left top, left bottom, from(#FF9EA3), to(#420000), color-stop(50%, #990707));
+	/*Firefox*/
+	background: linear-gradient(to bottom,#FF9EA3 0%,#990707 50%,#420000 100%); 
+	box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+}
+
+#function {
+  /*background:silver;*/
+  height: 50px;
+  padding:10px;
+  float:right;
+}
+
+#dropzone {
+	float:left;
+	padding-left:50px;
+	padding-right:50px;
+	height: 50px;
+}
+
+#function img {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.icoAction :hover {  /*-moz-transform:rotate(-5deg); -moz-box-shadow:10px 10px 20px #000000;*/
+	-webkit-transform:rotate(5deg);
+	-webkit-backface-visibility: hidden; /*removes blocky egdes*/
+	-webkit-box-shadow:10px 10px 20px #000000;
+	/*-webkit-transform: scale(1.4,1.4);*/
+	transform:rotate(-5deg); box-shadow:10px 10px 20px #000000; 
+}
+
+.icoAction :active {  
+	-webkit-transform:scale(1.2,1.2);
+	-webkit-backface-visibility: hidden; /*removes blocky egdes*/
+	-webkit-box-shadow:10px 10px 20px #000000;
+	transform:scale(1.2,1.2); box-shadow:10px 10px 20px #000000; 
+}
+
+
+#datasection {
+  position:absolute;
+  width:100%;
+  top:95px; /*fixed head + function*/
+  bottom:45px;
+}
+
+#leftPanel {
+    position:relative;
+	width: 20%;
+	height:100%;
+	float: left;
+	border-right:2px solid;
+}
+
+#rightPanel {
+	float:left;
+	position:relative;
+    height:100%;
+    width:79%;
+    white-space:nowrap;
+}
+
+.tablehead{
+	padding-left:10px;
+	height:3em;
+	line-height:3em;
+	font-weight:bold;
+	text-shadow: 2px 2px 2px #aaaaaa;
+	/*font-size:16px;*/
+	/*font-size:1.5rem; doesn't work in sub divs*/
+     /* W3C */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(191,191,191,1) 10%,rgba(255,255,255,1) 90%,rgba(178,178,178,1) 100%);
+     /* Chrome,Safari4+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(10%,rgba(191,191,191,1)), color-stop(90%,rgba(255,255,255,1)), color-stop(100%,rgba(178,178,178,1)));
+}
+
+/*channel definitions */
+.yscroller{
+	position:absolute;
+	overflow-y:auto;
+	top:3em; /*Offset from table header*/
+	left:0;
+	right:0;
+	bottom:0;
+}
+
+#channel_contents li { 
+	/*font-size:16px; */
+	padding:5px;
+	padding-left:10px;
+	cursor:pointer;
+}
+#channel_contents li:hover{
+/*	
+ * That makes a nice 3D bar background....
+ * background-image: linear-gradient(to bottom, #febab2 0%,#f14633 40%,#eb1e07 60%,#fb6e5f 100%);
+ * background-repeat:repeat-x;
+ * background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#febab2),color-stop(40%,#f14633),color-stop(60%,#eb1e07),color-stop(100%,#fb6e5f));
+   Enlargement of the focus...	
+	-webkit-transform:translateX(8px) scale(1.1,1.1);
+	-webkit-box-shadow:5px 5px 10px #000000;
+	transform:scale(1.1,1.1) translateX(8px);*/
+	-webkit-box-shadow:inset 0 -2px 10px #000000;
+	border-radius:15px;
+	box-shadow: inset 0 -2px 10px #000000;
+	
+}
+#channel_contents li:active {
+	background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);
+	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));
+	background-repeat:repeat-x;
+	border-radius:10px;
+}
+
+.channelSelected {
+	background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);
+	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));
+	background-repeat:repeat-x;
+	border-radius:10px;
+	color: white;
+}
+
+#channelsscroller {
+	background:-webkit-gradient(linear,center top, center bottom, from(#FDFDFD), to(#A0A0A0));
+	background-image: linear-gradient(to bottom, #FDFDFD 0%,#A0A0A0 100%);
+}
+
+/* table definitions */
+
+
+#programmbody {
+  height:100%;
+  width:100%;
+}
+
+.Column1 {
+	display:inline-block;
+	width:25px;
+	min-width:25px;
+	padding:5px; 
+	padding-left:15px; /*Hack since center does not work*/
+	/*padding-top:15px;*/
+}
+.ColumnTime{
+	display:inline-block;
+	border-left:1px solid;
+	padding:5px;
+}
+.Column1 img {
+	width:20px;
+	height:20px;
+}
+
+.Column2 {
+	display:inline-block; /* get get the line breaks as well*/
+}
+.phead1 {
+	float:left;
+	width:30px;
+	padding-left: -10px; /*compensates for the tableheader padding*/
+	padding-right: 5px;
+	border-right:1px solid;
+}
+
+.phead2 {
+	display:inline;
+	margin-left: 5px;
+}
+
+
+.programmrow{
+	padding:0; /*needs to be done in Colums for the left border*/
+	width:100%;
+	white-space: nowrap; /*divs in the row should not wrap*/
+}
+
+.InfoRow:hover,.programmrow:hover {
+/*	background-image: linear-gradient(to bottom, #febab2 0%,#f14633 40%,#eb1e07 60%,#fb6e5f 100%);
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#febab2),color-stop(40%,#f14633),color-stop(60%,#eb1e07),color-stop(100%,#fb6e5f));
+	cursor:cell;*/
+	border-radius:15px;
+	box-shadow: inset 0 -2px 10px #000000
+}
+
+
+.evenrow {
+	background-color: #F8E0D7;
+}
+.oddrow {
+	background-color: #F8EEEE;
+}
+
+.dayrow {
+    width:100%;
+	/*background-color: green;*/
+	/* Chrome10+,Safari5.1+ */
+	background: -webkit-linear-gradient(top, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 58%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%);
+	/* W3C */
+	background: linear-gradient(to bottom, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 58%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); 
+	color: #FFBB00;
+	text-shadow: 1px 1px 1px #000;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.dayrow p{
+	padding-left:45px;
+}
+
+/* stolen code..*/
+.tooltip{
+    display: inline;
+    position: relative;
+}
+.tooltip:hover:after{
+    background: #333;
+    background: rgba(255,233,255,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #000;
+    content: attr(tooltip);
+    left: 20%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    width: 220px;
+}
+		.tooltip:hover:before{
+    		border: solid;
+    		border-color: #333 transparent;
+    		border-width: 6px 6px 0 6px;
+    		bottom: 20px;
+    		content: "";
+    		left: 50%;
+    		position: absolute;
+    		z-index: 99;
+		}
