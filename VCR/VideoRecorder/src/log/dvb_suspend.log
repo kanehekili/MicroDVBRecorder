@@ -1,0 +1,72 @@
+2013-11-22 20:44:50,294 Starting daemon..
+2013-11-22 20:44:51,311 Setup channel infos
+2013-11-22 20:44:51,981 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 20:44:52,996 Setup channel infos
+2013-11-22 20:44:56,812 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:44:56,813 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:45:14,142 Observing recorder queue for 56393 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 20:45:24,159 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 20:45:25,180 Setup channel infos
+2013-11-22 20:45:28,859 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:45:28,861 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:48:19,037 Starting daemon..
+2013-11-22 20:48:20,081 Setup channel infos
+2013-11-22 20:48:20,756 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 20:48:21,777 Setup channel infos
+2013-11-22 20:48:25,450 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:48:25,450 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:48:52,588 Observing recorder queue for 56184 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 20:49:02,605 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 20:49:03,624 Setup channel infos
+2013-11-22 20:49:07,296 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 20:49:07,298 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:07:17,454 Starting daemon..
+2013-11-22 21:07:18,476 Setup channel infos
+2013-11-22 21:07:19,149 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:07:20,197 Setup channel infos
+2013-11-22 21:07:23,884 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:07:23,886 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:07:31,297 Observing recorder queue for 55046 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 21:07:41,313 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:07:42,328 Setup channel infos
+2013-11-22 21:07:45,999 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:07:46,001 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:08:01,666 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:08:02,692 Setup channel infos
+2013-11-22 21:08:06,356 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:08:06,358 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:08:10,968 going to sleep for 54773 seconds
+2013-11-22 21:08:21,843 rtcwake: assuming RTC uses UTC ...
+rtcwake: wakeup from "mem" using /dev/rtc0 at Sat Nov 23 11:21:12 2013
+:
+2013-11-22 21:08:21,844 Woke up
+2013-11-22 21:08:21,844 Delta secondsToWait to scheduled wakeup:54998
+2013-11-22 21:08:21,844 Suspend interrupted by user-> going into Server mode!
+2013-11-22 21:08:21,850 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:08:23,073 Setup channel infos
+2013-11-22 21:08:26,741 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:08:26,742 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:08:42,785 Observing recorder queue for 54983 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 21:09:11,847 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:09:12,886 Setup channel infos
+2013-11-22 21:09:16,551 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:09:16,553 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:21:34,695 Starting daemon..
+2013-11-22 21:21:35,718 Setup channel infos
+2013-11-22 21:21:36,397 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:21:37,404 Setup channel infos
+2013-11-22 21:21:41,068 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:21:41,070 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:21:46,495 Observing recorder queue for 54188 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 21:22:20,072 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:22:21,111 Setup channel infos
+2013-11-22 21:22:24,788 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:22:24,790 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:22:47,311 Last EPG update 46 day(s) ago - Updating now..
+2013-11-22 21:22:48,357 Setup channel infos
+2013-11-22 21:22:52,028 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:22:52,030 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2013-11-22 21:22:52,032 Observing recorder queue for 54117 seconds. Use 'energyModeOn' for VCR mode
+2013-11-22 22:05:37,204 Starting daemon..
+2013-11-22 22:05:38,234 Setup channel infos
+2013-11-22 22:05:38,885 Next run in less than -1 seconds
