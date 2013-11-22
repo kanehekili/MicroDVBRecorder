@@ -12,7 +12,7 @@ body{ /*prevents accidental the text selection */
 }
 
 /* Du musst margin auf 0 für alle Elemente setzen und immer 
- * padding statt margin für vertikale AbstÃ¤nde (top und bottom) verwenden,
+ * padding statt margin für vertikale Abstände (top und bottom) verwenden,
  *  anderenfalls werden diese margin-Werte zur Gesamthöhe addiert 
  * und der Footer wird zu weit nach unten geschoben, was 
  * vertikale Scrollbalken im Browser erzeugt. */

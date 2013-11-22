@@ -229,6 +229,25 @@ class RecorderDaemon():
             return True
         return False
     
+    '''
+    if a file is present with the name of "SaveEnergy" remove it and switch to VCR mode
+    '''
+    def isVCRPolicyChangeRequested(self):
+        markerFile= self._config.getEnergySaverFileMarker()
+        if self._isPolicyChangeRequested(markerFile):
+            self._setVCRPolicy()
+            return True
+        return False
+    
+    def isServerPolicyChangeRequested(self):
+        markerFile= self._config.getServerFileMarker()
+        if self._isPolicyChangeRequested(markerFile):
+            self._setServerPolicy()
+            return True
+        return False
+    
+    
+    
     
     def _startDaemon(self):
         errorCount =0;
@@ -281,8 +300,7 @@ class VCRPolicy():
         self.PRERUN_SECONDS = 240 #!IMPORTANT! Devices need to init
     
     def handleNoJobs(self):
-        if self.isPolicyChangeRequested():
-            self._daemon._setServerPolicy()
+        if self._daemon.isServerPolicyChangeRequested():
             return;
         self._daemon._stopQueue() #make sure in case that hibernation fails and logging is still active
         OSTools.saveEnergy(OSTools.RTC_HIBERNATE)
@@ -292,7 +310,7 @@ class VCRPolicy():
     def isReadyToRecord(self,startTime,secondsToWait):
         if secondsToWait==0:
             return True
-        if self.isPolicyChangeRequested():
+        if self._daemon.isServerPolicyChangeRequested():
             return False
         self._suspendDevice(secondsToWait)
         isScheduled =  self._wasWakeupScheduled(startTime)
@@ -328,12 +346,6 @@ class VCRPolicy():
         self._log(str(result[0])+":"+str(result[1]))        
         self._log("Woke up")
 
-    '''
-    if a file is present with the name of "RunServer" remove it and switch to VCR mode
-    '''
-    def _isPolicyChangeRequested(self):
-        markerFile= self._config().getServerFileMarker()
-        return self._daemon._isPolicyChangeRequested(markerFile)    
     
     def _log(self,aString): 
         self._daemon._log(aString)   
@@ -355,7 +367,7 @@ class ServerPolicy():
              
     def _argusWait(self,seconds):
         startTime = datetime.now() 
-        self._log("Observing recorder queue for %s seconds. Use 'energyModeOn' for VCR mode"%str(seconds))
+        self._log("Observing recorder queue for %s seconds. Use 'sleepModeOn' for VCR mode"%str(seconds))
         lastQCheck=None
         while (seconds<0 or OSTools.getDifferenceInSeconds(datetime.now(),startTime) < seconds):
             xtime.sleep(self.PRERUN_SECONDS)
@@ -372,19 +384,11 @@ class ServerPolicy():
             if currentModificationTime-lastQCheck>0:
                 self._log("Rec Q modified-looking for jobs")
                 return False
-            if self._isPolicyChangeRequested():
-                self._daemon._setVCRPolicy()
+            if self._daemon.isVCRPolicyChangeRequested(): 
                 return False
  
         return True
 
-    '''
-    if a file is present with the name of "SaveEnergy" remove it and switch to VCR mode
-    '''
-    def _isPolicyChangeRequested(self):
-        markerFile= self._config().getEnergySaverFileMarker()
-        return self._daemon._isPolicyChangeRequested(markerFile)
-        
 
     def _config(self):
         return self._daemon._config
@@ -434,8 +438,9 @@ class Recorder():
 
     #store title and description -entries will not be removed! 
     def _saveRecordInfo(self,path,epgProgramInfo,startTimeString):
+        filePath = self._config.getFilePath(path,"Info.txt")
         try:
-            with open(path+"Info.txt", 'a') as aFile:
+            with open(filePath, 'a') as aFile:
                 aFile.write(startTimeString+" ")
                 text = epgProgramInfo.getTitleUnescaped().encode('utf-8')
                 aFile.write(text+" -- ")

@@ -17,7 +17,6 @@ class EpgDatabase:
     def __init__(self,config):
         self._channelDictionary={}
         self._config = config
-        self._futureItemsOnly=config.FUTURE_ITEMS_ONLY
         self.autoSelectAccessor = AutoSelectAccessor(config)
     
     
@@ -68,9 +67,7 @@ class EpgDatabase:
     def getInfosForChannel(self,aChannelString):
         #TODO: clean empty or old entries!
         return self._channelDictionary.setdefault(aChannelString,[])
-    
-    def showFutureItemsOnly(self,aFlag):
-        self._futureItemsOnly=aFlag
+ 
     '''
     Answers an array  containing an array of daily entries - per channel
     '''
@@ -195,9 +192,7 @@ class EpgDatabase:
     #sort each list in the dictionary after the date and the time 
     def _sortEpgData(self,epgList):
         
-        if self._futureItemsOnly:
-            epgList[:]=[epgInfo for epgInfo in epgList if epgInfo.isActual()]
-        
+        epgList[:]=[epgInfo for epgInfo in epgList if epgInfo.isActual()]
         sortedResult = sorted(epgList, key=lambda epgInfo: epgInfo.getStartTime())
         #convert the sorted entries in an array with progInfos per day
         dayToDayList = []
@@ -237,6 +232,7 @@ class AutoSelectAccessor:
         self.readAutoSelectData()
             
     def addAutoSelectPreference(self,epgInfo):
+        #TODO:- use week day- no doubles!
         ase = AutoSelectEntry(epgInfo.getTitle(),epgInfo.getStartTime().hour)
         self.autoSelectList.append(ase)
     

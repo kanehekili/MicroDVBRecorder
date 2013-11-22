@@ -43,12 +43,10 @@ class Config():
     MODE_SLEEP =0xA1
     MODE_HIBERNATE=0xA2
     
-    
-    RecordTimeMargin = timedelta(minutes=5)
-    #Use sleep/hibernation on idle
-    #DAEMON_POLICY = POLICY_VCR
-    DAEMON_POLICY = POLICY_SERVER
-    SUSPEND_MODE = MODE_SLEEP
+    #configurable items
+    RecordTimeMargin = None
+    DAEMON_POLICY = None
+    SUSPEND_MODE = None
 
     def __init__(self):
         if os.path.isfile(self.ConfigPath):
@@ -134,14 +132,7 @@ class Config():
         else:
             Config.SUSPEND_MODE=Config.MODE_HIBERNATE
         
-    
-#     RecordTimeMargin= timedelta(minutes=5)
-#     #Use sleep/hibernation on idle
-#     DAEMON_POLICY = POLICY_VCR
-#     #DAEMON_POLICY = POLICY_SERVER
-#     SUSPEND_MODE = MODE_SLEEP
-
-    
+   
     def _writeDefaultConfig(self):
         c = ConfigAccessor(self.ConfigPath)
         c.add("RECORDMARGIN","5")

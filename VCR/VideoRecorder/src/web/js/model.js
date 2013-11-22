@@ -256,6 +256,9 @@ function ProgramListBuilder(serverData) {
 }
 	ProgramListBuilder.prototype.updateProgrammList=function(){
 	var programmDOM=document.getElementById("programmbody");
+	var rootDOM = programmDOM.parentNode
+	//disconnect
+	rootDOM.removeChild(programmDOM)
 	removeDOMChildren(programmDOM);
 	programmList=new ProgrammCollection();
 	if (this.jsonResult=="None"){
@@ -263,6 +266,7 @@ function ProgramListBuilder(serverData) {
 		row.className="dayrow"; //should be error row or icon or so
 		row.innerHTML="No Data found";
 		programmDOM.appendChild(row);
+		rootDOM.appendChild(programmDOM);
 		return false;
 	}
 
@@ -284,6 +288,7 @@ function ProgramListBuilder(serverData) {
 			programmList.add(programm);
 		}
 	}
+	rootDOM.appendChild(programmDOM);
 	return true;
 };
 
