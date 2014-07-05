@@ -8,11 +8,11 @@ Created on Oct 11, 2012
 import sys
 from ChannelReader import ChannelReader
 from EpgReader import ReaderThread
-from TerrestialDevice import DVB_T_Grabber
 from EPGProgramProvider import EPGProgramProvider
 from Configuration import Config,MessageListener
 from VideoRecorderView import RecorderView
 import OSTools
+import DVBDevice
 
 
 class DVBRecorder():
@@ -108,7 +108,7 @@ class DVBRecorder():
 
           
     def _getEPGDevice(self):
-        return DVB_T_Grabber(self.channelList,self.configuration)
+        return DVBDevice.getGrabber(self.channelList,self.configuration)
     
     
     def persistEPGData(self):

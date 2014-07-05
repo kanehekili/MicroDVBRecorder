@@ -7,8 +7,13 @@ contains the OS calls for a linux OS
 import os
 import subprocess
 from subprocess import Popen
-import dbus
+from datetime import timedelta
+from datetime import datetime
 import logging
+try:
+    import dbus
+except ImportError:
+    print "No dbus support"    
 
 
 RTC_SLEEP="mem"
@@ -67,6 +72,24 @@ def getDifferenceInSeconds(lateTime,earlyTime):
     td = lateTime -earlyTime
     return (td.days * 3600 * 24) + td.seconds
 
+def convertSecondsToString(secs):
+    prefix=""
+    if secs < 0:
+        secs = abs(secs)
+        prefix="-"
+    td = timedelta(seconds=secs)
+    return prefix+str(td)
+
+#display the current date + added seconds as human readable string
+def showDateTimeWithOffset(seconds):
+    return getDateTimeWithOffset(seconds).strftime(" %d.%m-%H:%M.%S")
+    
+def getDateTimeWithOffset(seconds):
+    return datetime.now()+timedelta(seconds=seconds)
+
+def addToDateTime(aDateTime, seconds ):
+    return aDateTime + timedelta(seconds=seconds)
+
 def syncFiles():
     Popen(["sync"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 
@@ -106,6 +129,14 @@ def ensureDirectory(path,tail):
             logging.log(logging.ERROR,"target not created:"+path)
             logging.log(logging.ERROR,"Error: "+ str(osError.strerror))
 
+def ensureFile(path,tail):
+    fn = os.path.join(path,tail)
+    ensureDirectory(path, None)
+    with open(fn, 'a'):
+        os.utime(fn, None)
+    return fn
+    
+
 def fileExists(path):
     return os.path.isfile(path)
 
@@ -123,7 +154,7 @@ def getLastModificationTime(path):
     return 0.0
         
 class Inhibitor:
-    #That is desktop agnostic..... so check if ok
+    #That is NOT desktop agnostic..... so check if ok
     __SERVICE = 'org.gnome.SessionManager'
     __SERVICE_URL= '/org/gnome/SessionManager'
     def __init__(self):

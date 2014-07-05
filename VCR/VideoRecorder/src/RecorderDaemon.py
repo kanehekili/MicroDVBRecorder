@@ -30,21 +30,24 @@ import time as xtime
 from Configuration import Config
 from EpgUpdate import EpgUpdater
 import sys
-import TerrestialDevice
+import DVBDevice
 import OSTools
 
 
 class RecorderDaemon():
     LOG_FILE = "dvb_suspend.log"
     HEARTBEAT = 60
-
+    DAY_IN_SECONDS = 60*60*24
+    EPG_UPDATE_INTERVAL = DAY_IN_SECONDS+10
+    EPG_TS_Template = '%Y%m%d%H%M%S'
+    
     def __init__(self,):
         self._config = Config()
         self._setUpLogging()
         self.epgUpdater = EpgUpdater(self._config)
         OSTools.ensureDirectory(self._config.getRecordingPath(),'')
         self._inhibitor = OSTools.Inhibitor()
-        self._recordDevice = TerrestialDevice.TZapRecorder()
+        self._recordCmd = DVBDevice.getRecordCommander()
         self._lastJobId="0"
         self._recordPartIndex=0
         self.isActive=True
@@ -66,11 +69,20 @@ class RecorderDaemon():
             return False
 
         self.epgUpdater.persistDatabase()
-        currentDate= datetime.now().strftime('%Y%m%d%H%M%S')
+        currentDate= datetime.now().strftime(self.EPG_TS_Template)
         path = self._config.getEPGTimestampPath()
         with open(path,'w') as f:
             f.write(currentDate)
         return True
+    
+    '''
+    Enforce a epg data read
+    '''
+    def readEPGData(self):
+        path = self._config.getEPGTimestampPath() 
+        if OSTools.fileExists(path):
+            OSTools.removeFile(path)
+        self._updateEPGData()
     
 
     def _getDaysSinceLastEPGUpdate(self):
@@ -79,7 +91,7 @@ class RecorderDaemon():
             with open(path, 'r') as aFile:
                 currentDate=aFile.read()
                 try:
-                    checkDate = datetime.strptime(currentDate,'%Y%m%d%H%M%S')
+                    checkDate = datetime.strptime(currentDate,self.EPG_TS_Template)
                     delta = datetime.now()-checkDate
                     return delta.days
                 except ValueError:
@@ -111,7 +123,7 @@ class RecorderDaemon():
         OSTools.ensureDirectory(self._config.getRecordingPath(),channel.getEscapedName())
         jobID= recInfo.getEPGInfo().getJobID()
         self._syncRecordIndex(jobID)
-        scheduler= Recorder(self._config,self._recordDevice,self._recordPartIndex)
+        scheduler= Recorder(self._config,self._recordCmd,self._recordPartIndex)
         return scheduler.scheduleRecording(recInfo)            
 
     def _stopQueue(self):
@@ -133,15 +145,14 @@ class RecorderDaemon():
         print aString
 
     def _getLogger(self):
-        #TODO - maybe use configs logger
         return logging.getLogger('dvb_scheduler')
     
     
     def _hasRecordingProcess(self):
-        pidInfo = OSTools.getProcessPID(self._recordDevice.Command)
+        pidInfo = OSTools.getProcessPID(self._recordCmd.Command)
         if pidInfo is None:
             xtime.sleep(2) # in case of adjacent films
-            pidInfo = OSTools.getProcessPID(self._recordDevice.Command)
+            pidInfo = OSTools.getProcessPID(self._recordCmd.Command)
   
         return pidInfo is not None 
 
@@ -159,6 +170,9 @@ class RecorderDaemon():
 
     def _monitorCurrentRecording(self,recProcess,recordingJob):
         done = False
+        #this is testing:
+        emergencyCount=0;
+        
         jobID=recordingJob.getEPGInfo().getJobID()
         isRecurrentWriteError=False
         recPath = self._config.getRecordingPath()
@@ -186,15 +200,17 @@ class RecorderDaemon():
                 done=True
                 
             if not done:
-                #on adjacent files sync it to the end of the recording
-                succ=recordingJob.getSuccessor()
-                sleepTime=self.HEARTBEAT
-                if succ is not None:
-                    nextRecordingStart=succ.getExecutionTime()
-                    delta = max(10,OSTools.getDifferenceInSeconds(nextRecordingStart,datetime.now()))
-                    sleepTime = min(sleepTime,delta)
-                    if sleepTime != self.HEARTBEAT:
-                        self._log("stopping in seconds:"+str(delta))#log only the fragments
+                #Ensure that an adjacent job can follow - decrease the wait time
+                delta = max(10,OSTools.getDifferenceInSeconds(recordingJob.getEndTime(),datetime.now()))
+                sleepTime = min(self.HEARTBEAT,delta)
+                if sleepTime != self.HEARTBEAT:
+                    emergencyCount+=1;
+                    self._log("stopping in seconds:"+str(sleepTime))#log only the fragments
+                    if emergencyCount > 10:
+                        self._log("REC Q error- force process termination")
+                        recProcess.terminate()
+                        self.__handleProcessTermination(recProcess)
+                        done=True
                 xtime.sleep(sleepTime)
                 
         self._log("JOB "+jobID+" is done")
@@ -206,7 +222,7 @@ class RecorderDaemon():
         msg =">>"+result[0].strip()+" status:"+potentialErrorMessage
         #TODO: check for errors ggf boolean back - cancel recording if necessary
         if "ERROR" in potentialErrorMessage:
-            print "TODO Unhandled TZAP error!"
+            print "TODO Unhandled {c,t}ZAP error!"
         self._log(msg)
         
     
@@ -256,15 +272,20 @@ class RecorderDaemon():
                 nextJob =self._getNextJob()
                 if nextJob is None:
                     if  self._updateEPGData():
-                        break;
+                        continue;
                     self._daemonPolicy.handleNoJobs()
                     self._lastJobId="0"
                 else:
                     startTime = nextJob.getExecutionTime()
                     if self._isTimeLeftForEPGUpdate(startTime):
                         self._updateEPGData()
+                    #TODO: check maint seconds! pass epgInfo instead of time...                        
                     secondsToSleep = self._secondsUntilNextRun(startTime,self._daemonPolicy.PRERUN_SECONDS)
+                    
                     if self._daemonPolicy.isReadyToRecord(startTime,secondsToSleep):
+                        if nextJob.getEPGInfo() is None:
+                            self._log("Maintenance mode- will update EPG")
+                            continue;
                         process = self.launchRecording(nextJob)
                         self._monitorCurrentRecording(process,nextJob)
 
@@ -312,6 +333,7 @@ class VCRPolicy():
             return True
         if self._daemon.isServerPolicyChangeRequested():
             return False
+
         self._suspendDevice(secondsToWait)
         isScheduled =  self._wasWakeupScheduled(startTime)
         if not isScheduled:
@@ -319,28 +341,30 @@ class VCRPolicy():
         return isScheduled
 
         
-    #IF a job is running when started: do not exit. That is no interupt
     def _wasWakeupScheduled(self,startTime):
         now = datetime.now()
         secondsToWait = OSTools.getDifferenceInSeconds(startTime, now)
-        secondStr = str(secondsToWait)
-        self._log("Delta secondsToWait to scheduled wakeup:"+secondStr)
+        duranceStr = OSTools.convertSecondsToString(secondsToWait)
+        self._log("Delta durance to scheduled wakeup:"+duranceStr)
+        
         if secondsToWait > self.PRERUN_SECONDS:
             self._log("Suspend interrupted by user-> going into Server mode!")
             return False
         if secondsToWait>0:
-            self._log("Waiting until record starts:"+secondStr)
+            self._log("Waiting until record starts:"+duranceStr)
             xtime.sleep(secondsToWait)
         return True
 
     def _suspendDevice(self,seconds):
-        secondStr = str(seconds)
-        self._log("going to sleep for %s seconds" %(secondStr))
+        coolDown=20 #mediaclient needs time to shutdown
+        duranceStr = OSTools.convertSecondsToString(seconds)
+        self._log("Going to sleep for %s" %(duranceStr))
         logging.shutdown();
+        xtime.sleep(coolDown)
         mode = OSTools.RTC_SLEEP
         if Config.SUSPEND_MODE == Config.MODE_HIBERNATE:
             mode=OSTools.RTC_HIBERNATE
-        result=OSTools.rtcWake(seconds, mode)
+        result=OSTools.rtcWake(seconds-coolDown, mode)
         #back online
         self._daemon._setUpLogging()
         self._log(str(result[0])+":"+str(result[1]))        
@@ -355,21 +379,22 @@ class ServerPolicy():
     def __init__(self,recDaemon):
         self._daemon = recDaemon
         self.PRERUN_SECONDS=10
-        #self._lastQueueCheck=None
-     
+
+    #read epg after 24 hrs     
     def handleNoJobs(self):  
-        self._argusWait(-1)
+        self._argusWait(RecorderDaemon.EPG_UPDATE_INTERVAL)
 
     def isReadyToRecord(self,startTime,secondsToWait):
         if secondsToWait==0:
             return True
-        return self._argusWait(secondsToWait)
+        isReady =  self._argusWait(secondsToWait)
+        return isReady
              
-    def _argusWait(self,seconds):
+    def _argusWait(self,secondsToWait):
         startTime = datetime.now() 
-        self._log("Observing recorder queue for %s seconds. Use 'sleepModeOn' for VCR mode"%str(seconds))
+        self._log("Observing recorder queue for %s. Use 'sleepModeOn' for VCR mode"%OSTools.convertSecondsToString(secondsToWait))
         lastQCheck=None
-        while (seconds<0 or OSTools.getDifferenceInSeconds(datetime.now(),startTime) < seconds):
+        while (OSTools.getDifferenceInSeconds(datetime.now(),startTime) < secondsToWait):
             xtime.sleep(self.PRERUN_SECONDS)
             path=self._config().getRecQueuePath()
             try:
@@ -424,7 +449,7 @@ class Recorder():
         recPath = self._config.getRecordingPath() 
         path = self._config.getFilePath(recPath, channelName)
         fileExt=self._config.MPGFileTyp
-        cleanTitle = epgInfo.getTitleUnescaped().strip()
+        cleanTitle = epgInfo.getTitle().strip()
         cleanTitle = re.sub('[\\/:"*?<>|%]+', '', cleanTitle)
         if self._recordFileIndex>0:
             cleanTitle=cleanTitle+"_"+str(self._recordFileIndex)
@@ -442,9 +467,9 @@ class Recorder():
         try:
             with open(filePath, 'a') as aFile:
                 aFile.write(startTimeString+" ")
-                text = epgProgramInfo.getTitleUnescaped().encode('utf-8')
+                text = epgProgramInfo.getTitle()
                 aFile.write(text+" -- ")
-                text = epgProgramInfo.getDescriptionUnescaped().encode('utf-8')
+                text = epgProgramInfo.getDescription()
                 aFile.write(text+'\n')
         except IOError,ioex:
             msg = "I/O error saving Recinfo ({0}): {1}".format(ioex.errno, ioex.strerror)
@@ -462,6 +487,7 @@ class Recorder():
         cmdText=' '.join(args)
         print "dispatched command::"+cmdText
         self._config.logInfo("command sent: \n"+cmdText+" | scheduled at:"+timeString)
+        #TODO: process still alive - even if done -- still syncing???
         return process
 
 def main():
@@ -471,7 +497,7 @@ def main():
     else:
         cmd = argv[1]
         if "epg" in cmd.lower():
-            return RecorderDaemon()._updateEPGData()
+            return RecorderDaemon().readEPGData()
         if "job" in cmd.lower():
             job = RecorderDaemon()._getNextJob()
             if job is None:
@@ -479,7 +505,9 @@ def main():
             else:
                 print "Next Job @"+str(job.getExecutionTime()) 
         else:
-            print "usage: getEpg | showJobs"
+            print "start daemon with no args.. Use 'getEpg' to read EPG or 'showJobs' for pending jobs"
 if __name__ =="__main__":
     if OSTools.checkIfInstanceRunning("RecorderDaemon"):
-        sys.exit(main()) 
+        sys.exit(main())
+    else:
+        print "Daemon already running..." 

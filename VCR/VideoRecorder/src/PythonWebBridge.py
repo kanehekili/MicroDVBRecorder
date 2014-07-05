@@ -7,12 +7,15 @@ Interface/data provider for the web service.
 '''
 
 from ChannelReader import ChannelReader
-from TerrestialDevice import DVB_T_Grabber
+import DVBDevice
 from EPGProgramProvider import EPGProgramProvider
 from Configuration import Config,MessageListener
-#from datetime import datetime
 import json
 import OSTools
+import os
+import mimetypes
+
+
 
 class WebRecorder():
     '''
@@ -74,7 +77,7 @@ class WebRecorder():
         ml.signalMessage(self.MSG_STATUS,msg)
         
     def _getEPGDevice(self):
-        return DVB_T_Grabber(self.channelList,self.configuration)
+        return DVBDevice.getGrabber(self.channelList,self.configuration)
 
     def _collectEPGFromDevice(self):
         epgUpdater = self.progProvider.getEPGUpdater()
@@ -120,7 +123,8 @@ class WebRecorder():
             self.progProvider.toggleRecordInfo(epgInfo,forceRemove)
             result=self._formatProgramRow(epgInfo)
         else:
-            result=jsonDict["error"]="Entry not found"
+            jsonDict["error"]="Entry not found"
+            result=jsonDict
         if self._lastMessage is not None:
             result["error"]=self.getLastSignal()    
         return json.dumps(result)    
@@ -148,11 +152,12 @@ class WebRecorder():
         autoSelector.saveAutoSelectData()
 
     def removeFromAutoSelection(self,jsonString):
+        #NOTE: json makes unicode out of the string
         jsonDict = json.loads(jsonString)
         hourString=jsonDict["timetext"]
         titleString=jsonDict["text"]
         autoSelector = self.progProvider.getAutoSelector()
-        autoSelector.removeFromAutoSelectPreference(hourString,titleString)
+        autoSelector.removeFromAutoSelectPreference(hourString,str(titleString))
         autoSelector.saveAutoSelectData()
         
     def getRecordingList(self):
@@ -210,7 +215,7 @@ class WebRecorder():
             recmode =self.MODE_BLOCK
         else:
             recmode = self.MODE_DATA
-        return {"type":self.TYPE_PROG,"text":programText,"time":epgTime,"date":epgDate, "recordMode":recmode, "jobID":jobID,"title":title, "channel":epgInfo.getChannel().getName(),"error":None};
+        return {"type":self.TYPE_PROG,"text":programText,"time":epgTime,"date":epgDate, "recordMode":recmode, "jobID":jobID,"title":title, "channel":epgInfo.getChannel().getName(),"epgOK":epgInfo.isConsistent,"error":None};
 
     def _formatProgramList(self,daytoDayList):
         jDayToDayArray=[]
@@ -230,17 +235,20 @@ class WebRecorder():
             jDayObject={"head":headerText,"list":jDayList};
             jDayToDayArray.append(jDayObject)
         if len(jDayToDayArray)==0:
-            return self.asJsonError("Error fetching data", self.getLastSignal())    
+            return self.asJsonError("No data", self.getLastSignal())    
         return jDayToDayArray
         
     def asJsonError(self,errorMsg,argumentString):
-        return {"type":self.TYPE_INFO,"error":errorMsg,"args":argumentString}
+        reason = argumentString
+        if not reason:
+            reason = errorMsg
+        return {"type":self.TYPE_INFO,"error":errorMsg,"args":reason}
 
     def _lookupEPGInfoFromJSON(self,jsonData):
         aChannelString = jsonData["channel"]
         dayString=jsonData["date"]
         timeString = jsonData["time"]
-        #TODO: - str encoding problem?
+        #Note JSON data always uses unicode - convert it to byte using str
         daytoDayList = self.progProvider.getInfosForChannel(str(aChannelString))
         #Well... get the right DAY first....
         for singleDayList in daytoDayList:
@@ -284,5 +292,87 @@ class WebRecorder():
         else:
             programText = "<b>%s</b><br>%s" % (title, description)
         return {"type":self.TYPE_INFO,"timetext":formatTime,"text":programText,"time":epgTime,"date":epgDate,"jobID":jobID,"title":title, "channel":channel,"error":None};
+ 
+        
+'''
+  This is the connector from the HTTP Server to the WebRecorder. Should only exist one instance
+'''
+class RecorderPlugin():
+    Commands=["REQ_Channels","REQ_Programs", "MARK_Programm", "AUTO_SELECT", "LIST_REC", "LIST_AUTO", "FILTER", "RM_AUTOSELECT","Download"]
+ 
+    
+    ''' initial sequence
+        Mimetypes will be registered on import, to avoid missing types
+        they must be defined here before the SimpleHttpServer will be initialized  
+    '''
+    
+    if not mimetypes.inited:
+        mimetypes.init() # try to read system mime.types
+        mimetypes.add_type("image/svg+xml", ".svg", True)
+        mimetypes.add_type("image/svg+xml", ".svgz", True)
+    
+    
+    def __init__(self):
+        print "RecorderPlugin activated"
+        self.count=0;
+        self._webRecorder=WebRecorder()
+        self._config = self._webRecorder.configuration
+        self.__linkLogging()
+
+    def __linkLogging(self):
+        #../../../VideoRecorder/src/log/
+        #NO! That is where the command shell sits: currentPath=os.getcwd()
+        destFile =  self._config.getFilePath(self._config.getWebPath(), "Log.txt")
+        srcFile = self._config.getLoggingPath();
+        srcFile = OSTools.ensureFile(srcFile, "dvb_suspend.log")
+        self._config.logInfo("Linking file:"+srcFile)
+        if not os.path.lexists(destFile):
+            os.symlink(srcFile, destFile)
+
+    def log(self,aString):
+        self._config.logInfo(aString)
+    
+    def _getArgs(self,commandDic):
+        return commandDic["arg"].encode('utf-8')
+        
+    #Note: arguments must be encoded to utf-8     
+    def executePostData(self,jsonCmd):
+        try:
+            print "Processing post data:"+jsonCmd
+            self.log("Processing post data:"+jsonCmd);
+            commandDic = json.loads(jsonCmd)
+            command = commandDic["cmd"]
+            if command==self.Commands[0]:  #channel request
+                return (self._webRecorder.getChannelList())
+            if command==self.Commands[1]:  #prog request
+                self._webRecorder.checkEPGData()
+                channel = self._getArgs(commandDic)
+                return self._webRecorder.getProgrammInfoForChannel(channel)
+            if command==self.Commands[2]:  #Recording on/off
+                jsonString = self._getArgs(commandDic)
+                return self._webRecorder.toggleRecordMode(jsonString)
+            if command==self.Commands[3]:  #AUTOSELECT DnD
+                jsonString = self._getArgs(commandDic)
+                return self._webRecorder.addToAutoSelection(jsonString)
+            if command==self.Commands[4]:  #get rec list
+                return self._webRecorder.getRecordingList()
+            if command==self.Commands[5]:  #get auto select list
+                return self._webRecorder.getAutoSelectList()
+            if command==self.Commands[6]:  #Filter current list
+                #atuple=commandDic["arg"]
+                atuple=tuple([e.encode('utf-8') for e in commandDic["arg"]])
+                return self._webRecorder.getFilterList(atuple) #channel and The string
+            if command==self.Commands[7]:  #Remove Autoselect entry
+                jsonString = self._getArgs(commandDic)
+                return self._webRecorder.removeFromAutoSelection(jsonString) #channel and The string
+            #more:settings, download file....
+            
+            
+        except Exception,ex:
+            msg= "Error running POST data: "+str(ex.args[0])
+            print msg
+            self._config.getLogger().exception(msg)
+            jsonError= self._webRecorder.asJsonError("Server Error", msg)
+            return json.dumps(jsonError)
         
             

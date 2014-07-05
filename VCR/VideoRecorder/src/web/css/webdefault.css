@@ -213,6 +213,13 @@ body > #wrap {height: auto; min-height: 100%;}
 	border-left:1px solid;
 	padding:5px;
 }
+.ColumnTimeGap{
+    color: #FF0000;
+	display:inline-block;
+	border-left:1px solid;
+	padding:5px;
+}
+
 .Column1 img {
 	width:20px;
 	height:20px;

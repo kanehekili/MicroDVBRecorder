@@ -23,14 +23,17 @@ var confirmBox=function(prompt){
 
 var nearestDayRow = function(){
 	var dayrows= document.getElementsByClassName("dayrow");
+	var parent = document.getElementsByClassName("yscroller")[0]
+	var pTop = parent.getClientRects()[0].top
 	var low= 5000;
 	var candidate=null;
 	for (i=0; i< dayrows.length; i++){ 
 		var clientRect = dayrows[i].getClientRects()[0];
 		var pos= Math.abs(clientRect.top);
-		if (pos < low){
+		var delta = Math.abs(pos-pTop)
+		if (delta < low){
 			candidate=dayrows[i];
-			low=pos;
+			low=delta;
 		}
 	}
 	return candidate;

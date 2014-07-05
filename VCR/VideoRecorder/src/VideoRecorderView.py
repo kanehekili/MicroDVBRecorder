@@ -196,7 +196,7 @@ class RecorderView:
             epgInfo = self.programTreeView.getSelectedObject();
             if not epgInfo:
                 return;
-            filterString=epgInfo.getTitle()
+            filterString=epgInfo.getTitleEscaped()
             
             channelmodel, channeliter = self.channelTreeView.get_selection().get_selected()
             channelName = channelmodel.get_value(channeliter, 0)
@@ -254,7 +254,7 @@ class EpgListWidget(gtk.TreeView):
     
     def _onSearchItems(self,model,columnNumber,searchString,aiter):
         epgInfo = model[aiter][self.COL_OBJECT]
-        title= epgInfo.getTitle()
+        title= epgInfo.getTitleEscaped()
         #True= get the next entry -False: thats the entry
         #at this point the selection has been removed. No selection available
         #works - but does not make sense...        
@@ -338,9 +338,9 @@ class EpgListWidget(gtk.TreeView):
         
     def _formatProgramRow(self,epgInfo,aMode):
         time = epgInfo.getStartTime().strftime("%H:%M")
-        title = epgInfo.getTitle()
+        title = epgInfo.getTitleEscaped()
         duration = str(epgInfo.getDuration())
-        description = epgInfo.getDescription() 
+        description = epgInfo.getDescriptionEscaped() 
         text = "<b>%s</b>\n%s<small><i> Duration: %s</i></small>" % (title, description, duration)
         return [aMode,epgInfo,time,text] 
                 
@@ -461,8 +461,8 @@ class EPGOverviewWidget(gtk.TreeView):
         channel = epgInfo.getChannel().getName()
         formatTime = "<b>%s</b><i> %s</i>\n%s%s" % (channel,theDay,start,end)
         
-        title = epgInfo.getTitle()
-        description = epgInfo.getDescription()
+        title = epgInfo.getTitleEscaped()
+        description = epgInfo.getDescriptionEscaped()
         jobid = epgInfo.getJobID()
         if len(jobid)>0:
             text = "<b>%s</b>\n%s <i>(%s)</i>" % (title, description,jobid)
@@ -713,7 +713,7 @@ class AutoSelectDialog:
         listWindow.set_shadow_type(gtk.SHADOW_OUT)
         listWindow.set_column_width(0, 50)
         for autoSelection in asList:
-            listWindow.append([autoSelection.getHourListString(),autoSelection.getTitle()]);
+            listWindow.append([autoSelection.getHourListString(),autoSelection.getTitle()]);#TODO: escape
 
         listWindow.connect("select_row",self._on_Selection,asList)
         listWindow.set_selection_mode( 'browse' )#Selected if present

@@ -6,6 +6,8 @@ var programmList= null;
 var TYPE_HEAD=0;
 var TYPE_PROG=1;
 var TYPE_INFO=2;
+var CHANNEL_STORAGE = "channelStore";
+var CHANNEL_KEY = document.domain+"channelStore";
 
 var MODE_DATA = 0xA0;
 var MODE_REC = 0xA1;
@@ -23,7 +25,9 @@ var initialize = function(){
 };
 
 function refreshProgrammList(){
-	this.executeServerCommand(new ServerCommand("REQ_Programs",channelList.getSelected().getTitle()));
+	var selected = channelList.getSelected();
+	if (selected != null)
+		this.executeServerCommand(new ServerCommand("REQ_Programs",selected.getTitle()));
 };
 
 
@@ -111,11 +115,12 @@ function updateChannels(jsonResult){
 	}
 	var count = channels.length;
 	var channelDOM=document.getElementById("channel_contents");
+	var sortedChannels = getSortedChannels(channels);
 	for (i=0; i< count; i++){ 
 		var li= document.createElement("li");
 		/*textContent replaces innerText and is W3C compliant*/
 		li.className="ChannelItem";
-		li.textContent=channels[i];
+		li.textContent=sortedChannels[i];
 		li.id="channel_"+(i+1);
 		channelDOM.appendChild(li);
 		var listEntry = new ListEntry(i,li);
@@ -126,6 +131,26 @@ function updateChannels(jsonResult){
 	showStatus("Channels loaded");
 };
 
+function getSortedChannels(channels){
+	var items = localStorage[CHANNEL_STORAGE];
+	/*TODO Transition from old to new storage key  to be removed...*/
+	if (items==null || items.length<10)
+	  items = localStorage[CHANNEL_KEY];
+	else {
+	  localStorage[CHANNEL_KEY]=items;
+	  localStorage[CHANNEL_STORAGE]=null;
+	}
+	if (items == null || items.length < 10){
+		items = JSON.stringify(channels);
+		localStorage[CHANNEL_KEY] = items;
+	}
+	var result = JSON.parse(items);
+	if (result.length != channels.length){
+		localStorage[CHANNEL_KEY]=null;
+		return getSortedChannels(channels);
+	}
+	return result;
+};
 
 function updateProgrammList(jsonResult){
 	var builder = new ProgramListBuilder(jsonResult);
@@ -156,8 +181,6 @@ var hookActionEvents = function(){
 	
 	button = document.getElementById("prevPageBtn");
 	button.addEventListener("click",handlePreviousDayClicked,false);
-	
-
 	
 	
 	var dropzone = document.getElementById("dropzone");

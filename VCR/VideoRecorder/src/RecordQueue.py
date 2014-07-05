@@ -9,6 +9,7 @@ needs to get the actual data.
 from datetime import datetime
 from Configuration import MessageListener
 from EpgReader import EpgReader
+import OSTools
 
 class RecordQueue():
     def __init__(self,channelList,config):
@@ -21,7 +22,7 @@ class RecordQueue():
             return False
         recList = self.getEpgList()
         if self.isInRecordingList(epgProgramInfo, recList):
-            print "Oops -that should not happen (addRecording)"
+            print "Oops -that should not happen (added recording twice)"
             self._config.logError("QUEUE: added recording twice")
             self._dispatchMessage("Error: Rec entry already present")
             return False
@@ -51,6 +52,7 @@ class RecordQueue():
 
         epgProgramInfo.setJobID("")
         recList.remove(recInfo)
+        self._config.logInfo("Cancelled Recording " +epgProgramInfo.getString())
         self._storeRecordQueue(recList)
         return True
 
@@ -115,6 +117,9 @@ class RecordQueue():
                 number= int(idString)
                 if number>=jobId:
                     jobId=number+1;
+        if jobId >= 1000:
+            jobId=1;
+        
         return str(jobId)
      
 
@@ -135,6 +140,7 @@ class RecordQueue():
                 return
             if epgInfo.overlapsWith(recordInfo):
                 epgInfo.markBlocked(True)
+                epgInfo.setJobID('')
                 return
         epgInfo.setJobID('')
         epgInfo.markBlocked(False)
@@ -151,7 +157,10 @@ class RecordQueue():
                 for epgInfo in dayList:
                     if self.__makeConsistent(epgInfo, recList):
                         syncedRecList.append(epgInfo)
-                        
+
+        if len(recList) != len(syncedRecList):
+            self._config.logError("Recordings lost on sync!")
+                                            
         self._storeRecordQueue(syncedRecList)
     
             
@@ -185,12 +194,17 @@ class RecordQueue():
         reader = EpgReader(self._channelList)
         return reader.readCachedXMLFile(self._config.getRecQueuePath())
 
+    #TODO:? generate a "FAKE" entry if the next is more than 24 h away.
     def getNextRecordingEntry(self,index=0):
         recList = self.getEpgList()
         if len(recList)<= index:
             return None;
-
+ 
         head = RecordingInfo(recList[index])
+        #if exec time > 24 hrs return a maintenance entry
+        if self.isMaintenanceNeeded(head):
+            return self.createMaintenanceRecord()
+        
         if len(recList)>index+1:
             successor = RecordingInfo(recList[index+1])
             self._connect(head, successor)
@@ -198,6 +212,21 @@ class RecordQueue():
         self._calculateExecutionTime(head)
         return head
             
+    def isMaintenanceNeeded(self,recInfo):
+        startTime = recInfo.getEPGInfo().getStartTime()
+        deltaToNextSchedule = OSTools.getDifferenceInSeconds(startTime, datetime.now())
+        aDay = 60*60*24;
+        return deltaToNextSchedule > aDay
+    
+    def createMaintenanceRecord(self):
+        self._config.logInfo("creating a maintenance rec entry")
+        aDay = 60*60*24;
+        nextStart = OSTools.getDateTimeWithOffset(aDay)
+        maint = RecordingInfo(None);
+        maint.setExecutionTime(nextStart)
+        maint.setDurance(60*5)
+        return maint
+
     
     def getEpgList(self):
         recList = self._readRecordQueue()
@@ -220,7 +249,7 @@ class RecordQueue():
 
 class RecordingInfo():
     '''
-        Idea: Record item takes one to n adjacent epgInfos. Used solely if films
+        Record item takes one to n adjacent epgInfos. Used solely if films
         should be recorded immediately after the other.
         Reason:
         Since there is an overlapping of time (due to the record time margin)
@@ -237,7 +266,6 @@ class RecordingInfo():
         self._predecessor = None
         self._successor = None
         self._epgInfo = epgInfo
-        self._execTime=epgInfo.getStartTime()
         self._duranceInSeconds=0;
     '''
     Time to start the recording (usually with a margin)
@@ -253,6 +281,9 @@ class RecordingInfo():
     '''    
     def getDurance(self):
         return self._duranceInSeconds
+    
+    def getEndTime(self):
+        return OSTools.addToDateTime(self._execTime, self._duranceInSeconds)
     
     def setDurance(self,seconds):
         self._duranceInSeconds = seconds

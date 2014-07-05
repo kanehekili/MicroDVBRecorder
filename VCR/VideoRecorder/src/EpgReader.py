@@ -16,7 +16,7 @@ Seems to be ONE hour early (+1) to get the time right (Summertime?)
 import xml.etree.cElementTree as CT
 from datetime import datetime, timedelta
 import time as xtime
-from xml.sax.saxutils import unescape,escape
+from xml.sax.saxutils import escape
 from threading import Thread
 import logging
 import sys
@@ -92,36 +92,51 @@ class EpgReader:
 
         
     
-    def _readXml(self,stringData,aList,UTC):
+    def _readXml(self,stringData,aList,isUTC):
         root = CT.fromstring(stringData)
         for program in root:
-            #print program.tag,program.attrib
-            epgInfo = EpgProgramInfo()
-            #the key of the dictionary
-            channelid = program.get('channel');
-            channel = self._findChannel(channelid)
-            #Put the info into the array (which is still unsorted to time)
-            if (channel is not None):
-                epgInfo.setChannel(channel)
+            epgInfo = self.createFromXMLElement(program,isUTC)
+            if epgInfo is not None:
                 aList.append(epgInfo)
-            
-            
-            startTimeString = program.get('start')
-            epgInfo.setStartTime(self.convertToDate(startTimeString,UTC))
-            endTimeString= program.get('stop')
-            epgInfo.setEndTime(self.convertToDate(endTimeString,UTC))
-            
-            title=program.find('title')
-            if title != None:
-                epgInfo.setTitle(title.text)
-
-            description = program.find('desc')
-            if description != None:
-                epgInfo.setDescription(description.text)  
-                jobid = description.get('JOBID')
-                if jobid != None:
-                    epgInfo.setJobID(jobid)
                   
+
+    '''
+    creates EPGProgrammInfo from xml data. Interprets time either as UTC
+    or local time 
+    '''
+    def createFromXMLElement(self,program,isUTC):
+        epgInfo = EpgProgramInfo()
+        #the key of the dictionary
+        channelid = program.get('channel');
+        channel = self._findChannel(channelid)
+        #Put the info into the array (which is still unsorted to time)
+        if (channel is None):
+            return None
+        
+        epgInfo.setChannel(channel)            
+        startTimeString = program.get('start')
+        epgInfo.setStartTime(self.convertToDate(startTimeString,isUTC))
+        endTimeString= program.get('stop')
+        epgInfo.setEndTime(self.convertToDate(endTimeString,isUTC))
+        
+        title=program.find('title')
+        if title != None:
+            epgInfo.setTitle(title.text)
+
+        description = program.find('desc')
+        if description != None:
+            epgInfo.setDescription(description.text)  
+            jobid = description.get('JOBID')
+            if jobid != None:
+                epgInfo.setJobID(jobid)
+        
+        # place to add more internal data
+        addon=program.find('db')
+        if addon != None:
+            epgInfo.isConsistent = bool(int(addon.get('epg'))) 
+        
+        return epgInfo
+         
 
     #write a list of epgInfos Array of daily entries[]
     def dumpEPGData(self,programList,path):
@@ -133,7 +148,15 @@ class EpgReader:
         with open(path, 'w') as aFile:
             CT.ElementTree(rootElement).write(aFile, "utf-8")
 
-                
+
+    #TODO: check if it makes sense to work with unicode or strings
+    '''
+    The xml parser expects unicode for conversion:
+    >>Python tries to convert the regular string to Unicode, which is the more general type, 
+    but because you don't specify an explicit conversion, it uses the ASCII codec
+    
+    Right now data is kept as ascii <str>, encoded in "setTitle" and "setDescription" 
+    '''                
     def _writeXMLEGPElement(self,rootElement,epgInfo):
         channel = epgInfo.getChannel()
         entry = CT.SubElement(rootElement,"programme")
@@ -141,12 +164,14 @@ class EpgReader:
         entry.attrib["start"]=self._convertTimeToString(epgInfo.getStartTime()) 
         entry.attrib["stop"]=self._convertTimeToString(epgInfo.getEndTime())
         titleEntry =CT.SubElement(entry,"title")
-        titleEntry.text= epgInfo.getTitleUnescaped()
+        titleEntry.text=  epgInfo.getTitle().decode('utf-8')
         descEntry = CT.SubElement(entry,"desc")
         jobID = epgInfo.getJobID()
         if len(jobID)>0:
             descEntry.attrib["JOBID"]= jobID 
-        descEntry.text = epgInfo.getDescriptionUnescaped()
+        descEntry.text = epgInfo.getDescription().decode('utf-8')
+        dbEntry = CT.SubElement(entry,"db")
+        dbEntry.attrib["epg"] = str(int(epgInfo.isConsistent))
         
         return entry
 
@@ -167,6 +192,7 @@ class EpgProgramInfo:
         self.category=NotAvailable
         self._recordBlocked=False
         self._jobID = ""
+        self.isConsistent = True #False if previous or adjacent entry does not follow immediately (EPG error)
 
     '''
     returns a channel object
@@ -205,23 +231,27 @@ class EpgProgramInfo:
     
     def setTitle(self,titleString):
         if titleString is not None:
-            self.title = escape(titleString)
+            self.title = titleString.encode('utf-8')
+            
         
     def getTitle(self):
         return self.title
     
-    def getTitleUnescaped(self):
-        return unescape(self.title)
+    #deprecated
+    def getTitleEscaped(self):
+        return escape(self.title)
             
     def setDescription(self,aString):
-        if aString is not None:        
-            self.description=escape(aString)
+        if aString is not None:
+            #self.description=escape(aString)
+            self.description=aString.encode('utf-8')
         
     def getDescription(self):
         return self.description
     
-    def getDescriptionUnescaped(self):
-        return unescape(self.description)
+    #deprecated
+    def getDescriptionEscaped(self):
+        return escape(self.description)
 
     def setCategory(self,aString):
         if aString is not None:        
@@ -236,6 +266,9 @@ class EpgProgramInfo:
     
     def getStartTimeString(self):
         return self.startTime.strftime("%H:%M")
+    
+    def getEndTimeString(self):
+        return self.endTime.strftime("%H:%M")
     
         #Date id as 15.Oct
     def getDateString(self):
@@ -304,9 +337,12 @@ class EpgProgramInfo:
         prog= self.getChannel().getName()
         try:
             test= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
-        except:
+        except UnicodeDecodeError,ex:
             error = sys.exc_info()[0]
-            logging.log(logging.ERROR,'could not print epg toString:'+str(error))     
+            msg= "Unicode error: "+str(ex.args[0])
+            logging.log(logging.ERROR,msg)
+            logging.log(logging.ERROR,' Sys Error:'+str(error))
+                
         return test
 
         

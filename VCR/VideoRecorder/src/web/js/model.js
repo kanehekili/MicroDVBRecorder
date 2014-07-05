@@ -88,7 +88,7 @@ function ProgrammCollection(){
 			
 	};
 
-/* ListEntry Object */
+/* ListEntry Object for channels */
 function ListEntry (index,domObject) {
 	this.index = index;
 	this.domObject=domObject;
@@ -101,7 +101,12 @@ function ListEntry (index,domObject) {
 	
 	ListEntry.prototype.registerEvents= function(){
 		this.domObject.addEventListener("click",this.handleChannelClicked,false);
-		this.domObject.draggable=false;
+		this.domObject.draggable=true;
+		this.domObject.addEventListener("dragstart",this.handleDragStart,false);
+		this.domObject.addEventListener("dragenter",this.handleDragEnter,false)
+		this.domObject.addEventListener("dragover",this.handleDragOver,false)
+		this.domObject.addEventListener("dragleave",this.handleDragLeave,false);
+		this.domObject.addEventListener("drop",this.handleDrop,false);
 	};
 	/* context here is the dom object, not the ListEntry object */
 	ListEntry.prototype.handleChannelClicked = function(event) {
@@ -115,6 +120,75 @@ function ListEntry (index,domObject) {
 		var name = this.textContent;
 		executeServerCommand(new ServerCommand("REQ_Programs",name));
 	};
+
+	/*Context DOM object*/
+	ListEntry.prototype.handleDragStart = function(event){
+		event.dataTransfer.setData("text", event.target.id);
+		return true;
+	};
+
+	ListEntry.prototype.handleDragEnter = function(event){
+		event.preventDefault();
+		var node = event.target;
+		
+		var targetRect = node.getBoundingClientRect();
+		var currentPos = event.clientY;
+		if (targetRect.top-currentPos > currentPos-targetRect.bottom){
+			node.style.borderTop ="solid blue 2px";
+			node.style.borderBottom="none";
+		}
+		else {
+			node.style.borderTop ="none";
+			node.style.borderBottom ="solid blue 2px";
+		}
+	};
+
+	ListEntry.prototype.handleDragOver = function(event){
+		event.preventDefault();
+	}
+
+	ListEntry.prototype.handleDragLeave = function(event){
+		var node = event.target;
+		node.style.borderTop ="none";
+		node.style.borderBottom="none";
+		event.preventDefault();
+	};
+
+	ListEntry.prototype.handleDrop = function(event){
+		var node = event.target;
+		node.style.borderTop ="none";
+		node.style.borderBottom="none";
+		var sourceId = event.dataTransfer.getData("text");
+		var domList=node.parentNode;
+		
+		var targetRect = node.getBoundingClientRect();
+		var currentPos = event.clientY;
+		var sourceNode= document.getElementById(sourceId);
+
+		if (targetRect.top-currentPos > currentPos-targetRect.bottom){
+			/*above*/
+			domList.insertBefore(sourceNode,node);
+		}
+		else {
+			/*below*/
+			if (domList.lastchild == node){
+				domList.appendChild(sourceNode);
+			}
+			else 
+				domList.insertBefore(sourceNode,node.nextSibling);
+			
+		}
+		
+		/*update local storage*/
+		children= domList.childNodes;
+		var items=[];
+		for (i=0; i< children.length; i++){
+			items.push(children[i].textContent);
+		}
+		localStorage[CHANNEL_KEY] = JSON.stringify(items);
+		event.preventDefault();
+	};
+
 
 	ListEntry.prototype.getTitle = function(){
 		return this.domObject.textContent;
@@ -262,17 +336,14 @@ function ProgramListBuilder(serverData) {
 	removeDOMChildren(programmDOM);
 	programmList=new ProgrammCollection();
 	if (this.jsonResult=="None"){
-		var row = document.createElement("div");
-		row.className="dayrow"; //should be error row or icon or so
-		row.innerHTML="No Data found";
-		programmDOM.appendChild(row);
-		rootDOM.appendChild(programmDOM);
-		return false;
+		this.showNoData();
 	}
 
 	var daybydayList = JSON.parse(this.jsonResult);
 	if (daybydayList.error != null){
+		this.showNoData();
 		showStatus("Error -"+daybydayList.args);
+		rootDOM.appendChild(programmDOM)
 		return false;
 	}
 	var index=0;
@@ -292,6 +363,15 @@ function ProgramListBuilder(serverData) {
 	return true;
 };
 
+	ProgramListBuilder.prototype.showNoData = function(){
+		var row = document.createElement("div");
+		row.className="dayrow"; //should be error row or icon or so
+		row.innerHTML="No Data found";
+		programmDOM.appendChild(row);
+		rootDOM.appendChild(programmDOM);
+		return false;
+	}
+	
 	/* creates the "day" header in the program list*/
 	ProgramListBuilder.prototype.createProgramHeader = function(node,header,dayId){
 		var row = document.createElement("div");
@@ -335,7 +415,11 @@ function ProgramListBuilder(serverData) {
 		row.appendChild(icoCol);
 
 		var timeCol = document.createElement("div");
-		timeCol.className="ColumnTime";
+		if (epgInfo.epgOK)
+			timeCol.className="ColumnTime";
+		else
+			timeCol.className="ColumnTimeGap"; //Mark it red if a gap exists
+			
 		timeCol.innerHTML= epgInfo.time+"<br>&zwnj;"; //TODO a hack wg. right border
 		row.appendChild(timeCol);
 

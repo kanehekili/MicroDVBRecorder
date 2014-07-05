@@ -11,7 +11,7 @@ the data of one day
 @author: matze
 '''
 import xml.etree.cElementTree as CT
-from xml.sax.saxutils import unescape,escape
+#from xml.sax.saxutils import unescape,escape
 
 class EpgDatabase:
     def __init__(self,config):
@@ -65,7 +65,6 @@ class EpgDatabase:
     Answers an array of arrays of daily epg infos
     '''
     def getInfosForChannel(self,aChannelString):
-        #TODO: clean empty or old entries!
         return self._channelDictionary.setdefault(aChannelString,[])
  
     '''
@@ -128,55 +127,99 @@ class EpgDatabase:
     '''
     merge two daily lists. The new data rules on the same time slot
     Scope: day list
+    Assumption: the new daylist rules. IF there's a gap, look for it in the 
+    currentList
     '''
     def _mergeDailyEntries(self,currentList, newDayList):
+        prevInfo = None
+        mergedList=[]
         for epgInfo in newDayList:
-            found = self._findTimeslot(currentList, epgInfo)
-            if not found: #Add new entry
-                currentList.append(epgInfo)
-            else:
-                self._updateEpgEntry(found,epgInfo)
-        
-        currentList.sort(key=lambda epgInfo: epgInfo.getStartTime())   
-        self._checkforOverlappingEntries(currentList)
+            if self._hasTimeGap(prevInfo,epgInfo):
+                self._config.logInfo("*Merge: slot missing:"+prevInfo.getString()+" -> "+epgInfo.getString())
+                slots = self._getMissingSlots(currentList, prevInfo.getEndTime(), epgInfo.getStartTime())
+                mergedList.extend(slots)
+            mergedList.append(epgInfo)
+            prevInfo = epgInfo
 
+        slots = self._getRemainingSlots(currentList,epgInfo.getEndTime())
+        mergedList.extend(slots)
+        self._verifyListConsistency(mergedList)
+        currentList[:] = mergedList
+    
+    def __traceDayList(self,dayList):
+        self._config.logInfo("--DayList --")
+        for info in dayList:
+            self._config.logInfo(" ++"+info.getString())
+        self._config.logInfo("--END DayList --")
+        
+        
+    #reduce info to the necessary: channel, given time
+    def __getEPGLogTimeString(self,epgInfo,aTimeString ):
+        aChannelString = epgInfo.getChannel().getName()
+        return "["+aChannelString+"] "+aTimeString
+    
     '''
-    update the current slot data
-    '''    
-    def _updateEpgEntry(self,currentEpgInfo, newEpgInfo):
-        if currentEpgInfo.getEndTime()!=newEpgInfo.getEndTime():
-            #self._config.logInfo("!LEN chg:"+newEpgInfo.getString())
-            currentEpgInfo.setEndTime(newEpgInfo.getEndTime())
+    add entries that might be later
+    '''
+    def _getRemainingSlots(self,currentList,startTime):
+        missingSlots=[]
+        for entry in currentList:
+            if entry.getStartTime()>= startTime:
+                missingSlots.append(entry)
+                self._config.logInfo("*Merge + old: "+entry.getString())
+        return missingSlots
+    
+    '''
+    add those entries, that are missing
+    '''         
+    def _getMissingSlots(self,currentList, startTime, endTime ):
+        missingSlots=[]
+        for entry in currentList:
+            if entry.getStartTime() >= endTime:
+                return missingSlots
+            if entry.getStartTime() >= startTime and entry.getEndTime() <= endTime:
+                self._config.logInfo("*Merge + old: "+entry.getString())
+                missingSlots.append(entry)
+                
+        return missingSlots
+                    
+    def _hasTimeGap(self,prevInfo, nextInfo):
+        if prevInfo is None or nextInfo is None:
+            return False
+        t1 = prevInfo.getEndTime()
+        t2 = nextInfo.getStartTime()
+        return t1 != t2
         
-        currentEpgInfo.setTitle(newEpgInfo.getTitleUnescaped())
-        currentEpgInfo.setDescription(newEpgInfo.getDescriptionUnescaped())
-            
-
+        
     def _findTimeslot(self,aList, epgInfo):
         for epg in aList:
             if epg.getStartTime()==epgInfo.getStartTime():
                 return epg
         return None
             
-
-    def _checkforOverlappingEntries(self,mergedList):
-        previousEpgInfo=None
-        invalidEntries=[]
-        for epgInfo in mergedList:
-            overlaps = self._isEntryOverlapping(epgInfo, previousEpgInfo)
-            if overlaps:
-                invalidEntries.append(epgInfo)
-            else:
-                previousEpgInfo=epgInfo
+    def _verifyListConsistency(self,mergedList):
+        isConsistent = True
+        if len(mergedList)==0:
+            return isConsistent
         
-        for wrongItem in invalidEntries:
-            mergedList.remove(wrongItem)
-            #self._config.logInfo("Removing EPG Info "+wrongItem.getString())
-            
+        previousEpgInfo=mergedList[0]
+        previousEpgInfo.isConsistent = True
+        for epgInfo in mergedList[1:]:
+            epgInfo.isConsistent = True
+            if previousEpgInfo.getEndTime() != epgInfo.getStartTime():
+                #TODO: generate Gap Entry - persist consistency flag for colorful display!
+                self._config.logInfo("*-Gap persists "+previousEpgInfo.getString()+"->" +epgInfo.getString())
+                previousEpgInfo.isConsistent = False
+                epgInfo.isConsistent = False
+                isConsistent = False
+            previousEpgInfo = epgInfo
+        return isConsistent
+        
     
     #gets the first entry of the EPGInfo array and answers the search date
     def _getDateFromDayList(self,dayList):
-        #check if that can be zero length
+        if len(dayList)==0:
+            return None
         return dayList[0].getDateString()
     
     def _getCurrentDayList(self,channelName, aSearchString):
@@ -203,21 +246,30 @@ class EpgDatabase:
                 currentList=[]
                 dayToDayList.append(currentList)
             ## removes double and old entries!
-            if not self._isEntryOverlapping(epgInfo, previousEntry):   
-                currentList.append(epgInfo)
+            if not epgInfo.isAlike(previousEntry):
+                if not self._isEntryOverlapping(epgInfo, previousEntry):   
+                    currentList.append(epgInfo)
+                elif self._mergeOverlappingItem(previousEntry, epgInfo):
+                    self._config.logInfo("Altered: "+epgInfo.getString())
+                    currentList.append(epgInfo) 
 
             previousEntry = epgInfo   
-                            
-
+        
         return dayToDayList
 
+    #rule of thumb: adapt the second item to the first
+    def _mergeOverlappingItem(self,firstItem,secondItem):
+        secondItem.setStartTime(firstItem.getEndTime())
+        return secondItem.getDurationInSeconds() > 5*60
+            
+            
     def _isEntryOverlapping(self,epgInfo, previousEpgInfo):
         if previousEpgInfo is None:
             return False
         
         isOverlapping = epgInfo.overlapsWith(previousEpgInfo)
-        #if isOverlapping:
-            #self._config.logInfo("!Overlaps: "+previousEpgInfo.getString()+">>"+epgInfo.getString())
+        if isOverlapping:
+            self._config.logInfo("!Overlaps: "+previousEpgInfo.getString()+">>"+epgInfo.getString())
         
         return isOverlapping            
     
@@ -232,9 +284,12 @@ class AutoSelectAccessor:
         self.readAutoSelectData()
             
     def addAutoSelectPreference(self,epgInfo):
-        #TODO:- use week day- no doubles!
-        ase = AutoSelectEntry(epgInfo.getTitle(),epgInfo.getStartTime().hour)
-        self.autoSelectList.append(ase)
+        #TODO:- introduce week day!
+        if self.contains(epgInfo):
+            self._config.logInfo("Double AutoSelect entry - ignored ")
+        else:
+            ase = AutoSelectEntry(epgInfo.getTitle(),epgInfo.getStartTime().hour)
+            self.autoSelectList.append(ase)
     
     def removeFromAutoSelectPreference(self,hourString,titleString):
         self.autoSelectList[:] = [ase for ase in self.autoSelectList if not ase.isSelection(titleString,hourString) ]
@@ -255,7 +310,7 @@ class AutoSelectAccessor:
         for autoSelect in self.autoSelectList:
             entry = CT.SubElement(rootElement,"Entry")
             entry.attrib["hour"]=str(autoSelect.getHour())
-            entry.text= unescape(autoSelect.getTitle()) #The unescaped text
+            entry.text= autoSelect.getTitle().decode('utf-8')
         path=self._config.getAutoSelectPath()
         with open(path, 'w') as aFile:
             CT.ElementTree(rootElement).write(aFile, "utf-8")
@@ -273,7 +328,7 @@ class AutoSelectAccessor:
         root = CT.fromstring(xmlData)
         for info in root:
             hourString= info.get('hour')
-            title=escape(info.text)
+            title=info.text.encode('utf-8')
             autoSelect=AutoSelectEntry(title,int(hourString))
             self.autoSelectList.append(autoSelect)
      

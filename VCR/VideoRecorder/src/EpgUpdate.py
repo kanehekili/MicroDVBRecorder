@@ -9,7 +9,7 @@ Needs to remember the last update... Should run once a day
 '''
 from ChannelReader import ChannelReader
 from EpgReader import EpgReader
-from TerrestialDevice import DVB_T_Grabber
+import DVBDevice
 from EPGDatabase import EpgDatabase
 from RecordQueue import RecordQueue
 
@@ -109,24 +109,23 @@ class EpgUpdater:
         autoSelector = self._database.getAutoSelector()
         self.getRecordQueue().synchronizeEntries(infoArray)
         for dayToDayList in infoArray:
+            #make sure the next list will not occupy busy slots
+            self._recordQueue.markRecordingSlots(dayToDayList)            
             #mark the newly received data in the record queue
             epgsToCheck=autoSelector.getEPGListForAutoSelect(dayToDayList)
             for epgInfo in epgsToCheck:
-                state = ""
+                requestedForRecording = True
                 if epgInfo.isBlockedForRecord():
-                    state="Block"
+                    requestedForRecording = False
                 if epgInfo.isMarkedForRecord():
-                    state=state+";Rec"
-                if len(state)==0:
+                    requestedForRecording = False
+                if requestedForRecording:
                     self._recordQueue.addRecording(epgInfo)
-#                 if len(state)>0:
-#                     self._config.logInfo("["+state+"]NO Rec Q for:"+epgInfo.getString())
-#                 else:
-#                     self._config.logInfo("Add to Rec Q:"+epgInfo.getString()) 
-#                     self._recordQueue.addRecording(epgInfo)
+
+
 
     def _getEPGDevice(self):
-        return DVB_T_Grabber(self._channelList,self._config)
+        return DVBDevice.getGrabber(self._channelList,self._config)
 
 
 

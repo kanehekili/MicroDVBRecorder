@@ -27,10 +27,8 @@ class EPGProgramProvider:
     
     #called on view update and channel select
     def getInfosForChannel(self,aChannelString):
-        #dayToDayList = self.egpDatabase[aChannelString]
         dayToDayList = self.getDatabase().getInfosForChannel(aChannelString)
         for dayList in dayToDayList:
-            if self._config.FUTURE_ITEMS_ONLY:
                 dayList[:]=[epgInfo for epgInfo in dayList if epgInfo.isActual()]
         dayToDayList[:]=[dl for dl in dayToDayList if len(dl)>0]
         self.getRecordQueue().markRecordingSlots(dayToDayList)    

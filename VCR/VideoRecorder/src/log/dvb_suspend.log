@@ -1,72 +1,330 @@
-2013-11-22 20:44:50,294 Starting daemon..
-2013-11-22 20:44:51,311 Setup channel infos
-2013-11-22 20:44:51,981 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 20:44:52,996 Setup channel infos
-2013-11-22 20:44:56,812 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:44:56,813 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:45:14,142 Observing recorder queue for 56393 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 20:45:24,159 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 20:45:25,180 Setup channel infos
-2013-11-22 20:45:28,859 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:45:28,861 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:48:19,037 Starting daemon..
-2013-11-22 20:48:20,081 Setup channel infos
-2013-11-22 20:48:20,756 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 20:48:21,777 Setup channel infos
-2013-11-22 20:48:25,450 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:48:25,450 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:48:52,588 Observing recorder queue for 56184 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 20:49:02,605 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 20:49:03,624 Setup channel infos
-2013-11-22 20:49:07,296 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 20:49:07,298 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:07:17,454 Starting daemon..
-2013-11-22 21:07:18,476 Setup channel infos
-2013-11-22 21:07:19,149 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:07:20,197 Setup channel infos
-2013-11-22 21:07:23,884 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:07:23,886 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:07:31,297 Observing recorder queue for 55046 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 21:07:41,313 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:07:42,328 Setup channel infos
-2013-11-22 21:07:45,999 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:07:46,001 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:08:01,666 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:08:02,692 Setup channel infos
-2013-11-22 21:08:06,356 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:08:06,358 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:08:10,968 going to sleep for 54773 seconds
-2013-11-22 21:08:21,843 rtcwake: assuming RTC uses UTC ...
-rtcwake: wakeup from "mem" using /dev/rtc0 at Sat Nov 23 11:21:12 2013
-:
-2013-11-22 21:08:21,844 Woke up
-2013-11-22 21:08:21,844 Delta secondsToWait to scheduled wakeup:54998
-2013-11-22 21:08:21,844 Suspend interrupted by user-> going into Server mode!
-2013-11-22 21:08:21,850 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:08:23,073 Setup channel infos
-2013-11-22 21:08:26,741 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:08:26,742 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:08:42,785 Observing recorder queue for 54983 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 21:09:11,847 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:09:12,886 Setup channel infos
-2013-11-22 21:09:16,551 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:09:16,553 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:21:34,695 Starting daemon..
-2013-11-22 21:21:35,718 Setup channel infos
-2013-11-22 21:21:36,397 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:21:37,404 Setup channel infos
-2013-11-22 21:21:41,068 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:21:41,070 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:21:46,495 Observing recorder queue for 54188 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 21:22:20,072 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:22:21,111 Setup channel infos
-2013-11-22 21:22:24,788 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:22:24,790 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:22:47,311 Last EPG update 46 day(s) ago - Updating now..
-2013-11-22 21:22:48,357 Setup channel infos
-2013-11-22 21:22:52,028 Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:22:52,030 EPG Update failed: Error while retrieving EPG data: ("tzap: ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
-2013-11-22 21:22:52,032 Observing recorder queue for 54117 seconds. Use 'energyModeOn' for VCR mode
-2013-11-22 22:05:37,204 Starting daemon..
-2013-11-22 22:05:38,234 Setup channel infos
-2013-11-22 22:05:38,885 Next run in less than -1 seconds
+2014-07-04 13:33:08,242 Starting daemon..
+2014-07-04 13:33:08,468 Last EPG update 405 day(s) ago - Updating now..
+2014-07-04 13:33:13,576 Tuned to channel SAT.1
+2014-07-04 13:33:44,247 Block read:SAT.1 size:170922
+2014-07-04 13:33:46,105 Tuned to channel COMEDY CENTRAL
+2014-07-04 13:34:06,419 Block read:COMEDY CENTRAL size:602669
+2014-07-04 13:34:08,194 Tuned to channel rbb Berlin
+2014-07-04 13:34:47,254 Block read:rbb Berlin size:1565455
+2014-07-04 13:34:49,079 Tuned to channel Kabel Digital Info
+2014-07-04 13:35:16,618 Block read:Kabel Digital Info size:263141
+2014-07-04 13:35:18,483 Tuned to channel arte HD
+2014-07-04 13:36:24,306 Block read:arte HD size:345597
+2014-07-04 13:36:26,086 Tuned to channel RTL NITRO
+2014-07-04 13:36:45,942 Block read:RTL NITRO size:783520
+2014-07-04 13:36:47,831 Tuned to channel N24
+2014-07-04 13:37:07,788 Block read:N24 size:859154
+2014-07-04 13:37:09,581 Tuned to channel Disney Channel
+2014-07-04 13:37:29,457 Block read:Disney Channel size:256408
+2014-07-04 13:37:31,221 Tuned to channel Das Erste HD
+2014-07-04 13:37:51,206 Block read:Das Erste HD size:532393
+2014-07-04 13:37:52,986 Tuned to channel ZDF HD
+2014-07-04 13:38:12,876 Block read:ZDF HD size:509067
+2014-07-04 13:38:14,652 Tuned to channel Bayerisches Fernsehen Süd HD
+2014-07-04 13:38:35,069 Block read:Bayerisches Fernsehen Süd HD size:873948
+2014-07-04 13:38:36,960 Tuned to channel SUPER RTL
+2014-07-04 13:38:57,652 Block read:SUPER RTL size:740599
+2014-07-04 13:38:59,537 Tuned to channel 3sat HD
+2014-07-04 13:39:19,367 Block read:3sat HD size:245718
+2014-07-04 13:40:07,306 Updating channel infos
+2014-07-04 13:40:10,839 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 04.Jul > 20:13 04.Jul)>>[COMEDY CENTRAL] n.a. (20:10 04.Jul > 20:40 04.Jul)
+2014-07-04 13:40:10,841 Altered: [COMEDY CENTRAL] n.a. (20:13 04.Jul > 20:40 04.Jul)
+2014-07-04 13:40:19,552 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 05.Jul > 20:13 05.Jul)>>[COMEDY CENTRAL] n.a. (20:10 05.Jul > 20:35 05.Jul)
+2014-07-04 13:40:19,556 Altered: [COMEDY CENTRAL] n.a. (20:13 05.Jul > 20:35 05.Jul)
+2014-07-04 13:40:19,916 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 06.Jul > 20:13 06.Jul)>>[COMEDY CENTRAL] n.a. (20:10 06.Jul > 20:40 06.Jul)
+2014-07-04 13:40:19,919 Altered: [COMEDY CENTRAL] n.a. (20:13 06.Jul > 20:40 06.Jul)
+2014-07-04 13:40:22,849 Added Recording 1>[Das Erste HD] Willi wills wissen (07:10 06.Jul > 07:35 06.Jul)
+2014-07-04 13:40:27,040 Added Recording 2>[KiKA] Checker Can (19:25 05.Jul > 19:50 05.Jul)
+2014-07-04 13:40:27,046 Added Recording 3>[KiKA] Die Sendung mit der Maus (11:30 06.Jul > 12:00 06.Jul)
+2014-07-04 13:40:27,054 Added Recording 4>[KiKA] Willi wills wissen (16:00 06.Jul > 16:25 06.Jul)
+2014-07-04 13:40:27,063 Added Recording 5>[KiKA] pur+ (19:25 06.Jul > 19:50 06.Jul)
+2014-07-04 13:40:27,517 Added Recording 6>[WDR Köln] Die Sendung mit der Maus (11:10 05.Jul > 11:35 05.Jul)
+2014-07-04 13:40:29,765 Added Recording 7>[BR-alpha] Willi wills wissen (07:55 05.Jul > 08:00 05.Jul)
+2014-07-04 13:40:43,991 EPG is up to date
+2014-07-04 13:40:43,992 Error running SuspensionDaemon: 32
+Traceback (most recent call last):
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 281, in _startDaemon
+    self._updateEPGData()
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 63, in _updateEPGData
+    self._log("EPG is up to date")
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 145, in _log
+    print aString
+IOError: [Errno 32] Broken pipe
+2014-07-04 13:57:20,435 Starting daemon..
+2014-07-04 13:57:32,538 Setup channel infos
+2014-07-04 13:57:40,145 EPG is up to date
+2014-07-04 13:57:40,147 Observing recorder queue for 17:52:09. Use 'sleepModeOn' for VCR mode
+2014-07-04 14:00:41,785 Starting daemon..
+2014-07-04 14:00:53,881 Setup channel infos
+2014-07-04 14:01:01,508 Last EPG update -1 day(s) ago - Updating now..
+2014-07-04 14:01:13,945 Setup channel infos
+2014-07-04 14:01:25,543 Tuned to channel SAT.1
+2014-07-04 14:01:55,874 Block read:SAT.1 size:167850
+2014-07-04 14:01:57,737 Tuned to channel COMEDY CENTRAL
+2014-07-04 14:02:18,349 Block read:COMEDY CENTRAL size:594249
+2014-07-04 14:02:20,231 Tuned to channel rbb Berlin
+2014-07-04 14:02:50,853 Block read:rbb Berlin size:1551514
+2014-07-04 14:02:52,679 Tuned to channel Kabel Digital Info
+2014-07-04 14:03:12,307 Block read:Kabel Digital Info size:258474
+2014-07-04 14:03:14,175 Tuned to channel arte HD
+2014-07-04 14:04:13,698 Block read:arte HD size:343818
+2014-07-04 14:04:15,568 Tuned to channel RTL NITRO
+2014-07-04 14:04:35,420 Block read:RTL NITRO size:779093
+2014-07-04 14:04:37,309 Tuned to channel N24
+2014-07-04 14:04:57,751 Block read:N24 size:845030
+2014-07-04 14:04:59,643 Tuned to channel Disney Channel
+2014-07-04 14:05:19,811 Block read:Disney Channel size:248170
+2014-07-04 14:05:21,594 Tuned to channel Das Erste HD
+2014-07-04 14:05:41,553 Block read:Das Erste HD size:529372
+2014-07-04 14:05:43,431 Tuned to channel ZDF HD
+2014-07-04 14:06:03,238 Block read:ZDF HD size:505772
+2014-07-04 14:06:05,117 Tuned to channel Bayerisches Fernsehen Süd HD
+2014-07-04 14:06:25,453 Block read:Bayerisches Fernsehen Süd HD size:870999
+2014-07-04 14:06:27,350 Tuned to channel SUPER RTL
+2014-07-04 14:06:47,655 Block read:SUPER RTL size:730301
+2014-07-04 14:06:49,529 Tuned to channel 3sat HD
+2014-07-04 14:07:09,399 Block read:3sat HD size:239441
+2014-07-04 14:07:57,064 Updating channel infos
+2014-07-04 14:07:57,704 *Merge: slot missing:[Eurosport] Mountainbike (14:10 04.Jul > 14:25 04.Jul) -> [Eurosport] Fußball (17:30 04.Jul > 17:40 04.Jul)
+2014-07-04 14:07:57,706 *-Gap persists [Eurosport] Mountainbike (14:10 04.Jul > 14:25 04.Jul)->[Eurosport] Fußball (17:30 04.Jul > 17:40 04.Jul)
+2014-07-04 14:07:57,886 *Merge: slot missing:[Das Erste HD] Rote Rosen (1758) (14:10 04.Jul > 15:00 04.Jul) -> [Das Erste HD] Tagesschau (20:15 04.Jul > 20:30 04.Jul)
+2014-07-04 14:07:57,888 *-Gap persists [Das Erste HD] Rote Rosen (1758) (14:10 04.Jul > 15:00 04.Jul)->[Das Erste HD] Tagesschau (20:15 04.Jul > 20:30 04.Jul)
+2014-07-04 14:07:57,994 *Merge: slot missing:[sixx] Die perfekte Hochzeit! - Australien (14:39 04.Jul > 15:38 04.Jul) -> [sixx] Private Practice (17:30 04.Jul > 18:25 04.Jul)
+2014-07-04 14:07:57,996 *Merge + old: [sixx] sixx QUICKIE (15:38 04.Jul > 15:43 04.Jul)
+2014-07-04 14:07:57,997 *Merge + old: [sixx] Beverly Hills, 90210 (15:43 04.Jul > 16:32 04.Jul)
+2014-07-04 14:07:57,999 *Merge + old: [sixx] Eine himmlische Familie (16:32 04.Jul > 17:30 04.Jul)
+2014-07-04 14:07:58,007 *Merge: slot missing:[sixx] Anna und die Liebe (04:05 06.Jul > 04:32 06.Jul) -> [sixx] That's Life (05:13 06.Jul > 05:57 06.Jul)
+2014-07-04 14:07:58,012 *-Gap persists [sixx] Anna und die Liebe (04:05 06.Jul > 04:32 06.Jul)->[sixx] That's Life (05:13 06.Jul > 05:57 06.Jul)
+2014-07-04 14:07:58,132 *Merge: slot missing:[ServusTV] Naturschützer im Einsatz (14:40 04.Jul > 15:30 04.Jul) -> [ServusTV] Servus Wetter (17:00 04.Jul > 17:08 04.Jul)
+2014-07-04 14:07:58,133 *Merge + old: [ServusTV] Antike Mega-Bauwerke (15:30 04.Jul > 16:15 04.Jul)
+2014-07-04 14:07:58,135 *Merge + old: [ServusTV] Moderne Wunder (16:15 04.Jul > 17:00 04.Jul)
+2014-07-04 14:07:58,315 *Merge: slot missing:[NDR FS MV] Bilderbuch Deutschland (14:15 04.Jul > 15:00 04.Jul) -> [NDR FS MV] Panda, Gorilla & Co. (17:10 04.Jul > 18:00 04.Jul)
+2014-07-04 14:07:58,318 *-Gap persists [NDR FS MV] Bilderbuch Deutschland (14:15 04.Jul > 15:00 04.Jul)->[NDR FS MV] Panda, Gorilla & Co. (17:10 04.Jul > 18:00 04.Jul)
+2014-07-04 14:07:58,500 *Merge: slot missing:[Einsfestival] Shaun das Schaf (Shaun the Sheep) (14:20 04.Jul > 14:28 04.Jul) -> [Einsfestival] Achtung Erbschleicher (15:45 04.Jul > 16:30 04.Jul)
+2014-07-04 14:07:58,503 *-Gap persists [Einsfestival] Shaun das Schaf (Shaun the Sheep) (14:20 04.Jul > 14:28 04.Jul)->[Einsfestival] Achtung Erbschleicher (15:45 04.Jul > 16:30 04.Jul)
+2014-07-04 14:07:58,689 *Merge: slot missing:[EinsPlus] BEATZZ in Concert (14:15 04.Jul > 15:00 04.Jul) -> [EinsPlus] Tagesschau (17:00 04.Jul > 17:15 04.Jul)
+2014-07-04 14:07:58,691 *Merge + old: [EinsPlus] direkt dabei Sommerspezial (15:00 04.Jul > 15:30 04.Jul)
+2014-07-04 14:07:58,692 *Merge + old: [EinsPlus] nano (15:30 04.Jul > 16:00 04.Jul)
+2014-07-04 14:07:58,693 *Merge + old: [EinsPlus] Planet Wissen: Professor Zrenner lässt Blinde wieder sehen (16:00 04.Jul > 17:00 04.Jul)
+2014-07-04 14:07:58,817 *Merge: slot missing:[Deutsches Musik Fernsehen] Fantasy - Die Sommernacht 2013 Live (14:30 04.Jul > 15:50 04.Jul) -> [Deutsches Musik Fernsehen] Teleshopping (17:35 04.Jul > 18:10 04.Jul)
+2014-07-04 14:07:58,820 *-Gap persists [Deutsches Musik Fernsehen] Fantasy - Die Sommernacht 2013 Live (14:30 04.Jul > 15:50 04.Jul)->[Deutsches Musik Fernsehen] Teleshopping (17:35 04.Jul > 18:10 04.Jul)
+2014-07-04 14:07:58,983 *Merge: slot missing:[ZDF HD] Die Küchenschlacht (14:15 04.Jul > 15:00 04.Jul) -> [ZDF HD] heute (17:00 04.Jul > 17:10 04.Jul)
+2014-07-04 14:07:58,986 *-Gap persists [ZDF HD] Die Küchenschlacht (14:15 04.Jul > 15:00 04.Jul)->[ZDF HD] heute (17:00 04.Jul > 17:10 04.Jul)
+2014-07-04 14:07:59,240 *Merge: slot missing:[BBC World News (eng)] World Business Report (14:30 04.Jul > 14:45 04.Jul) -> [BBC World News (eng)] Sports World Have Your Say (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:07:59,242 *Merge + old: [BBC World News (eng)] Sport Today (14:45 04.Jul > 15:00 04.Jul)
+2014-07-04 14:07:59,243 *Merge + old: [BBC World News (eng)] Impact (15:00 04.Jul > 15:30 04.Jul)
+2014-07-04 14:07:59,245 *Merge + old: [BBC World News (eng)] Impact (15:30 04.Jul > 16:00 04.Jul)
+2014-07-04 14:07:59,246 *Merge + old: [BBC World News (eng)] Impact (16:00 04.Jul > 16:30 04.Jul)
+2014-07-04 14:07:59,247 *Merge + old: [BBC World News (eng)] To be announced (16:30 04.Jul > 17:00 04.Jul)
+2014-07-04 14:07:59,263 *Merge: slot missing:[BBC World News (eng)] World's Most Dangerous Roads (16:30 06.Jul > 17:00 06.Jul) -> [BBC World News (eng)] BBC World News (20:00 06.Jul > 20:15 06.Jul)
+2014-07-04 14:07:59,266 *Merge + old: [BBC World News (eng)] BBC World News (17:00 06.Jul > 17:10 06.Jul)
+2014-07-04 14:07:59,267 *Merge + old: [BBC World News (eng)] Intelligence Squared Debate (17:10 06.Jul > 18:00 06.Jul)
+2014-07-04 14:07:59,268 *Merge + old: [BBC World News (eng)] BBC World News (18:00 06.Jul > 18:30 06.Jul)
+2014-07-04 14:07:59,269 *Merge + old: [BBC World News (eng)] Politics Europe (18:30 06.Jul > 19:00 06.Jul)
+2014-07-04 14:07:59,271 *Merge + old: [BBC World News (eng)] BBC World News (19:00 06.Jul > 19:30 06.Jul)
+2014-07-04 14:07:59,272 *Merge + old: [BBC World News (eng)] Our World (19:30 06.Jul > 20:00 06.Jul)
+2014-07-04 14:07:59,464 *Merge: slot missing:[SWR Fernsehen RP HD] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul) -> [SWR Fernsehen RP HD] SWR Landesschau aktuell Rheinland-Pfalz (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:07:59,467 *-Gap persists [SWR Fernsehen RP HD] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul)->[SWR Fernsehen RP HD] SWR Landesschau aktuell Rheinland-Pfalz (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:07:59,635 *Merge: slot missing:[ZDF] Die Küchenschlacht (14:15 04.Jul > 15:00 04.Jul) -> [ZDF] heute (17:00 04.Jul > 17:10 04.Jul)
+2014-07-04 14:07:59,637 *-Gap persists [ZDF] Die Küchenschlacht (14:15 04.Jul > 15:00 04.Jul)->[ZDF] heute (17:00 04.Jul > 17:10 04.Jul)
+2014-07-04 14:07:59,801 *Merge: slot missing:[RTL NITRO] Modern Family (14:05 04.Jul > 14:25 04.Jul) -> [RTL NITRO] MacGyver (17:45 04.Jul > 18:35 04.Jul)
+2014-07-04 14:07:59,803 *Merge + old: [RTL NITRO] Matlock (14:25 04.Jul > 15:10 04.Jul)
+2014-07-04 14:07:59,804 *Merge + old: [RTL NITRO] Matlock (15:10 04.Jul > 16:00 04.Jul)
+2014-07-04 14:07:59,805 *Merge + old: [RTL NITRO] Die Straßen von San Francisco (16:00 04.Jul > 16:55 04.Jul)
+2014-07-04 14:07:59,807 *Merge + old: [RTL NITRO] Highlander (16:55 04.Jul > 17:45 04.Jul)
+2014-07-04 14:08:00,001 *Merge: slot missing:[Das Erste] Rote Rosen (1758) (14:10 04.Jul > 15:00 04.Jul) -> [Das Erste] Tagesschau (20:15 04.Jul > 20:30 04.Jul)
+2014-07-04 14:08:00,004 *-Gap persists [Das Erste] Rote Rosen (1758) (14:10 04.Jul > 15:00 04.Jul)->[Das Erste] Tagesschau (20:15 04.Jul > 20:30 04.Jul)
+2014-07-04 14:08:00,146 *Merge: slot missing:[zdf.kultur] Hitparade (14:05 04.Jul > 14:50 04.Jul) -> [zdf.kultur] Tierische Kumpel (5) (17:10 04.Jul > 17:55 04.Jul)
+2014-07-04 14:08:00,149 *-Gap persists [zdf.kultur] Hitparade (14:05 04.Jul > 14:50 04.Jul)->[zdf.kultur] Tierische Kumpel (5) (17:10 04.Jul > 17:55 04.Jul)
+2014-07-04 14:08:00,396 *Merge: slot missing:[n-tv] Telebörse (14:10 04.Jul > 14:30 04.Jul) -> [n-tv] Nachrichten (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:00,399 *-Gap persists [n-tv] Telebörse (14:10 04.Jul > 14:30 04.Jul)->[n-tv] Nachrichten (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:00,598 *Merge: slot missing:[ProSieben] The Big Bang Theory (14:30 04.Jul > 15:02 04.Jul) -> [ProSieben] How I Met Your Mother (16:00 04.Jul > 16:29 04.Jul)
+2014-07-04 14:08:00,601 *-Gap persists [ProSieben] The Big Bang Theory (14:30 04.Jul > 15:02 04.Jul)->[ProSieben] How I Met Your Mother (16:00 04.Jul > 16:29 04.Jul)
+2014-07-04 14:08:00,753 *Merge: slot missing:[RTL] Verdachtsfälle (15:00 04.Jul > 16:00 04.Jul) -> [RTL] Betrugsfälle (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:00,756 *-Gap persists [RTL] Verdachtsfälle (15:00 04.Jul > 16:00 04.Jul)->[RTL] Betrugsfälle (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:00,919 *Merge: slot missing:[ProSieben MAXX] Dragonball (14:07 04.Jul > 14:31 04.Jul) -> [ProSieben MAXX] One Piece (17:22 04.Jul > 17:49 04.Jul)
+2014-07-04 14:08:00,920 *Merge + old: [ProSieben MAXX] Dragonball (14:31 04.Jul > 14:55 04.Jul)
+2014-07-04 14:08:00,922 *Merge + old: [ProSieben MAXX] Pokémon (14:55 04.Jul > 15:20 04.Jul)
+2014-07-04 14:08:00,923 *Merge + old: [ProSieben MAXX] Pokémon (15:20 04.Jul > 15:45 04.Jul)
+2014-07-04 14:08:00,924 *Merge + old: [ProSieben MAXX] Yu-Gi-Oh! Zexal (15:45 04.Jul > 16:08 04.Jul)
+2014-07-04 14:08:00,925 *Merge + old: [ProSieben MAXX] Tenkai Knights (16:08 04.Jul > 16:32 04.Jul)
+2014-07-04 14:08:00,927 *Merge + old: [ProSieben MAXX] Naruto (16:32 04.Jul > 16:56 04.Jul)
+2014-07-04 14:08:00,928 *Merge + old: [ProSieben MAXX] One Piece (16:56 04.Jul > 17:22 04.Jul)
+2014-07-04 14:08:01,110 *Merge: slot missing:[hr-fernsehen HD] Die Küsten der Ostsee (5/5) (14:30 04.Jul > 15:15 04.Jul) -> [hr-fernsehen HD] hallo hessen (17:00 04.Jul > 17:50 04.Jul)
+2014-07-04 14:08:01,112 *Merge + old: [hr-fernsehen HD] Almsommer (15:15 04.Jul > 16:00 04.Jul)
+2014-07-04 14:08:01,113 *Merge + old: [hr-fernsehen HD] hessenschau kompakt (16:00 04.Jul > 16:05 04.Jul)
+2014-07-04 14:08:01,115 *Merge + old: [hr-fernsehen HD] hallo hessen (16:05 04.Jul > 16:45 04.Jul)
+2014-07-04 14:08:01,116 *Merge + old: [hr-fernsehen HD] hessenschau kompakt (16:45 04.Jul > 17:00 04.Jul)
+2014-07-04 14:08:01,293 *Merge: slot missing:[SR Fernsehen] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul) -> [SR Fernsehen] saarland aktuell (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:01,296 *-Gap persists [SR Fernsehen] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul)->[SR Fernsehen] saarland aktuell (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:01,370 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 04.Jul > 20:13 04.Jul)>>[COMEDY CENTRAL] n.a. (20:10 04.Jul > 20:40 04.Jul)
+2014-07-04 14:08:01,371 Altered: [COMEDY CENTRAL] n.a. (20:13 04.Jul > 20:40 04.Jul)
+2014-07-04 14:08:31,208 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 05.Jul > 20:13 05.Jul)>>[COMEDY CENTRAL] n.a. (20:10 05.Jul > 20:35 05.Jul)
+2014-07-04 14:08:31,209 Altered: [COMEDY CENTRAL] n.a. (20:13 05.Jul > 20:35 05.Jul)
+2014-07-04 14:08:33,201 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 06.Jul > 20:13 06.Jul)>>[COMEDY CENTRAL] n.a. (20:10 06.Jul > 20:40 06.Jul)
+2014-07-04 14:08:33,203 Altered: [COMEDY CENTRAL] n.a. (20:13 06.Jul > 20:40 06.Jul)
+2014-07-04 14:08:34,915 *Merge: slot missing:[COMEDY CENTRAL] n.a. (14:25 04.Jul > 14:55 04.Jul) -> [COMEDY CENTRAL] n.a. (17:15 04.Jul > 17:45 04.Jul)
+2014-07-04 14:08:34,917 *Merge + old: [COMEDY CENTRAL] n.a. (14:55 04.Jul > 15:20 04.Jul)
+2014-07-04 14:08:34,918 *Merge + old: [COMEDY CENTRAL] n.a. (15:20 04.Jul > 15:50 04.Jul)
+2014-07-04 14:08:34,920 *Merge + old: [COMEDY CENTRAL] n.a. (15:50 04.Jul > 16:20 04.Jul)
+2014-07-04 14:08:34,921 *Merge + old: [COMEDY CENTRAL] n.a. (16:20 04.Jul > 16:45 04.Jul)
+2014-07-04 14:08:34,923 *Merge + old: [COMEDY CENTRAL] n.a. (16:45 04.Jul > 17:15 04.Jul)
+2014-07-04 14:08:34,947 *Merge: slot missing:[COMEDY CENTRAL] n.a. (20:05 07.Jul > 20:13 07.Jul) -> [COMEDY CENTRAL] n.a. (20:15 07.Jul > 20:40 07.Jul)
+2014-07-04 14:08:34,955 *-Gap persists [COMEDY CENTRAL] n.a. (20:05 07.Jul > 20:13 07.Jul)->[COMEDY CENTRAL] n.a. (20:15 07.Jul > 20:40 07.Jul)
+2014-07-04 14:08:35,101 *Merge: slot missing:[hr-fernsehen] Die Küsten der Ostsee (5/5) (14:30 04.Jul > 15:15 04.Jul) -> [hr-fernsehen] hallo hessen (17:00 04.Jul > 17:50 04.Jul)
+2014-07-04 14:08:35,103 *Merge + old: [hr-fernsehen] Almsommer (15:15 04.Jul > 16:00 04.Jul)
+2014-07-04 14:08:35,104 *Merge + old: [hr-fernsehen] hessenschau kompakt (16:00 04.Jul > 16:05 04.Jul)
+2014-07-04 14:08:35,105 *Merge + old: [hr-fernsehen] hallo hessen (16:05 04.Jul > 16:45 04.Jul)
+2014-07-04 14:08:35,107 *Merge + old: [hr-fernsehen] hessenschau kompakt (16:45 04.Jul > 17:00 04.Jul)
+2014-07-04 14:08:35,284 *Merge: slot missing:[SWR Fernsehen RP] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul) -> [SWR Fernsehen RP] SWR Landesschau aktuell Rheinland-Pfalz (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:35,287 *-Gap persists [SWR Fernsehen RP] Eisenbahn-Romantik (555) (14:15 04.Jul > 14:45 04.Jul)->[SWR Fernsehen RP] SWR Landesschau aktuell Rheinland-Pfalz (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:35,444 *Merge: slot missing:[arte] Mord im Hause Medici (1/2) (15:20 04.Jul > 16:10 04.Jul) -> [arte] X:enius (17:05 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:35,447 *-Gap persists [arte] Mord im Hause Medici (1/2) (15:20 04.Jul > 16:10 04.Jul)->[arte] X:enius (17:05 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:35,603 *Merge: slot missing:[tagesschau24] Tagesschau (20:00 04.Jul > 20:15 04.Jul) -> [tagesschau24] Tagesthemen (23:00 04.Jul > 23:15 04.Jul)
+2014-07-04 14:08:35,605 *-Gap persists [tagesschau24] Tagesschau (20:00 04.Jul > 20:15 04.Jul)->[tagesschau24] Tagesthemen (23:00 04.Jul > 23:15 04.Jul)
+2014-07-04 14:08:35,832 *Merge: slot missing:[BR-alpha] Willi wills wissen (115) (14:30 04.Jul > 14:55 04.Jul) -> [BR-alpha] nano (16:30 04.Jul > 17:00 04.Jul)
+2014-07-04 14:08:35,833 *Merge + old: [BR-alpha] Checker Tobi Quick Checks (9) (14:55 04.Jul > 15:00 04.Jul)
+2014-07-04 14:08:35,835 *Merge + old: [BR-alpha] Planet Wissen (15:00 04.Jul > 16:00 04.Jul)
+2014-07-04 14:08:35,836 *Merge + old: [BR-alpha] Faszination Wissen (16:00 04.Jul > 16:30 04.Jul)
+2014-07-04 14:08:36,058 *Merge: slot missing:[KiKA] logo! Die Welt und ich. (14:08 04.Jul > 14:10 04.Jul) -> [KiKA] Piets irre Pleiten (16:40 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:36,060 *Merge + old: [KiKA] Schloss Einstein - Erfurt (14:10 04.Jul > 15:00 04.Jul)
+2014-07-04 14:08:36,061 *Merge + old: [KiKA] Das Surfcamp (15:00 04.Jul > 15:25 04.Jul)
+2014-07-04 14:08:36,062 *Merge + old: [KiKA] Meine peinlichen Eltern (15:25 04.Jul > 16:15 04.Jul)
+2014-07-04 14:08:36,064 *Merge + old: [KiKA] logo! Die Welt und ich. (16:15 04.Jul > 16:20 04.Jul)
+2014-07-04 14:08:36,065 *Merge + old: [KiKA] My Life Me - Mein Leben und ich (16:20 04.Jul > 16:40 04.Jul)
+2014-07-04 14:08:36,200 *Merge: slot missing:[N24] Die geheimen UFO-Akten - Besuch aus dem All (2) (14:05 04.Jul > 14:59 04.Jul) -> [N24] N24 Nachrichten (17:59 04.Jul > 18:09 04.Jul)
+2014-07-04 14:08:36,201 *Merge + old: [N24] N24 Nachrichten (14:59 04.Jul > 15:13 04.Jul)
+2014-07-04 14:08:36,203 *Merge + old: [N24] N24 Nachrichten (15:13 04.Jul > 15:16 04.Jul)
+2014-07-04 14:08:36,204 *Merge + old: [N24] N24 Zeitreise mit Stefan Aust (15:16 04.Jul > 17:59 04.Jul)
+2014-07-04 14:08:36,209 *Merge: slot missing:[N24] N24 Nachrichten (07:59 05.Jul > 08:03 05.Jul) -> [N24] Megacity Tokio - Wohnen in der Zukunft (08:04 05.Jul > 08:59 05.Jul)
+2014-07-04 14:08:36,212 *Merge: slot missing:[N24] N24 Nachrichten (09:11 05.Jul > 09:13 05.Jul) -> [N24] Mayday - Flammen im Frachtraum (09:14 05.Jul > 10:07 05.Jul)
+2014-07-04 14:08:36,214 *Merge: slot missing:[N24] N24 Nachrichten (12:11 05.Jul > 12:13 05.Jul) -> [N24] Geniale Erfindungen: Das Flugzeug (12:14 05.Jul > 13:07 05.Jul)
+2014-07-04 14:08:36,217 *Merge: slot missing:[N24] N24 Nachrichten (15:12 05.Jul > 15:14 05.Jul) -> [N24] Kronzuckers Kosmos (15:15 05.Jul > 16:08 05.Jul)
+2014-07-04 14:08:36,220 *Merge: slot missing:[N24] N24 Nachrichten (17:59 05.Jul > 18:04 05.Jul) -> [N24] Countdown Erde - Methangas (18:05 05.Jul > 18:30 05.Jul)
+2014-07-04 14:08:36,223 *Merge: slot missing:[N24] N24 Nachrichten (18:59 05.Jul > 19:06 05.Jul) -> [N24] Dino-DNA und Meteoritenstaub - Im Naturkundemuseum New York (19:12 05.Jul > 19:59 05.Jul)
+2014-07-04 14:08:36,226 *Merge: slot missing:[N24] N24 Nachrichten (20:01 05.Jul > 20:03 05.Jul) -> [N24] Die X-Akten: Begegnungen der dritten Art (107) (20:04 05.Jul > 20:24 05.Jul)
+2014-07-04 14:08:36,231 *-Gap persists [N24] N24 Nachrichten (07:59 05.Jul > 08:03 05.Jul)->[N24] Megacity Tokio - Wohnen in der Zukunft (08:04 05.Jul > 08:59 05.Jul)
+2014-07-04 14:08:36,233 *-Gap persists [N24] N24 Nachrichten (09:11 05.Jul > 09:13 05.Jul)->[N24] Mayday - Flammen im Frachtraum (09:14 05.Jul > 10:07 05.Jul)
+2014-07-04 14:08:36,235 *-Gap persists [N24] N24 Nachrichten (12:11 05.Jul > 12:13 05.Jul)->[N24] Geniale Erfindungen: Das Flugzeug (12:14 05.Jul > 13:07 05.Jul)
+2014-07-04 14:08:36,236 *-Gap persists [N24] N24 Nachrichten (15:12 05.Jul > 15:14 05.Jul)->[N24] Kronzuckers Kosmos (15:15 05.Jul > 16:08 05.Jul)
+2014-07-04 14:08:36,238 *-Gap persists [N24] N24 Nachrichten (17:59 05.Jul > 18:04 05.Jul)->[N24] Countdown Erde - Methangas (18:05 05.Jul > 18:30 05.Jul)
+2014-07-04 14:08:36,240 *-Gap persists [N24] N24 Nachrichten (18:59 05.Jul > 19:06 05.Jul)->[N24] Dino-DNA und Meteoritenstaub - Im Naturkundemuseum New York (19:12 05.Jul > 19:59 05.Jul)
+2014-07-04 14:08:36,241 *-Gap persists [N24] N24 Nachrichten (20:01 05.Jul > 20:03 05.Jul)->[N24] Die X-Akten: Begegnungen der dritten Art (107) (20:04 05.Jul > 20:24 05.Jul)
+2014-07-04 14:08:36,244 *Merge: slot missing:[N24] Die wahre Geschichte: Fluch der Karibik (05:28 06.Jul > 06:12 06.Jul) -> [N24] Paul Watson - Bekenntnisse eines Öko-Terroristen (2) (07:05 06.Jul > 07:59 06.Jul)
+2014-07-04 14:08:36,250 *-Gap persists [N24] Die wahre Geschichte: Fluch der Karibik (05:28 06.Jul > 06:12 06.Jul)->[N24] Paul Watson - Bekenntnisse eines Öko-Terroristen (2) (07:05 06.Jul > 07:59 06.Jul)
+2014-07-04 14:08:36,409 *Merge: slot missing:[WDR Köln] Abenteuer Erde: Die Hippos vom Rhein (14:15 04.Jul > 15:00 04.Jul) -> [WDR Köln] Lokalzeit aus Köln (18:00 04.Jul > 18:05 04.Jul)
+2014-07-04 14:08:36,412 *-Gap persists [WDR Köln] Abenteuer Erde: Die Hippos vom Rhein (14:15 04.Jul > 15:00 04.Jul)->[WDR Köln] Lokalzeit aus Köln (18:00 04.Jul > 18:05 04.Jul)
+2014-07-04 14:08:36,567 *Merge: slot missing:[3sat HD] Am anderen Ende der Welt (1/2) (15:30 04.Jul > 16:15 04.Jul) -> [3sat HD] Polaris - Seele des Nordens (2/2) (17:40 04.Jul > 18:25 04.Jul)
+2014-07-04 14:08:36,570 *-Gap persists [3sat HD] Am anderen Ende der Welt (1/2) (15:30 04.Jul > 16:15 04.Jul)->[3sat HD] Polaris - Seele des Nordens (2/2) (17:40 04.Jul > 18:25 04.Jul)
+2014-07-04 14:08:36,719 *Merge: slot missing:[arte HD] Mord im Hause Medici (1/2) (15:20 04.Jul > 16:10 04.Jul) -> [arte HD] X:enius (17:05 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:36,722 *-Gap persists [arte HD] Mord im Hause Medici (1/2) (15:20 04.Jul > 16:10 04.Jul)->[arte HD] X:enius (17:05 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:36,923 *Merge: slot missing:[SUPER RTL] Scooby-Doo! (14:20 04.Jul > 14:45 04.Jul) -> [SUPER RTL] TOGGO SERIEN WM (17:20 04.Jul > 18:35 04.Jul)
+2014-07-04 14:08:36,924 *Merge + old: [SUPER RTL] Angelo! (14:45 04.Jul > 15:15 04.Jul)
+2014-07-04 14:08:36,926 *Merge + old: [SUPER RTL] A Kind of Magic - Eine magische Familie (15:15 04.Jul > 15:45 04.Jul)
+2014-07-04 14:08:36,927 *Merge + old: [SUPER RTL] 5 Freunde - Für alle Fälle (15:45 04.Jul > 16:10 04.Jul)
+2014-07-04 14:08:36,928 *Merge + old: [SUPER RTL] Eddie Angsthorn (16:10 04.Jul > 16:40 04.Jul)
+2014-07-04 14:08:36,929 *Merge + old: [SUPER RTL] Cosmo & Wanda - Wenn Elfen helfen (16:40 04.Jul > 16:55 04.Jul)
+2014-07-04 14:08:36,931 *Merge + old: [SUPER RTL] Zig & Sharko - Meerjungfrauen frisst man nicht! (16:55 04.Jul > 17:20 04.Jul)
+2014-07-04 14:08:37,122 *Merge: slot missing:[NDR FS HH HD] Bilderbuch Deutschland (14:15 04.Jul > 15:00 04.Jul) -> [NDR FS HH HD] Panda, Gorilla & Co. (17:10 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:37,125 *-Gap persists [NDR FS HH HD] Bilderbuch Deutschland (14:15 04.Jul > 15:00 04.Jul)->[NDR FS HH HD] Panda, Gorilla & Co. (17:10 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:37,264 *Merge: slot missing:[zdf_neo] Fünf Sterne (14:05 04.Jul > 14:50 04.Jul) -> [zdf_neo] Die 2 (17:05 04.Jul > 17:55 04.Jul)
+2014-07-04 14:08:37,267 *-Gap persists [zdf_neo] Fünf Sterne (14:05 04.Jul > 14:50 04.Jul)->[zdf_neo] Die 2 (17:05 04.Jul > 17:55 04.Jul)
+2014-07-04 14:08:37,448 *Merge: slot missing:[CNN (eng)] World Business Today (15:00 04.Jul > 16:00 04.Jul) -> [CNN (eng)] News Special (17:30 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:37,450 *Merge + old: [CNN (eng)] International Desk (16:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:37,639 *Merge: slot missing:[Bayerisches Fernsehen Süd HD] Menschen in Franken (15:00 04.Jul > 15:30 04.Jul) -> [Bayerisches Fernsehen Süd HD] Menschen in Franken (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:37,642 *-Gap persists [Bayerisches Fernsehen Süd HD] Menschen in Franken (15:00 04.Jul > 15:30 04.Jul)->[Bayerisches Fernsehen Süd HD] Menschen in Franken (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:37,838 *Merge: slot missing:[rbb Berlin] Planet Wissen: Professor Zrenner lässt Blinde wieder sehen (14:15 04.Jul > 15:15 04.Jul) -> [rbb Berlin] rbb AKTUELL (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:37,841 *-Gap persists [rbb Berlin] Planet Wissen: Professor Zrenner lässt Blinde wieder sehen (14:15 04.Jul > 15:15 04.Jul)->[rbb Berlin] rbb AKTUELL (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:37,954 *Merge: slot missing:[DMAX] Die Baumhaus-Profis (14:15 04.Jul > 15:15 04.Jul) -> [DMAX] Holzfäller extrem (17:15 04.Jul > 18:15 04.Jul)
+2014-07-04 14:08:37,957 *-Gap persists [DMAX] Die Baumhaus-Profis (14:15 04.Jul > 15:15 04.Jul)->[DMAX] Holzfäller extrem (17:15 04.Jul > 18:15 04.Jul)
+2014-07-04 14:08:37,960 *Merge: slot missing:[DMAX] Infomercial (06:50 05.Jul > 08:50 05.Jul) -> [DMAX] House Hunters - Die Immobilien-Jäger (11:15 05.Jul > 11:45 05.Jul)
+2014-07-04 14:08:37,964 *-Gap persists [DMAX] Infomercial (06:50 05.Jul > 08:50 05.Jul)->[DMAX] House Hunters - Die Immobilien-Jäger (11:15 05.Jul > 11:45 05.Jul)
+2014-07-04 14:08:38,140 *Merge: slot missing:[MDR Thüringen] MDR aktuell Eins30 (14:59 04.Jul > 15:00 04.Jul) -> [MDR Thüringen] MDR um 4 (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,143 *-Gap persists [MDR Thüringen] MDR aktuell Eins30 (14:59 04.Jul > 15:00 04.Jul)->[MDR Thüringen] MDR um 4 (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,283 *Merge: slot missing:[Disney Channel] Jessie (14:25 04.Jul > 14:55 04.Jul) -> [Disney Channel] Disneys Tauschrausch (17:10 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,285 *Merge + old: [Disney Channel] Hotel Zack & Cody (14:55 04.Jul > 15:20 04.Jul)
+2014-07-04 14:08:38,286 *Merge + old: [Disney Channel] Hannah Montana (15:20 04.Jul > 15:50 04.Jul)
+2014-07-04 14:08:38,287 *Merge + old: [Disney Channel] Austin & Ally (15:50 04.Jul > 16:15 04.Jul)
+2014-07-04 14:08:38,289 *Merge + old: [Disney Channel] Pair of Kings-Die Königsbrüder (16:15 04.Jul > 16:45 04.Jul)
+2014-07-04 14:08:38,290 *Merge + old: [Disney Channel] S3- Stark, schnell, schlau (16:45 04.Jul > 17:10 04.Jul)
+2014-07-04 14:08:38,449 *Merge: slot missing:[TELE 5] Reich und schön (14:13 04.Jul > 14:43 04.Jul) -> [TELE 5] Stargate Universe (17:10 04.Jul > 18:08 04.Jul)
+2014-07-04 14:08:38,451 *Merge + old: [TELE 5] Reich und schön (14:43 04.Jul > 15:10 04.Jul)
+2014-07-04 14:08:38,452 *Merge + old: [TELE 5] Star Trek - Raumschiff Voyager (15:10 04.Jul > 16:13 04.Jul)
+2014-07-04 14:08:38,453 *Merge + old: [TELE 5] Stargate Universe (16:13 04.Jul > 17:10 04.Jul)
+2014-07-04 14:08:38,639 *Merge: slot missing:[MDR Sachsen HD] MDR aktuell Eins30 (14:59 04.Jul > 15:00 04.Jul) -> [MDR Sachsen HD] MDR um 4 (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,642 *-Gap persists [MDR Sachsen HD] MDR aktuell Eins30 (14:59 04.Jul > 15:00 04.Jul)->[MDR Sachsen HD] MDR um 4 (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,808 *Merge: slot missing:[PHOENIX] Vor Ort: Aktuelles (14:05 04.Jul > 15:15 04.Jul) -> [PHOENIX] "Augstein und Blome" (17:05 04.Jul > 17:15 04.Jul)
+2014-07-04 14:08:38,811 *-Gap persists [PHOENIX] Vor Ort: Aktuelles (14:05 04.Jul > 15:15 04.Jul)->[PHOENIX] "Augstein und Blome" (17:05 04.Jul > 17:15 04.Jul)
+2014-07-04 14:08:38,990 *Merge: slot missing:[Bayerisches FS Süd] Menschen in Franken (15:00 04.Jul > 15:30 04.Jul) -> [Bayerisches FS Süd] Menschen in Franken (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:38,994 *-Gap persists [Bayerisches FS Süd] Menschen in Franken (15:00 04.Jul > 15:30 04.Jul)->[Bayerisches FS Süd] Menschen in Franken (17:00 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:39,174 *Merge: slot missing:[ZDFinfo] Apokalypse Urzeit - Feuer und Eis (14:25 04.Jul > 15:05 04.Jul) -> [ZDFinfo] Der Kontinent - Die Zukunft Europas (17:20 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:39,176 *-Gap persists [ZDFinfo] Apokalypse Urzeit - Feuer und Eis (14:25 04.Jul > 15:05 04.Jul)->[ZDFinfo] Der Kontinent - Die Zukunft Europas (17:20 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:39,367 *Merge: slot missing:[rbb Berlin HD] Planet Wissen: Professor Zrenner lässt Blinde wieder sehen (14:15 04.Jul > 15:15 04.Jul) -> [rbb Berlin HD] rbb AKTUELL (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:39,370 *-Gap persists [rbb Berlin HD] Planet Wissen: Professor Zrenner lässt Blinde wieder sehen (14:15 04.Jul > 15:15 04.Jul)->[rbb Berlin HD] rbb AKTUELL (17:00 04.Jul > 17:05 04.Jul)
+2014-07-04 14:08:39,534 *Merge: slot missing:[3sat] Am anderen Ende der Welt (1/2) (15:30 04.Jul > 16:15 04.Jul) -> [3sat] Polaris - Seele des Nordens (2/2) (17:40 04.Jul > 18:25 04.Jul)
+2014-07-04 14:08:39,537 *-Gap persists [3sat] Am anderen Ende der Welt (1/2) (15:30 04.Jul > 16:15 04.Jul)->[3sat] Polaris - Seele des Nordens (2/2) (17:40 04.Jul > 18:25 04.Jul)
+2014-07-04 14:08:39,653 *Merge: slot missing:[kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (14:05 04.Jul > 14:57 04.Jul) -> [kabel eins] Abenteuer Leben - täglich neu entdecken (18:01 04.Jul > 18:54 04.Jul)
+2014-07-04 14:08:39,656 *-Gap persists [kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (14:05 04.Jul > 14:57 04.Jul)->[kabel eins] Abenteuer Leben - täglich neu entdecken (18:01 04.Jul > 18:54 04.Jul)
+2014-07-04 14:08:39,662 *Merge: slot missing:[kabel eins] Toto & Harry - Die Zwei vom Polizeirevier (04:46 06.Jul > 05:12 06.Jul) -> [kabel eins] Charmed - Zauberhafte Hexen (05:14 06.Jul > 05:56 06.Jul)
+2014-07-04 14:08:39,666 *-Gap persists [kabel eins] Toto & Harry - Die Zwei vom Polizeirevier (04:46 06.Jul > 05:12 06.Jul)->[kabel eins] Charmed - Zauberhafte Hexen (05:14 06.Jul > 05:56 06.Jul)
+2014-07-04 14:08:39,669 *Merge: slot missing:[kabel eins] Die Super-Heimwerker (05:33 07.Jul > 05:54 07.Jul) -> [kabel eins] Achtung Kontrolle! Einsatz für die Ordnungshüter (06:01 07.Jul > 07:17 07.Jul)
+2014-07-04 14:08:39,673 *-Gap persists [kabel eins] Die Super-Heimwerker (05:33 07.Jul > 05:54 07.Jul)->[kabel eins] Achtung Kontrolle! Einsatz für die Ordnungshüter (06:01 07.Jul > 07:17 07.Jul)
+2014-07-04 14:08:39,787 *Merge: slot missing:[RTL II] Teenager Stories (15:00 04.Jul > 16:00 04.Jul) -> [RTL II] Next, Please! (17:00 04.Jul > 17:56 04.Jul)
+2014-07-04 14:08:39,789 *Merge + old: [RTL II] X-Diaries - love, sun & fun (16:00 04.Jul > 17:00 04.Jul)
+2014-07-04 14:08:39,954 *Merge: slot missing:[WDR Köln HD] Abenteuer Erde: Die Hippos vom Rhein (14:15 04.Jul > 15:00 04.Jul) -> [WDR Köln HD] Lokalzeit aus Köln (18:00 04.Jul > 18:05 04.Jul)
+2014-07-04 14:08:39,957 *-Gap persists [WDR Köln HD] Abenteuer Erde: Die Hippos vom Rhein (14:15 04.Jul > 15:00 04.Jul)->[WDR Köln HD] Lokalzeit aus Köln (18:00 04.Jul > 18:05 04.Jul)
+2014-07-04 14:08:40,084 *Merge: slot missing:[SAT.1] Im Namen der Gerechtigkeit - Wir kämpfen für Sie! (14:59 04.Jul > 15:59 04.Jul) -> [SAT.1] Schicksale - und plötzlich ist alles anders (17:30 04.Jul > 17:59 04.Jul)
+2014-07-04 14:08:40,085 *Merge + old: [SAT.1] Anwälte im Einsatz (15:59 04.Jul > 16:59 04.Jul)
+2014-07-04 14:08:40,086 *Merge + old: [SAT.1] Mein dunkles Geheimnis (16:59 04.Jul > 17:30 04.Jul)
+2014-07-04 14:08:40,091 *Merge: slot missing:[SAT.1] Mensch Markus (04:33 05.Jul > 04:55 05.Jul) -> [SAT.1] WAS GUCKST DU?! (04:56 05.Jul > 05:17 05.Jul)
+2014-07-04 14:08:40,096 *-Gap persists [SAT.1] Mensch Markus (04:33 05.Jul > 04:55 05.Jul)->[SAT.1] WAS GUCKST DU?! (04:56 05.Jul > 05:17 05.Jul)
+2014-07-04 14:08:40,109 *Merge: slot missing:[SAT.1] SAT.1-Frühstücksfernsehen (05:29 08.Jul > 09:58 08.Jul) -> [SAT.1] Richterin Barbara Salesch (10:57 08.Jul > 11:57 08.Jul)
+2014-07-04 14:08:40,113 *-Gap persists [SAT.1] SAT.1-Frühstücksfernsehen (05:29 08.Jul > 09:58 08.Jul)->[SAT.1] Richterin Barbara Salesch (10:57 08.Jul > 11:57 08.Jul)
+2014-07-04 14:08:40,213 *Merge: slot missing:[VOX] Shopping Queen (15:00 04.Jul > 16:00 04.Jul) -> [VOX] mieten, kaufen, wohnen (17:00 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:40,215 *-Gap persists [VOX] Shopping Queen (15:00 04.Jul > 16:00 04.Jul)->[VOX] mieten, kaufen, wohnen (17:00 04.Jul > 18:00 04.Jul)
+2014-07-04 14:08:40,341 *Merge: slot missing:[SAT.1 Gold] Richterin Barbara Salesch (14:32 04.Jul > 15:15 04.Jul) -> [SAT.1 Gold] Mord ist ihr Hobby (17:46 04.Jul > 18:38 04.Jul)
+2014-07-04 14:08:40,342 *Merge + old: [SAT.1 Gold] Richter Alexander Hold (15:15 04.Jul > 16:06 04.Jul)
+2014-07-04 14:08:40,344 *Merge + old: [SAT.1 Gold] Unsere kleine Farm (16:06 04.Jul > 16:54 04.Jul)
+2014-07-04 14:08:40,345 *Merge + old: [SAT.1 Gold] Mord ist ihr Hobby (16:54 04.Jul > 17:46 04.Jul)
+2014-07-04 14:08:40,349 *Merge: slot missing:[SAT.1 Gold] Niedrig und Kuhnt - Kommissare ermitteln (06:12 05.Jul > 06:36 05.Jul) -> [SAT.1 Gold] Lenßen & Partner (06:38 05.Jul > 07:01 05.Jul)
+2014-07-04 14:08:40,354 *-Gap persists [SAT.1 Gold] Niedrig und Kuhnt - Kommissare ermitteln (06:12 05.Jul > 06:36 05.Jul)->[SAT.1 Gold] Lenßen & Partner (06:38 05.Jul > 07:01 05.Jul)
+2014-07-04 14:09:35,474 Observing recorder queue for 17:40:14. Use 'sleepModeOn' for VCR mode
+2014-07-04 23:24:35,892 Starting daemon..
+2014-07-04 23:24:47,977 Setup channel infos
+2014-07-04 23:24:55,355 EPG is up to date
+2014-07-04 23:24:55,357 Observing recorder queue for 8:24:54. Use 'sleepModeOn' for VCR mode
+2014-07-04 23:27:41,240 Starting daemon..
+2014-07-04 23:27:54,106 Setup channel infos
+2014-07-04 23:28:01,454 EPG is up to date
+2014-07-04 23:28:01,455 Observing recorder queue for 8:21:48. Use 'sleepModeOn' for VCR mode
+2014-07-04 23:28:52,088 Starting daemon..
+2014-07-04 23:29:19,596 Setup channel infos
+2014-07-04 23:29:23,109 EPG is up to date
+2014-07-04 23:29:23,110 Error running SuspensionDaemon: 32
+Traceback (most recent call last):
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 281, in _startDaemon
+    self._updateEPGData()
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 63, in _updateEPGData
+    self._log("EPG is up to date")
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 145, in _log
+    print aString
+IOError: [Errno 32] Broken pipe
+2014-07-05 00:19:56,689 Starting daemon..
+2014-07-05 00:19:58,258 Setup channel infos
+2014-07-05 00:19:58,790 EPG is up to date
+2014-07-05 00:19:58,791 Observing recorder queue for 7:29:51. Use 'sleepModeOn' for VCR mode
+2014-07-05 00:20:48,828 Rec Q modified-looking for jobs
+2014-07-05 00:20:48,830 Next run in less than -1 seconds
+2014-07-05 00:20:48,921 command sent: 
+/home/matze/git/Rembrandt/VCR/VideoRecorder/src/bin/czapRecord.sh 851 /home/matze/Video/recme/Das_Erste/07_04_22_57-FIFA WM 2014 Brasilien - Kolumbien.m2t Das Erste | scheduled at:00:20 Jul 05
+2014-07-05 00:21:48,999 Monitoring JOB 8
+2014-07-05 00:34:50,031 stopping in seconds:10
+2014-07-05 00:35:00,051 stopping in seconds:10
+2014-07-05 00:35:10,058 Quit JOB 8
+2014-07-05 00:35:10,059 >>record channel: Das Erste to target /home/matze/Video/recme/Das_Erste/07_04_22_57-FIFA WM 2014 Brasilien - Kolumbien.m2t durance 851 seconds
+  PID TTY          TIME CMD
+10963 ?        00:00:00 czap
+Rec done status:Version: 5.10  	 FE_CAN { DVB-C (A) + DVB-T + DVB-T2 }
+2014-07-05 00:35:10,059 JOB 8 is done
+2014-07-05 00:35:10,339 EPG is up to date
+2014-07-05 00:35:10,340 Observing recorder queue for 7:14:39. Use 'sleepModeOn' for VCR mode

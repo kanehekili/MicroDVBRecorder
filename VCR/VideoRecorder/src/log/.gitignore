@@ -1,1 +1,5 @@
 /dvb.log
+/dvb_suspend.log
+/testVCR.log
+/webdvb.log
+/.gitignore

@@ -34,10 +34,12 @@ class ChannelReader:
     def _createChannels(self, stringList):
         for line in stringList:
             token=re.split(':',line)
-            if len(token) < 12:
+            maxToken = len(token)
+            if maxToken < 3:
                 logging.log(logging.ERROR,"channel info is corrupt")
+                #TODO needs a message for web
             else:
-                aChannel = Channel(token[0],token[1],token[12])
+                aChannel = Channel(token[0],token[1],token[maxToken-1])
                 self._chanels.append(aChannel)     
 
     def getChannels(self):

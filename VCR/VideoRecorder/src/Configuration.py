@@ -18,12 +18,13 @@ class Config():
     LogPath="log"
     XMLPath = "xmltv"
     BinPath = "bin"
-    ZapPath = ".tzap"
+    TzapPath = ".tzap"
+    CzapPath = ".czap"
     WebPath="web"
     ResourcePath=os.path.join(WebPath,"img")
     RecordDestination = os.path.join("Videos","Recordings")
     ConfigPath = os.path.join(HomeDir,XMLPath,"Config.conf")
-
+    RecordPath = os.path.join(UserPath,RecordDestination)
         
     ChannelFile = "channels.conf"
     AutoSelectFile="AutoSelect.conf"
@@ -35,7 +36,6 @@ class Config():
     
     XMLFileTyp=".xmltv"
     MPGFileTyp=".m2t" #Type of file to store
-    FUTURE_ITEMS_ONLY=True
     
     POLICY_SERVER =0xB0
     POLICY_VCR =0xB1
@@ -43,16 +43,22 @@ class Config():
     MODE_SLEEP =0xA1
     MODE_HIBERNATE=0xA2
     
+    REC_TYPE_TZAP = "TZAP"
+    REC_TYPE_CZAP = "CZAP"
+    REC_TYPE_SZAP = "SZAP"
+    REC_TYPE_VLC = "VLC"
+    REC_TYPE_FAKE = "FAKE"
+    
     #configurable items
     RecordTimeMargin = None
     DAEMON_POLICY = None
     SUSPEND_MODE = None
+    RECORD_DEVICE = None
 
     def __init__(self):
-        if os.path.isfile(self.ConfigPath):
-            self._loadConfig()
-        else:
+        if not os.path.isfile(self.ConfigPath):
             self._writeDefaultConfig()
+        self._loadConfig()
 
     
     def setupLogging(self,fileName): 
@@ -78,7 +84,7 @@ class Config():
         return os.path.join(self.HomeDir,self.WebPath);
     #path where to put the recordings in
     def getRecordingPath(self):
-        return os.path.join(self.UserPath,self.RecordDestination)
+        return self.RecordPath
     
     #config and record queue data
     def getResourcePath(self):
@@ -93,7 +99,10 @@ class Config():
         return os.path.join(self.HomeDir,self.BinPath)
     
     def getChannelFilePath(self):
-        return os.path.join(self.UserPath,self.ZapPath,self.ChannelFile)
+        if self.RECORD_DEVICE == self.REC_TYPE_CZAP:
+            return os.path.join(self.UserPath,self.CzapPath,self.ChannelFile)
+        else:
+            return os.path.join(self.UserPath,self.TzapPath,self.ChannelFile)
     
     def getEnergySaverFileMarker(self):
         return os.path.join(self.HomeDir,self.XMLPath,self.VCRMarkerFile)
@@ -131,6 +140,17 @@ class Config():
             Config.SUSPEND_MODE=Config.MODE_SLEEP
         else:
             Config.SUSPEND_MODE=Config.MODE_HIBERNATE
+        aRecPath = c.get("RECORDING_PATH")
+        if aRecPath and len(aRecPath)>4:
+            Config.RecordPath = aRecPath
+        recType = c.get("RECORD_TYPE")
+        if recType:
+            Config.RECORD_DEVICE = recType.upper()
+        else:
+            Config.RECORD_DEVICE = Config.REC_TYPE_FAKE
+
+    def isArm(self):
+        return os.uname()[4][:3] == 'arm'
         
    
     def _writeDefaultConfig(self):
@@ -138,6 +158,7 @@ class Config():
         c.add("RECORDMARGIN","5")
         c.add("DAEMON_POLICY","SERVER")
         c.add("SUSPEND_MODE","SLEEP")
+        c.add("RECORD_TYPE",Config.REC_TYPE_TZAP)
         c.store()
 
  

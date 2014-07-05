@@ -10,5 +10,5 @@
 /EpgUpdate.pyc
 /RecorderDaemon.pyc
 /RecordQueue.pyc
-/TerrestialDevice.pyc
+/DVBDevice.pyc
 /VideoRecorderView.pyc

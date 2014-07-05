@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/ChannelReader.py=utf-8
 encoding//src/Configuration.py=utf-8
+encoding//src/DVBDevice.py=utf-8
 encoding//src/DVBRecorder.py=utf-8
 encoding//src/EPGDatabase.py=utf-8
 encoding//src/EPGProgramProvider.py=utf-8
@@ -11,5 +12,4 @@ encoding//src/PythonWebBridge.py=utf-8
 encoding//src/RecordQueue.py=utf-8
 encoding//src/RecorderDaemon.py=utf-8
 encoding//src/RecorderWebServer.py=utf-8
-encoding//src/TerrestialDevice.py=utf-8
 encoding//src/VideoRecorderView.py=utf-8

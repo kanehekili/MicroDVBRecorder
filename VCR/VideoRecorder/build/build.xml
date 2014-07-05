@@ -22,17 +22,21 @@
 		<property name="srcBin" value="${source}/bin"/>
 		<property name="srcData" value="${source}/data"/>
 		<property name="srcWeb" value="${source}/web"/>
+		<property name="srcxml" value="${source}/xmltv"/>
 		
 		<copy todir="${stage}">
 			<fileset file="*.sh">
 			</fileset>
 		</copy>
 		
+		<chmod dir="${stage}" perm="ugo+rx" 
+		       includes="*.sh"/>
+		
 		<copy todir="${bin}">
 			<fileset dir="${srcBin}">
 			</fileset>
 		</copy>
-		<chmod perm="755">
+		<chmod perm="ugo+rx">
 			<fileset dir="${bin}"/>
 		</chmod>	
 		<copy todir="${data}">
@@ -44,7 +48,13 @@
 			<fileset dir="${srcWeb}">
 			</fileset>
 		</copy>
-		<touch file="${web}/webdvb.log"/>
+
+		<copy todir="${xmltv}">
+			<fileset file="${srcxml}/Config.conf">
+			</fileset>
+		</copy>
+		
+		<delete file="${log}/webdvb.log"/>
 		<delete file="${web}/Log.txt"/>
 		<copy todir="${rootDir}">
 			<fileset dir="${source}" includes="*.py">
