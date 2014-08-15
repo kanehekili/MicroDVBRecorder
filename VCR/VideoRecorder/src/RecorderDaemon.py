@@ -117,7 +117,7 @@ class RecorderDaemon():
     
     
     def launchRecording(self,recInfo):
-        #As opposed to previous impl no AT queue is used. Reason: recording needs to be supervised 
+        #As opposed to a previous version no AT queue is used. Reason: recording needs to be supervised 
         #anyhow, so there is need for a supervising/scheduling process
         channel = recInfo.getEPGInfo().getChannel()
         OSTools.ensureDirectory(self._config.getRecordingPath(),channel.getEscapedName())
@@ -269,25 +269,19 @@ class RecorderDaemon():
         errorCount =0;
         while self.isActive and errorCount < 10:
             try:
+                #Always a job, possibly a maintenance for epg update
                 nextJob =self._getNextJob()
-                if nextJob is None:
-                    if  self._updateEPGData():
+                startTime = nextJob.getExecutionTime()
+                if self._isTimeLeftForEPGUpdate(startTime):
+                    if self._updateEPGData():
+                        continue #maybe a fresh job came in...
+                secondsToSleep = self._secondsUntilNextRun(startTime,self._daemonPolicy.PRERUN_SECONDS)
+                if self._daemonPolicy.isReadyToRecord(startTime,secondsToSleep):
+                    if nextJob.getEPGInfo() is None:
+                        self._log("Maintenance mode- will update EPG")
                         continue;
-                    self._daemonPolicy.handleNoJobs()
-                    self._lastJobId="0"
-                else:
-                    startTime = nextJob.getExecutionTime()
-                    if self._isTimeLeftForEPGUpdate(startTime):
-                        self._updateEPGData()
-                    #TODO: check maint seconds! pass epgInfo instead of time...                        
-                    secondsToSleep = self._secondsUntilNextRun(startTime,self._daemonPolicy.PRERUN_SECONDS)
-                    
-                    if self._daemonPolicy.isReadyToRecord(startTime,secondsToSleep):
-                        if nextJob.getEPGInfo() is None:
-                            self._log("Maintenance mode- will update EPG")
-                            continue;
-                        process = self.launchRecording(nextJob)
-                        self._monitorCurrentRecording(process,nextJob)
+                    process = self.launchRecording(nextJob)
+                    self._monitorCurrentRecording(process,nextJob)
 
             except KeyboardInterrupt:
                 print '^C received, shutting down daemon'

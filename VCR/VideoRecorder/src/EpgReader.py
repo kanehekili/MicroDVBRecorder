@@ -25,39 +25,49 @@ class EpgReader:
     def __init__(self,aChannelList):
         #list retrieved by the channel reader. Needed for mapping
         if aChannelList is not None:
-            self.channelList=aChannelList
-        
-    def readCachedXMLFile(self,path):
-        if not path:
-            return None
-        aList=[]
-        try:
-            with open(path, 'r') as xmlFile:
-                xmlData = xmlFile.read()
-        except IOError:
-            return aList
-        
-        self.parseXML_TVString(xmlData,aList,UTC=False)
-        return aList
-
+            self._chanTable={}
+            for channel in aChannelList:
+                self._chanTable.setdefault(channel.getChannelID(),channel)
+    
     '''
     Parses the xmlstring based on the xmltv structure.
-    returns a dictionary with channels as keys and an ordered list of EpgChannelInfo
+    The EPG Reader plugin may be subclassed to create different types of EPGInfos (aka Recinfo etc)
     '''
-    def parseXML_TVString(self,xmlString,aList,UTC):
+    def readCachedXMLFile(self,epgReaderPlug,path):
+        if not path:
+            return None
         try:
-            self._readXml(xmlString,aList,UTC)
+            with open(path, 'r') as xmlFile:
+                epgReaderPlug.xmlString = xmlFile.read();
+        except IOError:
+            return []
+        
+        #self.parseXML_TVString(xmlData,aList,UTC=False)
+        self.convertXMLToEPG(epgReaderPlug)
+        return epgReaderPlug.resultList
+
+
+    def convertXMLToEPG(self,epgReaderPlug):
+        try:
+            self._xmlToEPG(epgReaderPlug)
         except Exception, v:
             data = v.args
             logging.log(logging.ERROR, "Parse Error: "+str(data))
             with open('/tmp/error.xmltv', 'w') as aFile:
-                aFile.write(xmlString)
+                aFile.write(epgReaderPlug.xmlString)
+
+    
+    def _xmlToEPG(self,epgReaderPlug):
+        root = CT.fromstring(epgReaderPlug.xmlString)
+        for cElement in root:
+            epgInfo=epgReaderPlug.createEpgObject()
+            validInfo = epgInfo.createFromXMLElement(self,cElement,epgReaderPlug.isUTC)
+            epgReaderPlug.addToResult(validInfo)
             
     def _findChannel(self,aString):
         #first get the number
         if aString is None:
             return None
-        
         tokens = aString.partition(".")
         if len(tokens) == 0:
             return None
@@ -65,10 +75,7 @@ class EpgReader:
     
     
     def _selectChannelFromID(self,aString):
-        for channel in self.channelList:
-            if channel.getChannelID() == aString:
-                return channel;
-        return None
+        return self._chanTable.get(aString)
         
     def convertToDate(self,dateString,UTC):
         if dateString is None:
@@ -92,93 +99,65 @@ class EpgReader:
 
         
     
-    def _readXml(self,stringData,aList,isUTC):
-        root = CT.fromstring(stringData)
-        for program in root:
-            epgInfo = self.createFromXMLElement(program,isUTC)
-            if epgInfo is not None:
-                aList.append(epgInfo)
+#     def _readXml(self,stringData,aList,isUTC):
+#         root = CT.fromstring(stringData)
+#         for program in root:
+#             epgInfo = self.createFromXMLElement(program,isUTC)
+#             
+#             if epgInfo is not None:
+#                 aList.append(epgInfo)
                   
 
     '''
     creates EPGProgrammInfo from xml data. Interprets time either as UTC
     or local time 
     '''
-    def createFromXMLElement(self,program,isUTC):
-        epgInfo = EpgProgramInfo()
-        #the key of the dictionary
-        channelid = program.get('channel');
-        channel = self._findChannel(channelid)
-        #Put the info into the array (which is still unsorted to time)
-        if (channel is None):
-            return None
-        
-        epgInfo.setChannel(channel)            
-        startTimeString = program.get('start')
-        epgInfo.setStartTime(self.convertToDate(startTimeString,isUTC))
-        endTimeString= program.get('stop')
-        epgInfo.setEndTime(self.convertToDate(endTimeString,isUTC))
-        
-        title=program.find('title')
-        if title != None:
-            epgInfo.setTitle(title.text)
-
-        description = program.find('desc')
-        if description != None:
-            epgInfo.setDescription(description.text)  
-            jobid = description.get('JOBID')
-            if jobid != None:
-                epgInfo.setJobID(jobid)
-        
-        # place to add more internal data
-        addon=program.find('db')
-        if addon != None:
-            epgInfo.isConsistent = bool(int(addon.get('epg'))) 
-        
-        return epgInfo
+#     def createFromXMLElement(self,cElement,isUTC):
+#         epgInfo = EpgProgramInfo()
+#         return epgInfo.createFromXMLElement(self,cElement,isUTC)
          
 
-    #write a list of epgInfos Array of daily entries[]
-    def dumpEPGData(self,programList,path):
-        rootElement = CT.Element('REC')
-        for daily in programList:
-            for epgInfo in daily:
-                self._writeXMLEGPElement(rootElement, epgInfo)
-
-        with open(path, 'w') as aFile:
-            CT.ElementTree(rootElement).write(aFile, "utf-8")
-
-
-    #TODO: check if it makes sense to work with unicode or strings
     '''
     The xml parser expects unicode for conversion:
     >>Python tries to convert the regular string to Unicode, which is the more general type, 
     but because you don't specify an explicit conversion, it uses the ASCII codec
     
-    Right now data is kept as ascii <str>, encoded in "setTitle" and "setDescription" 
+    Right now data is kept as ascii <str>, encoded in "setTitle" and "setDescription"
+    
+    write a list of epgInfos Array of daily entries[]     
     '''                
-    def _writeXMLEGPElement(self,rootElement,epgInfo):
-        channel = epgInfo.getChannel()
-        entry = CT.SubElement(rootElement,"programme")
-        entry.attrib["channel"]=channel.getChannelID()+".recQueue"
-        entry.attrib["start"]=self._convertTimeToString(epgInfo.getStartTime()) 
-        entry.attrib["stop"]=self._convertTimeToString(epgInfo.getEndTime())
-        titleEntry =CT.SubElement(entry,"title")
-        titleEntry.text=  epgInfo.getTitle().decode('utf-8')
-        descEntry = CT.SubElement(entry,"desc")
-        jobID = epgInfo.getJobID()
-        if len(jobID)>0:
-            descEntry.attrib["JOBID"]= jobID 
-        descEntry.text = epgInfo.getDescription().decode('utf-8')
-        dbEntry = CT.SubElement(entry,"db")
-        dbEntry.attrib["epg"] = str(int(epgInfo.isConsistent))
-        
-        return entry
+    def dumpEPGData(self,programList,path):
+        rootElement = CT.Element('REC')
+        for daily in programList:
+            for epgInfo in daily:
+                if epgInfo.isConsistent:
+                    epgInfo.storeAsXMLElement(self,rootElement)
+
+        with open(path, 'w') as aFile:
+            CT.ElementTree(rootElement).write(aFile, "utf-8")
 
         
     def _convertTimeToString(self,aDatetime):
         return aDatetime.strftime('%Y%m%d%H%M%S')
+
+
+'''
+EPG Info plugin, may be subclassed for epg creation
+'''
+class EpgReaderPlugin():
+    def __init__(self,xmlData,isUTCTime=False):
+        self.xmlString=xmlData
+        self.resultList=[]
+        self.isUTC=isUTCTime
+    
+    def createEpgObject(self):
+        return EpgProgramInfo()     
+    
+    def addToResult(self,epgInfo):
+        if epgInfo is not None:
+            self.resultList.append(epgInfo)
         
+           
 
 class EpgProgramInfo:
     
@@ -297,10 +276,10 @@ class EpgProgramInfo:
         date2=otherInfo.getStartTime().date()
         return date1.day == date2.day and date1.month == date2.month        
 
-    def isActual(self):
-        now = datetime.today();
-        td = self.getStartTime()-now;
-        return self.getEndTime()>= now and td.days<20
+    def isActual(self,timeNow):
+        #now = datetime.today();
+        td = self.getStartTime()-timeNow;
+        return self.getEndTime()>= timeNow and td.days<20
 
         
     #check if the TIME of this overlaps with the other info
@@ -344,6 +323,59 @@ class EpgProgramInfo:
             logging.log(logging.ERROR,' Sys Error:'+str(error))
                 
         return test
+
+    #-XML part
+    '''
+    setup self from XML data. 
+    Note that all Strings will be encoded here (in the string setter methods) 
+    '''
+    def createFromXMLElement(self,builder,program,isUTC):
+        
+        #the key of the dictionary
+        channelid = program.get('channel');
+        channel = builder._findChannel(channelid)
+        #Put the info into the array (which is still unsorted to time)
+        if (channel is None):
+            return None
+        
+        self.setChannel(channel)            
+        startTimeString = program.get('start')
+        self.setStartTime(builder.convertToDate(startTimeString,isUTC))
+        endTimeString= program.get('stop')
+        self.setEndTime(builder.convertToDate(endTimeString,isUTC))
+        
+        title=program.find('title')
+        if title != None:
+            self.setTitle(title.text)
+
+        description = program.find('desc')
+        if description != None:
+            self.setDescription(description.text)  
+            jobid = description.get('JOBID')
+            if jobid != None:
+                self.setJobID(jobid)
+        
+        return self    
+
+    '''
+    Store as XML element - return an subelement to store
+    Note that the text text is decoded from utf-8
+    '''
+    def storeAsXMLElement(self,builder,rootElement):
+        channel = self.getChannel()
+        entry = CT.SubElement(rootElement,"programme")
+        entry.attrib["channel"]=channel.getChannelID()+".recQueue"
+        entry.attrib["start"]=builder._convertTimeToString(self.getStartTime()) 
+        entry.attrib["stop"]=builder._convertTimeToString(self.getEndTime())
+        titleEntry =CT.SubElement(entry,"title")
+        titleEntry.text=  self.getTitle().decode('utf-8')
+        descEntry = CT.SubElement(entry,"desc")
+        jobID = self.getJobID()
+        if len(jobID)>0:
+            descEntry.attrib["JOBID"]= jobID 
+        descEntry.text = self.getDescription().decode('utf-8')
+        
+        return entry
 
         
 class ReaderThread(Thread):

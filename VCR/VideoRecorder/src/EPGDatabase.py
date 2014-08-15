@@ -11,7 +11,9 @@ the data of one day
 @author: matze
 '''
 import xml.etree.cElementTree as CT
-#from xml.sax.saxutils import unescape,escape
+from datetime import datetime
+from EpgReader import EpgProgramInfo
+import re as REGEX
 
 class EpgDatabase:
     def __init__(self,config):
@@ -32,6 +34,8 @@ class EpgDatabase:
             dayToDayList = self._sortEpgData(epgInfos) #[][]
             #removes all empty arrays
             dayToDayList[:] = [daily for daily in dayToDayList if daily ]
+            for daylist in dayToDayList:
+                self._verifyListConsistency(daylist)
             self._channelDictionary[channelName]=dayToDayList
     
     '''
@@ -59,6 +63,7 @@ class EpgDatabase:
         for epgInfo in epgInfoList:
             aChannelString = epgInfo.getChannel().getName()
             channelDict.setdefault(aChannelString,[]).append(epgInfo)
+
         return channelDict
         
     '''
@@ -69,10 +74,23 @@ class EpgDatabase:
  
     '''
     Answers an array  containing an array of daily entries - per channel
+    [channel [dayList [epgPerDay] ] ]
     '''
     def getData(self):
         return self._channelDictionary.values()
     
+    
+    def findAllInfos(self,searchString):
+        someArray = self.getData();
+        
+        result = []
+        for channelEntries in someArray:
+            for dayList in channelEntries:
+                for epgInfo in dayList:
+                    if REGEX.search(searchString,epgInfo.getTitle(),REGEX.IGNORECASE):
+                        result.append(epgInfo)
+    
+        return result;
     
     '''
     Answer the plain list with all values
@@ -102,7 +120,7 @@ class EpgDatabase:
                 self._insertToDayToDayList(channelName,dayList)
             else:
                 self._mergeDailyEntries(currentList,dayList)
-
+            self._verifyListConsistency(dayList)
         
             
     '''
@@ -143,7 +161,6 @@ class EpgDatabase:
 
         slots = self._getRemainingSlots(currentList,epgInfo.getEndTime())
         mergedList.extend(slots)
-        self._verifyListConsistency(mergedList)
         currentList[:] = mergedList
     
     def __traceDayList(self,dayList):
@@ -198,22 +215,30 @@ class EpgDatabase:
         return None
             
     def _verifyListConsistency(self,mergedList):
-        isConsistent = True
         if len(mergedList)==0:
-            return isConsistent
+            return
+        
+        gapList=[]
         
         previousEpgInfo=mergedList[0]
-        previousEpgInfo.isConsistent = True
-        for epgInfo in mergedList[1:]:
+        #previousEpgInfo.isConsistent = True
+        for index,epgInfo in enumerate(mergedList[1:]):
             epgInfo.isConsistent = True
             if previousEpgInfo.getEndTime() != epgInfo.getStartTime():
-                #TODO: generate Gap Entry - persist consistency flag for colorful display!
-                self._config.logInfo("*-Gap persists "+previousEpgInfo.getString()+"->" +epgInfo.getString())
-                previousEpgInfo.isConsistent = False
-                epgInfo.isConsistent = False
-                isConsistent = False
+                self._config.logInfo("*-Gap: "+previousEpgInfo.getString()+"->" +epgInfo.getString())
+                #creates a gap info
+                gapInfo = EpgProgramInfo()
+                gapInfo.isConsistent=False
+                gapInfo.setTitle("*- GAP -*")
+                gapInfo.setDescription("No info available")
+                gapInfo.setChannel(epgInfo.getChannel())
+                gapInfo.setStartTime(previousEpgInfo.getEndTime())
+                gapInfo.setEndTime(epgInfo.getStartTime())
+                gapList.append((index+1,gapInfo))
             previousEpgInfo = epgInfo
-        return isConsistent
+
+        for gaps in gapList:
+            mergedList.insert(gaps[0],gaps[1])
         
     
     #gets the first entry of the EPGInfo array and answers the search date
@@ -234,8 +259,8 @@ class EpgDatabase:
     
     #sort each list in the dictionary after the date and the time 
     def _sortEpgData(self,epgList):
-        
-        epgList[:]=[epgInfo for epgInfo in epgList if epgInfo.isActual()]
+        now = datetime.today();#speed up
+        epgList[:]=[epgInfo for epgInfo in epgList if epgInfo.isActual(now)]
         sortedResult = sorted(epgList, key=lambda epgInfo: epgInfo.getStartTime())
         #convert the sorted entries in an array with progInfos per day
         dayToDayList = []
@@ -285,23 +310,33 @@ class AutoSelectAccessor:
             
     def addAutoSelectPreference(self,epgInfo):
         #TODO:- introduce week day!
-        if self.contains(epgInfo):
+        if self._isEPGRegistered(epgInfo):
             self._config.logInfo("Double AutoSelect entry - ignored ")
         else:
-            ase = AutoSelectEntry(epgInfo.getTitle(),epgInfo.getStartTime().hour)
+            ase = AutoSelectEntry(epgInfo.getTitle(),epgInfo.getStartTime().hour,epgInfo.getChannel().getName())
             self.autoSelectList.append(ase)
     
-    def removeFromAutoSelectPreference(self,hourString,titleString):
-        self.autoSelectList[:] = [ase for ase in self.autoSelectList if not ase.isSelection(titleString,hourString) ]
+    def removeFromAutoSelectPreference(self,hourString,titleString,channelName):
+        self.autoSelectList[:] = [ase for ase in self.autoSelectList if not ase.isSelection(titleString,hourString,channelName) ]
+
+    def updateWeekMode(self,hourString,titleString,channelName,weekModeString):
+        found = next((ase for ase in self.autoSelectList if ase.isSelection(titleString,hourString,channelName)),None)
+        if found is not None:
+            found._weekMode=int(weekModeString)
 
     def getAutoSelectionList(self):
         return self.autoSelectList
     
-    def contains(self,epgInfo):
+    #check if the epgdata is already registered
+    def _isEPGRegistered(self,epgInfo):
+        found = next((ase for ase in self.autoSelectList if ase.matchesEPGInfo(epgInfo)),None)
+        return found is not None 
+    
+    #must be the excact definition for recording 
+    def _isMarkedForRecording(self,epgInfo):
         for autoSelect in self.autoSelectList:
-            if autoSelect.matchesEPGInfo(epgInfo):
+            if autoSelect.isMarkedForRecording(epgInfo):
                 return True
-        
         return False
     
     
@@ -310,6 +345,8 @@ class AutoSelectAccessor:
         for autoSelect in self.autoSelectList:
             entry = CT.SubElement(rootElement,"Entry")
             entry.attrib["hour"]=str(autoSelect.getHour())
+            entry.attrib["chanID"]=autoSelect.getChannelID().decode('utf-8')
+            entry.attrib["week"]=str(autoSelect.getWeekMode()); 
             entry.text= autoSelect.getTitle().decode('utf-8')
         path=self._config.getAutoSelectPath()
         with open(path, 'w') as aFile:
@@ -328,9 +365,14 @@ class AutoSelectAccessor:
         root = CT.fromstring(xmlData)
         for info in root:
             hourString= info.get('hour')
+            channelName = info.get('chanID').encode('utf-8')
             title=info.text.encode('utf-8')
-            autoSelect=AutoSelectEntry(title,int(hourString))
-            self.autoSelectList.append(autoSelect)
+            week = info.get("week")
+            if week is None or channelName is None:
+                self._config.logInfo("Invalid autoselection list - ignoring")
+            else:
+                autoSelect=AutoSelectEntry(title,int(hourString),channelName,int(week))
+                self.autoSelectList.append(autoSelect)
      
      
     '''
@@ -340,26 +382,49 @@ class AutoSelectAccessor:
         autoEPGList=[]
         for dayList in dayToDayList:
             for epgInfo in dayList:
-                if self.contains(epgInfo):
+                if self._isMarkedForRecording(epgInfo):
                     autoEPGList.append(epgInfo)
         return autoEPGList
 
 #encapsulates the auto select data
 class AutoSelectEntry:
-    def __init__(self,title,prefHour):
+    MODE_WEEK=0 #Mo-Fri
+    MODE_WEEKEND=1 #Sa-Su
+    MODE_ALL=2 #Mo-Su
+    def __init__(self,title,prefHour,channelName,weekMode=MODE_ALL):
         self._title=title
         self._prefHour = prefHour #in case stuff comes twice a day. no entry = any
+        self._weekMode=weekMode
+        self._channelID = channelName
         
-    def isSelection(self,aTitle, hourString):
+    def isSelection(self,aTitle, hourString,channelName):
         if self._title == aTitle:
-            return hourString == self.getHourListString()
+            return hourString == self.getHourListString() and self.getChannelID()==channelName
         return False
 
     def matchesEPGInfo(self,epgInfo):
-        if self._title == epgInfo.getTitle():
-            startDate=epgInfo.getStartTime()
-            return startDate.hour == self._prefHour
-        return False
+        if self._title != epgInfo.getTitle():
+            return False
+        if self._channelID != epgInfo.getChannel().getName():
+            return False
+        return epgInfo.getStartTime().hour == self._prefHour
+
+    def isMarkedForRecording(self,epgInfo):
+        if not self.matchesEPGInfo(epgInfo):
+            return False;    
+        return self._isRightWeekMode(epgInfo.getStartTime().weekday())
+        
+
+    def _isRightWeekMode(self,weekday):
+        #Monday=0, Sunday = 6
+        if self._weekMode == self.MODE_ALL:
+            return True;
+        if self._weekMode == self.MODE_WEEK:
+            return weekday < 5;
+        else:
+            return weekday >4;
+
+        
     
     def getTitle(self):
         return self._title
@@ -367,5 +432,20 @@ class AutoSelectEntry:
     def getHour(self):
         return self._prefHour
     
+    def getChannelID(self):
+        return str(self._channelID)
+    
     def getHourListString(self):
         return str(self._prefHour)+".xx"
+    
+    def getWeekMode(self):
+        return self._weekMode;
+    
+    def getWeekModeText(self):
+        if self._weekMode==self.MODE_ALL:
+            return "Mo-Su"
+        if self._weekMode==self.MODE_WEEK:
+            return "Mo-Fr"
+        if self._weekMode==self.MODE_WEEKEND:
+            return "Sa-Su"
+        

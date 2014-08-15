@@ -3,6 +3,7 @@
 	<name>VideoRecorder</name>
 	<comment></comment>
 	<projects>
+		<project>Tech_modules</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

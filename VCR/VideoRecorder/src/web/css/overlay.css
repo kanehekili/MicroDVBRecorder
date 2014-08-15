@@ -65,7 +65,7 @@
 
 }
 /* defines the circle around X on the upper right side */
-.close {
+.closeOvl {
     background-color: rgba(255, 0, 0, 0.8);
     height: 30px;
     line-height: 30px;
@@ -82,14 +82,17 @@
     -o-border-radius: 15px;
     border-radius: 15px;
 }
+
+
 /* the sign X or an icon... */
-.close:before {
+.closeOvl:before {
     color: rgba(255, 255, 255, 0.9);
     content: "OK";
     font-size: 12px;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
 }
-.close:hover {
+
+.closeOvl:hover {
     background-color: rgba(64, 128, 128, 0.8);
 }
 /*.popup p, .popup div {*/
@@ -105,13 +108,41 @@
     -o-border-radius: 15px;
     border-radius: 15px;
 }
-/*
-.popup label {
-    display: inline-block;
-    text-align: middle;
-    width: 120px;
+/*Entry field in recording list overlay*/
+.recInput {
+	width: 2em;
 }
-*/
+
+/*access the ID of an input!! with: input#id - button not used...*/
+input#recBtnStore {
+	float:right;
+	height:30px;
+	padding:5px;
+	font-size: 12px;
+}
+.SetRecTime {
+	padding-top:1em;
+}
+/*-+- button of the rec list */
+.recBtn {
+  background-color: #f7f7f7;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  color: #000;
+  margin: 1px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 12px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px #aaa, inset 0px 1px 2px #efefef;
+}
+
+
 /*frame for select list*/
 .SelectFrame {
    display:inline-block;
@@ -122,23 +153,44 @@
   overflow-y:scroll;
   border:2px inset;
 }
-/*row/cell definition*/
-.InfoTime{
+/*row/cell definition of autoselect*/
+.InfoTime,.InfoChannel,.InfoPeriod,.RecMargins {
 	/* display:inline-block; this does not work as in the programm list, since the data tends to go to the bottom*/
 	display: table-cell; 
-	min-width: 100px;
+	min-width: 50px;
 	padding:5px;
 	border-right:2px inset;
+	border-bottom:1px inset;
 	white-space: normal;
 }
-.InfoTime b{
+
+.InfoChannel{
+	min-width: 100px;
+}
+
+.InfoPeriod{
+	min-width: 30px;
+}
+
+.RecMargins {
+	min-width: 60px;
+}
+
+.InfoTime b {
    margin:0;
 }
+
+.InfoChannel i  { /*let the date be in one row*/
+   margin-left:5px;
+   display:inline-block;
+}
+
 .InfoText{
     /*display:inline-block; dito*/
     display: table-cell;
     white-space: normal;
     padding-left: 5px;
+    border-bottom:1px inset;
     width:100%;
 }
 .InfoRow{

@@ -213,6 +213,14 @@ body > #wrap {height: auto; min-height: 100%;}
 	border-left:1px solid;
 	padding:5px;
 }
+
+.ColumnInfoPlus{
+	display:inline-block;
+	border-left:1px solid;
+	min-width:50px;
+	padding:5px;
+}
+
 .ColumnTimeGap{
     color: #FF0000;
 	display:inline-block;
@@ -279,6 +287,21 @@ body > #wrap {height: auto; min-height: 100%;}
 }
 .dayrow p{
 	padding-left:45px;
+}
+
+.nodatarow {
+	width:100%;
+	height:90%;
+	text-shadow: 1px 1px 1px #000;
+	box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+	font-size:3em;
+	color:#AA0707;
+	padding-top:10px;
+	padding-bottom:10px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 150px;
 }
 
 /* stolen code..*/

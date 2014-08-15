@@ -6,9 +6,9 @@ Communicates with Frontend by reclist. The reclist might be altered by the front
 needs to get the actual data.
 @author: matze
 '''
-from datetime import datetime
+from datetime import datetime, timedelta
 from Configuration import MessageListener
-from EpgReader import EpgReader
+from EpgReader import EpgReader,EpgReaderPlugin, EpgProgramInfo
 import OSTools
 
 class RecordQueue():
@@ -20,7 +20,7 @@ class RecordQueue():
     def addRecording(self,epgProgramInfo):
         if epgProgramInfo.isBlockedForRecord():
             return False
-        recList = self.getEpgList()
+        recList = self.getRecList()
         if self.isInRecordingList(epgProgramInfo, recList):
             print "Oops -that should not happen (added recording twice)"
             self._config.logError("QUEUE: added recording twice")
@@ -29,13 +29,13 @@ class RecordQueue():
         #TODO: Adding adjacent while running will truncate leading 5 mins
         jobID = self._generateJobID(recList) #all items in that group should have the same id..
         epgProgramInfo.setJobID(jobID)
-        recList.append(epgProgramInfo)
+        recList.append(RecordingInfo(epgProgramInfo))
         self._config.logInfo("Added Recording "+str(jobID)+">"+epgProgramInfo.getString())
         self._storeRecordQueue(recList)
         return True
     
     def cancelRecording(self,epgProgramInfo,force=False):
-        recList = self.getEpgList()
+        recList = self.getRecList()
         recInfo = self._mapToItemInRecordingList(epgProgramInfo, recList)
         if recInfo is None:
             self._config.logError("QUEUE: cancel nonexistent record?")
@@ -58,13 +58,13 @@ class RecordQueue():
 
     def _mapToItemInRecordingList(self,epgInfo, recList):
         for recInfo in recList:
-            if epgInfo.isAlike(recInfo):
+            if epgInfo.isAlike(recInfo.getEPGInfo()):
                 return recInfo
         return None
         
     def isInRecordingList(self,epgInfo, recList):
         for recInfo in recList:
-            if epgInfo.isAlike(recInfo):
+            if epgInfo.isAlike(recInfo.getEPGInfo()):
                 return True
         return False
 
@@ -76,8 +76,8 @@ class RecordQueue():
          
         startTime = epgInfo.getStartTime()
         endTime = epgInfo.getEndTime()
-        marginStart = self._config.RecordTimeMargin
-        marginEnd = self._config.RecordTimeMargin 
+        marginStart = recInfo.marginStart
+        marginEnd = recInfo.marginEnd 
          
         if isHead:
             startTime = startTime - marginStart
@@ -101,8 +101,7 @@ class RecordQueue():
  
         seconds = durance.days * 3600 * 24 + durance.seconds
         if seconds > (60*60*3):
-            seconds = 60*60*3 
-            self._config.logError("More than 3 hours will jam the disc!")   
+            self._config.logError("Large recording > 3 hours!")   
         if seconds < 0:
             self._config.logError("Recording in the past...")
         else:
@@ -111,8 +110,8 @@ class RecordQueue():
 
     def _generateJobID(self,recList):
         jobId =1
-        for epgInfo in recList:
-            idString = epgInfo.getJobID()
+        for recInfo in recList:
+            idString = recInfo.getEPGInfo().getJobID()
             if len(idString) > 0:
                 number= int(idString)
                 if number>=jobId:
@@ -127,7 +126,7 @@ class RecordQueue():
     #They may not record, since that slot is already taken
     #@param: daytoDay list of epgInfo  
     def markRecordingSlots(self,dayToDayList):
-        recList=self.getEpgList()
+        recList=self.getRecList()
         for dailyItems in dayToDayList:
             for epgInfo in dailyItems:
                 self._updateRecordingInfos(epgInfo, recList)
@@ -135,10 +134,11 @@ class RecordQueue():
     #syncs the recoding data of the reclist with the epgInfo
     def _updateRecordingInfos(self,epgInfo,recList):
         for recordInfo in recList:
-            if epgInfo.isAlike(recordInfo):
-                epgInfo.setJobID(recordInfo.getJobID()) 
+            recEPGInfo=recordInfo.getEPGInfo()
+            if epgInfo.isAlike(recEPGInfo):
+                epgInfo.setJobID(recEPGInfo.getJobID()) 
                 return
-            if epgInfo.overlapsWith(recordInfo):
+            if epgInfo.overlapsWith(recEPGInfo):
                 epgInfo.markBlocked(True)
                 epgInfo.setJobID('')
                 return
@@ -150,13 +150,14 @@ class RecordQueue():
     e.g Make sure that a moved recording gets the right time 
     '''
     def synchronizeEntries(self,infoArray):
-        recList=self.getEpgList()
+        recList=self.getRecList()
         syncedRecList=[]
         for dayToDayList in infoArray:
             for dayList in dayToDayList:
                 for epgInfo in dayList:
+                    #TODO: the right epg data- the rec contains the margins!
                     if self.__makeConsistent(epgInfo, recList):
-                        syncedRecList.append(epgInfo)
+                        syncedRecList.append(RecordingInfo(epgInfo))
 
         if len(recList) != len(syncedRecList):
             self._config.logError("Recordings lost on sync!")
@@ -167,14 +168,15 @@ class RecordQueue():
   
     def __makeConsistent(self,epgInfo,recList):
         for recordInfo in recList:
-            if epgInfo.isAlike(recordInfo):
-                epgInfo.setJobID(recordInfo.getJobID()) 
+            recEPGInfo=recordInfo.getEPGInfo()
+            if epgInfo.isAlike(recEPGInfo):
+                epgInfo.setJobID(recEPGInfo.getJobID()) 
                 return True #handled
             
-            if epgInfo.isTimeShiftedWith(recordInfo):
+            if epgInfo.isTimeShiftedWith(recEPGInfo):
                 #rec info changed...replace it
                 self._config.logInfo("Rec entry changed to:"+epgInfo.getString())
-                epgInfo.setJobID(recordInfo.getJobID())
+                epgInfo.setJobID(recEPGInfo.getJobID())
                 return True #handled
         return False   
                 
@@ -192,21 +194,22 @@ class RecordQueue():
     #interface for the recorder daemon...reads the rec queue altered by the web service
     def _readRecordQueue(self):
         reader = EpgReader(self._channelList)
-        return reader.readCachedXMLFile(self._config.getRecQueuePath())
+        epgReaderPlug = RecReaderPlugin()
+        return reader.readCachedXMLFile(epgReaderPlug,self._config.getRecQueuePath())
 
     #TODO:? generate a "FAKE" entry if the next is more than 24 h away.
     def getNextRecordingEntry(self,index=0):
-        recList = self.getEpgList()
+        recList = self.getRecList()
         if len(recList)<= index:
             return None;
  
-        head = RecordingInfo(recList[index])
+        head = recList[index]
         #if exec time > 24 hrs return a maintenance entry
         if self.isMaintenanceNeeded(head):
             return self.createMaintenanceRecord()
         
         if len(recList)>index+1:
-            successor = RecordingInfo(recList[index+1])
+            successor = recList[index+1]
             self._connect(head, successor)
         
         self._calculateExecutionTime(head)
@@ -227,13 +230,24 @@ class RecordQueue():
         maint.setDurance(60*5)
         return maint
 
-    
+#ACHTUNG! some needs the epgList, some the reclist.
+#Note - internal representaiton should be a REC List, not an EPGList.This way
+#we can store individual recording margins...     
     def getEpgList(self):
         recList = self._readRecordQueue()
         #remove old entries
-        recList[:]=[epgInfo for epgInfo in recList if epgInfo.isActual()]
+        now = datetime.today();#speed up
+        recList[:]=[recInfo.getEPGInfo() for recInfo in recList if recInfo.getEPGInfo().isActual(now)]
         return sorted(recList, key=lambda epgInfo: epgInfo.getStartTime())
     
+    #this is REC list with recording infos!
+    def getRecList(self):
+        recList = self._readRecordQueue()
+        now = datetime.today();#speed up
+        recList[:]=[recInfo for recInfo in recList if recInfo.getEPGInfo().isActual(now)]
+        return sorted(recList, key=lambda recInfo: recInfo.getEPGInfo().getStartTime())
+        
+        
 
     def _dispatchMessage(self,aString):
         ml = MessageListener()
@@ -246,6 +260,14 @@ class RecordQueue():
         if headRecInfo.isPredecessorOf(newRecInfo):
             newRecInfo.setPredecessor(headRecInfo)
             headRecInfo.setSuccessor(newRecInfo)
+
+class RecReaderPlugin(EpgReaderPlugin):
+    def __init__(self):
+        EpgReaderPlugin.__init__(self,None,False)
+    
+    def createEpgObject(self):
+        return RecordingInfo(None)     
+
 
 class RecordingInfo():
     '''
@@ -267,8 +289,11 @@ class RecordingInfo():
         self._successor = None
         self._epgInfo = epgInfo
         self._duranceInSeconds=0;
+        self.marginStart=self.REC_MARGIN;
+        self.marginEnd=self.REC_MARGIN;
     '''
     Time to start the recording (usually with a margin)
+    Created when called by the daemon
     '''
     def getExecutionTime(self):
         return self._execTime
@@ -305,7 +330,7 @@ class RecordingInfo():
         
         myEnd = self._epgInfo.getEndTime()
         delta = abs(oStart-myEnd)
-        shouldBeAdjacent = delta <= 2*self.REC_MARGIN
+        shouldBeAdjacent = delta <= (self.marginStart+self.marginEnd)
         return shouldBeAdjacent
 
     def isSuccessorOf(self,otherRecInfo):
@@ -318,7 +343,7 @@ class RecordingInfo():
         
         oEnd = otherEPG.getEndTime()
         delta = abs(oEnd-myStart)
-        shouldBeAdjacent = delta <= 2*self.REC_MARGIN
+        shouldBeAdjacent = delta <= (self.marginStart+self.marginEnd)
         return shouldBeAdjacent
     
     #removes this from the tree
@@ -379,3 +404,38 @@ class RecordingInfo():
     def getString(self):
         return self._epgInfo.getString()    
 
+    #XML persistency 
+    def storeAsXMLElement(self,builder,rootElement):
+        ctSubElement = self.getEPGInfo().storeAsXMLElement(builder,rootElement)
+        ctSubElement.attrib["marginStart"]=self.getMarginAsString(self.marginStart)
+        ctSubElement.attrib["marginEnd"]= self.getMarginAsString(self.marginEnd)
+        return ctSubElement;
+
+    def createFromXMLElement(self,builder,program,isUTC):
+        anEPG = EpgProgramInfo()
+        self._epgInfo = anEPG.createFromXMLElement(builder,program,isUTC)
+        mStart= program.get('marginStart')
+        mStop= program.get('marginEnd')
+        if mStart:
+            self.marginStart=timedelta(seconds=int(mStart))
+        if mStop:            
+            self.marginEnd=timedelta(seconds=int(mStop))
+        
+        return self;
+    
+    def getMarginInSeconds(self,margin):
+        return int(margin.total_seconds())
+    
+    def getMarginAsString(self,margin):
+        return str(self.getMarginInSeconds(margin))
+
+    def setMarginStart(self,seconds):
+        self.marginStart=timedelta(seconds=int(seconds))
+
+    def setMarginStop(self,seconds):
+        self.marginEnd=timedelta(seconds=int(seconds))
+        
+
+    def isConsistent(self):
+        return True
+    

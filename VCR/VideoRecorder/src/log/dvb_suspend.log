@@ -328,3 +328,279 @@ Rec done status:Version: 5.10  	 FE_CAN { DVB-C (A) + DVB-T + DVB-T2 }
 2014-07-05 00:35:10,059 JOB 8 is done
 2014-07-05 00:35:10,339 EPG is up to date
 2014-07-05 00:35:10,340 Observing recorder queue for 7:14:39. Use 'sleepModeOn' for VCR mode
+2014-08-02 23:58:30,238 Starting daemon..
+2014-08-02 23:58:43,878 Setup channel infos
+2014-08-02 23:58:45,720 *-Gap: [COMEDY CENTRAL] n.a. (20:05 03.Aug > 20:13 03.Aug)->[COMEDY CENTRAL] n.a. (20:15 03.Aug > 20:40 03.Aug)
+2014-08-02 23:58:46,233 *-Gap: [3sat HD] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat HD] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-02 23:58:46,663 *-Gap: [MDR Sachsen HD] MDR um 4 (16:30 05.Aug > 17:00 05.Aug)->[MDR Sachsen HD] MDR SACHSENSPIEGEL (19:00 05.Aug > 19:30 05.Aug)
+2014-08-02 23:58:46,968 *-Gap: [3sat] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-02 23:58:46,989 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:17 03.Aug > 05:31 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:11 03.Aug > 07:09 03.Aug)
+2014-08-02 23:58:47,324 Last EPG update 29 day(s) ago - Updating now..
+2014-08-02 23:58:50,937 Setup channel infos
+2014-08-02 23:58:52,759 *-Gap: [COMEDY CENTRAL] n.a. (20:05 03.Aug > 20:13 03.Aug)->[COMEDY CENTRAL] n.a. (20:15 03.Aug > 20:40 03.Aug)
+2014-08-02 23:58:53,241 *-Gap: [3sat HD] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat HD] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-02 23:58:53,693 *-Gap: [MDR Sachsen HD] MDR um 4 (16:30 05.Aug > 17:00 05.Aug)->[MDR Sachsen HD] MDR SACHSENSPIEGEL (19:00 05.Aug > 19:30 05.Aug)
+2014-08-02 23:58:54,003 *-Gap: [3sat] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-02 23:58:54,025 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:17 03.Aug > 05:31 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:11 03.Aug > 07:09 03.Aug)
+2014-08-02 23:58:58,315 Tuned to channel SAT.1
+2014-08-02 23:59:29,321 Block read:SAT.1 size:153832
+2014-08-02 23:59:31,475 Tuned to channel COMEDY CENTRAL
+2014-08-02 23:59:51,881 Block read:COMEDY CENTRAL size:561261
+2014-08-02 23:59:54,049 Tuned to channel rbb Berlin
+2014-08-03 00:02:01,409 Block read:rbb Berlin size:1519742
+2014-08-03 00:02:03,597 Tuned to channel Kabel Digital Info
+2014-08-03 00:02:23,659 Block read:Kabel Digital Info size:304102
+2014-08-03 00:02:25,821 Tuned to channel arte HD
+2014-08-03 00:03:20,258 Block read:arte HD size:320114
+2014-08-03 00:03:22,436 Tuned to channel RTL NITRO
+2014-08-03 00:03:44,390 Block read:RTL NITRO size:722843
+2014-08-03 00:03:46,562 Tuned to channel N24
+2014-08-03 00:04:07,274 Block read:N24 size:781003
+2014-08-03 00:04:09,443 Tuned to channel Disney Channel
+2014-08-03 00:04:29,692 Block read:Disney Channel size:401042
+2014-08-03 00:04:31,857 Tuned to channel Das Erste HD
+2014-08-03 00:04:52,091 Block read:Das Erste HD size:499516
+2014-08-03 00:04:54,258 Tuned to channel ZDF HD
+2014-08-03 00:05:23,801 Block read:ZDF HD size:469220
+2014-08-03 00:05:25,966 Tuned to channel Bayerisches Fernsehen Süd HD
+2014-08-03 00:05:46,435 Block read:Bayerisches Fernsehen Süd HD size:818855
+2014-08-03 00:05:48,609 Tuned to channel SUPER RTL
+2014-08-03 00:06:09,316 Block read:SUPER RTL size:696312
+2014-08-03 00:06:11,488 Tuned to channel 3sat HD
+2014-08-03 00:06:38,549 Block read:3sat HD size:229398
+2014-08-03 00:06:45,573 Updating channel infos
+2014-08-03 00:10:56,885 fuck 
+2014-08-03 00:17:35,540 Starting daemon..
+2014-08-03 00:17:42,222 Setup channel infos
+2014-08-03 00:17:43,487 *-Gap: [COMEDY CENTRAL] n.a. (20:05 03.Aug > 20:13 03.Aug)->[COMEDY CENTRAL] n.a. (20:15 03.Aug > 20:40 03.Aug)
+2014-08-03 00:17:44,019 *-Gap: [3sat HD] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat HD] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-03 00:17:44,490 *-Gap: [MDR Sachsen HD] MDR um 4 (16:30 05.Aug > 17:00 05.Aug)->[MDR Sachsen HD] MDR SACHSENSPIEGEL (19:00 05.Aug > 19:30 05.Aug)
+2014-08-03 00:17:44,803 *-Gap: [3sat] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-03 00:17:44,827 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:17 03.Aug > 05:31 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:11 03.Aug > 07:09 03.Aug)
+2014-08-03 00:17:45,104 Last EPG update 29 day(s) ago - Updating now..
+2014-08-03 00:17:52,368 Setup channel infos
+2014-08-03 00:17:53,686 *-Gap: [COMEDY CENTRAL] n.a. (20:05 03.Aug > 20:13 03.Aug)->[COMEDY CENTRAL] n.a. (20:15 03.Aug > 20:40 03.Aug)
+2014-08-03 00:17:54,212 *-Gap: [3sat HD] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat HD] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-03 00:17:54,679 *-Gap: [MDR Sachsen HD] MDR um 4 (16:30 05.Aug > 17:00 05.Aug)->[MDR Sachsen HD] MDR SACHSENSPIEGEL (19:00 05.Aug > 19:30 05.Aug)
+2014-08-03 00:17:54,996 *-Gap: [3sat] Das Beste der European Outdoor Film Tour (3/3) (06:00 03.Aug > 06:40 03.Aug)->[3sat] Tele-Akademie (06:45 03.Aug > 07:30 03.Aug)
+2014-08-03 00:17:55,021 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:17 03.Aug > 05:31 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:11 03.Aug > 07:09 03.Aug)
+2014-08-03 00:17:59,535 Tuned to channel SAT.1
+2014-08-03 00:18:30,497 Block read:SAT.1 size:155200
+2014-08-03 00:18:32,655 Tuned to channel COMEDY CENTRAL
+2014-08-03 00:18:52,874 Block read:COMEDY CENTRAL size:561816
+2014-08-03 00:18:55,038 Tuned to channel rbb Berlin
+2014-08-03 00:19:26,045 Block read:rbb Berlin size:1513172
+2014-08-03 00:19:28,239 Tuned to channel Kabel Digital Info
+2014-08-03 00:19:48,263 Block read:Kabel Digital Info size:303973
+2014-08-03 00:19:50,420 Tuned to channel arte HD
+2014-08-03 00:20:55,031 Block read:arte HD size:321846
+2014-08-03 00:20:57,191 Tuned to channel RTL NITRO
+2014-08-03 00:21:17,356 Block read:RTL NITRO size:728652
+2014-08-03 00:21:19,426 Tuned to channel N24
+2014-08-03 00:21:39,981 Block read:N24 size:781238
+2014-08-03 00:21:42,154 Tuned to channel Disney Channel
+2014-08-03 00:22:07,706 Block read:Disney Channel size:399598
+2014-08-03 00:22:09,764 Tuned to channel Das Erste HD
+2014-08-03 00:22:29,857 Block read:Das Erste HD size:499259
+2014-08-03 00:22:31,924 Tuned to channel ZDF HD
+2014-08-03 00:22:51,946 Block read:ZDF HD size:482846
+2014-08-03 00:22:54,011 Tuned to channel Bayerisches Fernsehen Süd HD
+2014-08-03 00:23:14,432 Block read:Bayerisches Fernsehen Süd HD size:816186
+2014-08-03 00:23:16,605 Tuned to channel SUPER RTL
+2014-08-03 00:23:36,917 Block read:SUPER RTL size:695587
+2014-08-03 00:23:39,086 Tuned to channel 3sat HD
+2014-08-03 00:23:59,226 Block read:3sat HD size:218074
+2014-08-03 00:26:10,389 Updating channel infos
+2014-08-03 00:26:10,927 *Merge: slot missing:[sixx] Der Hund oder ich! (00:52 03.Aug > 01:33 03.Aug) -> [sixx] Robin Hood & ich (03:06 03.Aug > 04:39 03.Aug)
+2014-08-03 00:26:10,929 *-Gap: [sixx] Der Hund oder ich! (00:52 03.Aug > 01:33 03.Aug)->[sixx] Robin Hood & ich (03:06 03.Aug > 04:39 03.Aug)
+2014-08-03 00:26:11,396 *Merge: slot missing:[ZDF HD] heute (00:45 03.Aug > 00:50 03.Aug) -> [ZDF HD] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:26:11,400 *-Gap: [ZDF HD] heute (00:45 03.Aug > 00:50 03.Aug)->[ZDF HD] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:26:11,713 *Merge: slot missing:[ZDF] heute (00:45 03.Aug > 00:50 03.Aug) -> [ZDF] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:26:11,717 *-Gap: [ZDF] heute (00:45 03.Aug > 00:50 03.Aug)->[ZDF] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:26:11,898 *Merge: slot missing:[Das Erste] Tagesschau (00:35 03.Aug > 00:40 03.Aug) -> [Das Erste] Tagesschau (02:13 03.Aug > 02:15 03.Aug)
+2014-08-03 00:26:11,899 *Merge + old: [Das Erste] Donna Leon - Venezianische Scharade (00:40 03.Aug > 02:13 03.Aug)
+2014-08-03 00:26:11,903 *-Gap: [Das Erste] Tagesschau (00:35 03.Aug > 00:40 03.Aug)->[Das Erste] Tagesschau (02:13 03.Aug > 02:15 03.Aug)
+2014-08-03 00:26:11,979 *Merge: slot missing:[zdf.kultur] Rock'n'Heim 2013: Nine Inch Nails (00:40 03.Aug > 01:35 03.Aug) -> [zdf.kultur] Rock'n'Heim 2013: Nine Inch Nails (02:35 03.Aug > 03:30 03.Aug)
+2014-08-03 00:26:11,981 *Merge + old: [zdf.kultur] Rock'n'Heim 2013: Volbeat (01:35 03.Aug > 02:35 03.Aug)
+2014-08-03 00:26:11,983 *-Gap: [zdf.kultur] Rock'n'Heim 2013: Nine Inch Nails (00:40 03.Aug > 01:35 03.Aug)->[zdf.kultur] Rock'n'Heim 2013: Nine Inch Nails (02:35 03.Aug > 03:30 03.Aug)
+2014-08-03 00:26:12,210 *Merge: slot missing:[ProSieben] Rogue - Im falschen Revier (02:05 03.Aug > 03:35 03.Aug) -> [ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug)
+2014-08-03 00:26:12,211 *Merge: slot missing:[ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug) -> [ProSieben] Scrubs - Die Anfänger (05:59 03.Aug > 06:18 03.Aug)
+2014-08-03 00:26:12,214 *-Gap: [ProSieben] Rogue - Im falschen Revier (02:05 03.Aug > 03:35 03.Aug)->[ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug)
+2014-08-03 00:26:12,215 *-Gap: [ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug)->[ProSieben] Scrubs - Die Anfänger (05:59 03.Aug > 06:18 03.Aug)
+2014-08-03 00:26:12,369 *Merge: slot missing:[ProSieben MAXX] Blood+ (00:40 03.Aug > 01:02 03.Aug) -> [ProSieben MAXX] Star Wars: The Clone Wars (02:07 03.Aug > 02:28 03.Aug)
+2014-08-03 00:26:12,370 *Merge + old: [ProSieben MAXX] Wolf's Rain (01:07 03.Aug > 01:29 03.Aug)
+2014-08-03 00:26:12,371 *Merge + old: [ProSieben MAXX] Baki (01:29 03.Aug > 01:51 03.Aug)
+2014-08-03 00:26:12,375 *-Gap: [ProSieben MAXX] Blood+ (00:40 03.Aug > 01:02 03.Aug)->[ProSieben MAXX] Star Wars: The Clone Wars (02:07 03.Aug > 02:28 03.Aug)
+2014-08-03 00:26:12,607 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 03.Aug > 20:13 03.Aug)>>[COMEDY CENTRAL] n.a. (20:10 03.Aug > 20:40 03.Aug)
+2014-08-03 00:26:12,609 Altered: [COMEDY CENTRAL] n.a. (20:13 03.Aug > 20:40 03.Aug)
+2014-08-03 00:26:12,620 !Overlaps: [COMEDY CENTRAL] n.a. (20:05 04.Aug > 20:13 04.Aug)>>[COMEDY CENTRAL] n.a. (20:10 04.Aug > 20:40 04.Aug)
+2014-08-03 00:26:12,621 Altered: [COMEDY CENTRAL] n.a. (20:13 04.Aug > 20:40 04.Aug)
+2014-08-03 00:26:12,649 *-Gap: [COMEDY CENTRAL] n.a. (20:05 05.Aug > 20:13 05.Aug)->[COMEDY CENTRAL] n.a. (20:15 05.Aug > 20:40 05.Aug)
+2014-08-03 00:26:13,123 *Merge: slot missing:[BR-alpha] Ping Pong - Die Familienreportage (10:00 06.Aug > 10:15 06.Aug) -> [BR-alpha] Planet Wissen (11:00 06.Aug > 12:00 06.Aug)
+2014-08-03 00:26:13,125 *Merge + old: [BR-alpha] alpha-Österreich: Wochenendväter, Teilzeitmütter, Halbgeschwister (10:15 06.Aug > 11:00 06.Aug)
+2014-08-03 00:26:13,129 *-Gap: [BR-alpha] Ping Pong - Die Familienreportage (10:00 06.Aug > 10:15 06.Aug)->[BR-alpha] Planet Wissen (11:00 06.Aug > 12:00 06.Aug)
+2014-08-03 00:26:13,210 *Merge: slot missing:[KiKA] logo! spezial - Die Wettertiere schlagen zurück (06:00 03.Aug > 06:10 03.Aug) -> [KiKA] CHI RHO - Das Geheimnis (08:10 03.Aug > 08:35 03.Aug)
+2014-08-03 00:26:13,211 *Merge + old: [KiKA] Fleckgeflutscht! - Abenteuer im Abflussland (06:10 03.Aug > 06:30 03.Aug)
+2014-08-03 00:26:13,212 *Merge + old: [KiKA] Pet Alien - EinFall aus dem All (06:30 03.Aug > 07:15 03.Aug)
+2014-08-03 00:26:13,213 *Merge + old: [KiKA] Pat & Stan (07:15 03.Aug > 07:30 03.Aug)
+2014-08-03 00:26:13,214 *Merge + old: [KiKA] Cosmic Quantum Ray (07:30 03.Aug > 08:10 03.Aug)
+2014-08-03 00:26:13,217 *-Gap: [KiKA] logo! spezial - Die Wettertiere schlagen zurück (06:00 03.Aug > 06:10 03.Aug)->[KiKA] CHI RHO - Das Geheimnis (08:10 03.Aug > 08:35 03.Aug)
+2014-08-03 00:26:13,278 *Merge: slot missing:[N24] N24 Nachrichten (07:59 03.Aug > 08:04 03.Aug) -> [N24] N24 Nachrichten (08:59 03.Aug > 09:11 03.Aug)
+2014-08-03 00:26:13,280 *Merge: slot missing:[N24] N24 Nachrichten (14:59 03.Aug > 15:11 03.Aug) -> [N24] Stadt der Ameisen (15:12 03.Aug > 16:05 03.Aug)
+2014-08-03 00:26:13,281 *Merge: slot missing:[N24] N24 Nachrichten (18:59 03.Aug > 19:02 03.Aug) -> [N24] sonnenklar.TV (19:04 03.Aug > 19:59 03.Aug)
+2014-08-03 00:26:13,283 *-Gap: [N24] N24 Nachrichten (07:59 03.Aug > 08:04 03.Aug)->[N24] N24 Nachrichten (08:59 03.Aug > 09:11 03.Aug)
+2014-08-03 00:26:13,284 *-Gap: [N24] N24 Nachrichten (14:59 03.Aug > 15:11 03.Aug)->[N24] Stadt der Ameisen (15:12 03.Aug > 16:05 03.Aug)
+2014-08-03 00:26:13,286 *-Gap: [N24] N24 Nachrichten (18:59 03.Aug > 19:02 03.Aug)->[N24] sonnenklar.TV (19:04 03.Aug > 19:59 03.Aug)
+2014-08-03 00:26:13,288 *-Gap: [N24] N24 Nachrichten (11:59 04.Aug > 12:15 04.Aug)->[N24] N24 Nachrichten (12:29 04.Aug > 12:45 04.Aug)
+2014-08-03 00:26:13,289 *-Gap: [N24] Aufbruch ins All - Mission Mars (14:05 04.Aug > 14:59 04.Aug)->[N24] N24 Immobilientrend (15:11 04.Aug > 15:14 04.Aug)
+2014-08-03 00:26:13,291 *-Gap: [N24] N24 Nachrichten (05:59 05.Aug > 06:18 05.Aug)->[N24] N24 Nachrichten (06:20 05.Aug > 06:40 05.Aug)
+2014-08-03 00:26:13,550 *Merge: slot missing:[arte HD] Die Geheimnisse der Milchstraße (03:25 03.Aug > 04:20 03.Aug) -> [arte HD] KurzSchluss - Das Magazin (05:05 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:13,551 *Merge + old: [arte HD] Zwischen Himmel und Erde (04:20 03.Aug > 05:05 03.Aug)
+2014-08-03 00:26:13,554 *-Gap: [arte HD] Die Geheimnisse der Milchstraße (03:25 03.Aug > 04:20 03.Aug)->[arte HD] KurzSchluss - Das Magazin (05:05 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,017 *Merge: slot missing:[Bayerisches Fernsehen Süd HD] Mit den Augen der Seele (02:00 03.Aug > 02:05 03.Aug) -> [Bayerisches Fernsehen Süd HD] PULS (05:30 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,018 *Merge + old: [Bayerisches Fernsehen Süd HD] Waschgang (02:05 03.Aug > 02:35 03.Aug)
+2014-08-03 00:26:14,019 *Merge + old: [Bayerisches Fernsehen Süd HD] Waschgang (02:35 03.Aug > 03:05 03.Aug)
+2014-08-03 00:26:14,020 *Merge + old: [Bayerisches Fernsehen Süd HD] Startrampe (03:05 03.Aug > 03:35 03.Aug)
+2014-08-03 00:26:14,021 *Merge + old: [Bayerisches Fernsehen Süd HD] Space Night (03:35 03.Aug > 04:35 03.Aug)
+2014-08-03 00:26:14,022 *Merge + old: [Bayerisches Fernsehen Süd HD] Space Night (04:35 03.Aug > 05:30 03.Aug)
+2014-08-03 00:26:14,025 *-Gap: [Bayerisches Fernsehen Süd HD] Mit den Augen der Seele (02:00 03.Aug > 02:05 03.Aug)->[Bayerisches Fernsehen Süd HD] PULS (05:30 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,279 *Merge: slot missing:[MDR Thüringen] Junge Frau von 1914 (2/2) (00:25 03.Aug > 01:40 03.Aug) -> [MDR Thüringen] MDR SACHSENSPIEGEL kompakt (02:00 03.Aug > 02:02 03.Aug)
+2014-08-03 00:26:14,280 *Merge + old: [MDR Thüringen] Brisant (01:40 03.Aug > 02:00 03.Aug)
+2014-08-03 00:26:14,283 *-Gap: [MDR Thüringen] Junge Frau von 1914 (2/2) (00:25 03.Aug > 01:40 03.Aug)->[MDR Thüringen] MDR SACHSENSPIEGEL kompakt (02:00 03.Aug > 02:02 03.Aug)
+2014-08-03 00:26:14,509 *Merge: slot missing:[MDR Sachsen HD] Junge Frau von 1914 (2/2) (00:25 03.Aug > 01:40 03.Aug) -> [MDR Sachsen HD] MDR SACHSENSPIEGEL kompakt (02:00 03.Aug > 02:02 03.Aug)
+2014-08-03 00:26:14,510 *Merge + old: [MDR Sachsen HD] Brisant (01:40 03.Aug > 02:00 03.Aug)
+2014-08-03 00:26:14,512 *Merge: slot missing:[MDR Sachsen HD] MDR aktuell Eins30 (10:58 03.Aug > 11:00 03.Aug) -> [MDR Sachsen HD] Sport im Osten extra (14:00 03.Aug > 16:00 03.Aug)
+2014-08-03 00:26:14,514 *Merge + old: [MDR Sachsen HD] Louis, das Schlitzohr (11:00 03.Aug > 12:45 03.Aug)
+2014-08-03 00:26:14,515 *Merge + old: [MDR Sachsen HD] Brisant (12:45 03.Aug > 13:08 03.Aug)
+2014-08-03 00:26:14,515 *Merge + old: [MDR Sachsen HD] MDR aktuell Eins30 (13:08 03.Aug > 13:10 03.Aug)
+2014-08-03 00:26:14,516 *Merge + old: [MDR Sachsen HD] Die Stein (7/26) (13:10 03.Aug > 14:00 03.Aug)
+2014-08-03 00:26:14,519 *-Gap: [MDR Sachsen HD] Junge Frau von 1914 (2/2) (00:25 03.Aug > 01:40 03.Aug)->[MDR Sachsen HD] MDR SACHSENSPIEGEL kompakt (02:00 03.Aug > 02:02 03.Aug)
+2014-08-03 00:26:14,521 *-Gap: [MDR Sachsen HD] MDR aktuell Eins30 (10:58 03.Aug > 11:00 03.Aug)->[MDR Sachsen HD] Sport im Osten extra (14:00 03.Aug > 16:00 03.Aug)
+2014-08-03 00:26:14,601 *Merge: slot missing:[PHOENIX] Wilde Inseln (1/2) (03:00 03.Aug > 03:45 03.Aug) -> [PHOENIX] Die Hunde-Kosmonauten von Baikonur (05:15 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,602 *Merge + old: [PHOENIX] Wilde Inseln (2/2) (03:45 03.Aug > 04:30 03.Aug)
+2014-08-03 00:26:14,603 *Merge + old: [PHOENIX] Jet TU-144 (04:30 03.Aug > 05:15 03.Aug)
+2014-08-03 00:26:14,606 *-Gap: [PHOENIX] Wilde Inseln (1/2) (03:00 03.Aug > 03:45 03.Aug)->[PHOENIX] Die Hunde-Kosmonauten von Baikonur (05:15 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,697 *Merge: slot missing:[Bayerisches FS Süd] Mit den Augen der Seele (02:00 03.Aug > 02:05 03.Aug) -> [Bayerisches FS Süd] PULS (05:30 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:14,698 *Merge + old: [Bayerisches FS Süd] Waschgang (02:05 03.Aug > 02:35 03.Aug)
+2014-08-03 00:26:14,699 *Merge + old: [Bayerisches FS Süd] Waschgang (02:35 03.Aug > 03:05 03.Aug)
+2014-08-03 00:26:14,700 *Merge + old: [Bayerisches FS Süd] Startrampe (03:05 03.Aug > 03:35 03.Aug)
+2014-08-03 00:26:14,701 *Merge + old: [Bayerisches FS Süd] Space Night (03:35 03.Aug > 04:35 03.Aug)
+2014-08-03 00:26:14,702 *Merge + old: [Bayerisches FS Süd] Space Night (04:35 03.Aug > 05:30 03.Aug)
+2014-08-03 00:26:14,704 *-Gap: [Bayerisches FS Süd] Mit den Augen der Seele (02:00 03.Aug > 02:05 03.Aug)->[Bayerisches FS Süd] PULS (05:30 03.Aug > 06:00 03.Aug)
+2014-08-03 00:26:15,057 *Merge: slot missing:[kabel eins] Toto & Harry - Die Zwei vom Polizeirevier (04:53 03.Aug > 05:28 03.Aug) -> [kabel eins] Charmed - Zauberhafte Hexen (06:05 03.Aug > 07:03 03.Aug)
+2014-08-03 00:26:15,061 *-Gap: [kabel eins] Toto & Harry - Die Zwei vom Polizeirevier (04:53 03.Aug > 05:28 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:05 03.Aug > 07:03 03.Aug)
+2014-08-03 00:26:15,063 *Merge: slot missing:[kabel eins] Steven liebt Kino - Spezial: Jersey Boys (05:31 04.Aug > 05:58 04.Aug) -> [kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:11 04.Aug > 08:11 04.Aug)
+2014-08-03 00:26:15,066 *-Gap: [kabel eins] Steven liebt Kino - Spezial: Jersey Boys (05:31 04.Aug > 05:58 04.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:11 04.Aug > 08:11 04.Aug)
+2014-08-03 00:26:15,068 *Merge: slot missing:[kabel eins] Die Super-Heimwerker (05:21 05.Aug > 05:54 05.Aug) -> [kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:06 05.Aug > 08:09 05.Aug)
+2014-08-03 00:26:15,070 *-Gap: [kabel eins] Die Super-Heimwerker (05:21 05.Aug > 05:54 05.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:06 05.Aug > 08:09 05.Aug)
+2014-08-03 00:26:15,417 *Merge: slot missing:[SAT.1 Gold] K 11 - Kommissare im Einsatz (05:41 03.Aug > 06:27 03.Aug) -> [SAT.1 Gold] Lenßen & Partner (06:57 03.Aug > 07:19 03.Aug)
+2014-08-03 00:26:15,418 *Merge + old: [SAT.1 Gold] GOLFTOTAL - Das Magazin (06:27 03.Aug > 06:57 03.Aug)
+2014-08-03 00:26:15,421 *-Gap: [SAT.1 Gold] K 11 - Kommissare im Einsatz (05:41 03.Aug > 06:27 03.Aug)->[SAT.1 Gold] Lenßen & Partner (06:57 03.Aug > 07:19 03.Aug)
+2014-08-03 00:26:23,873 EPG is up to date
+2014-08-03 00:26:23,874 Observing recorder queue for 1 day, 0:00:10. Use 'sleepModeOn' for VCR mode
+2014-08-03 00:38:08,963 Starting daemon..
+2014-08-03 00:38:16,614 Setup channel infos
+2014-08-03 00:38:17,151 *-Gap: [sixx] Der Hund oder ich! (00:52 03.Aug > 01:33 03.Aug)->[sixx] Robin Hood & ich (03:06 03.Aug > 04:39 03.Aug)
+2014-08-03 00:38:17,496 *-Gap: [ZDF HD] heute (00:45 03.Aug > 00:50 03.Aug)->[ZDF HD] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:38:17,783 *-Gap: [ZDF] heute (00:45 03.Aug > 00:50 03.Aug)->[ZDF] Kopfüber in die Nacht (02:30 03.Aug > 04:20 03.Aug)
+2014-08-03 00:38:18,194 *-Gap: [ProSieben] Rogue - Im falschen Revier (02:05 03.Aug > 03:35 03.Aug)->[ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug)
+2014-08-03 00:38:18,195 *-Gap: [ProSieben] Steven liebt Kino - Spezial: Planet der Affen - Revolution (05:21 03.Aug > 05:34 03.Aug)->[ProSieben] Scrubs - Die Anfänger (05:59 03.Aug > 06:18 03.Aug)
+2014-08-03 00:38:18,489 *-Gap: [COMEDY CENTRAL] n.a. (20:05 05.Aug > 20:13 05.Aug)->[COMEDY CENTRAL] n.a. (20:15 05.Aug > 20:40 05.Aug)
+2014-08-03 00:38:18,993 *-Gap: [N24] N24 Nachrichten (07:59 03.Aug > 08:04 03.Aug)->[N24] N24 Nachrichten (08:59 03.Aug > 09:11 03.Aug)
+2014-08-03 00:38:18,995 *-Gap: [N24] N24 Nachrichten (14:59 03.Aug > 15:11 03.Aug)->[N24] Stadt der Ameisen (15:12 03.Aug > 16:05 03.Aug)
+2014-08-03 00:38:18,996 *-Gap: [N24] N24 Nachrichten (18:59 03.Aug > 19:02 03.Aug)->[N24] sonnenklar.TV (19:04 03.Aug > 19:59 03.Aug)
+2014-08-03 00:38:18,998 *-Gap: [N24] N24 Nachrichten (11:59 04.Aug > 12:15 04.Aug)->[N24] N24 Nachrichten (12:29 04.Aug > 12:45 04.Aug)
+2014-08-03 00:38:18,999 *-Gap: [N24] Aufbruch ins All - Mission Mars (14:05 04.Aug > 14:59 04.Aug)->[N24] N24 Immobilientrend (15:11 04.Aug > 15:14 04.Aug)
+2014-08-03 00:38:19,001 *-Gap: [N24] N24 Nachrichten (05:59 05.Aug > 06:18 05.Aug)->[N24] N24 Nachrichten (06:20 05.Aug > 06:40 05.Aug)
+2014-08-03 00:38:20,337 *-Gap: [ProSieben MAXX] Blood+ (00:40 03.Aug > 01:02 03.Aug)->[ProSieben MAXX] Wolf's Rain (01:07 03.Aug > 01:29 03.Aug)
+2014-08-03 00:38:20,338 *-Gap: [ProSieben MAXX] Baki (01:29 03.Aug > 01:51 03.Aug)->[ProSieben MAXX] Star Wars: The Clone Wars (02:07 03.Aug > 02:28 03.Aug)
+2014-08-03 00:38:20,552 *-Gap: [kabel eins] Toto & Harry - Die Zwei vom Polizeirevier (04:53 03.Aug > 05:28 03.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:05 03.Aug > 07:03 03.Aug)
+2014-08-03 00:38:20,554 *-Gap: [kabel eins] Steven liebt Kino - Spezial: Jersey Boys (05:31 04.Aug > 05:58 04.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:11 04.Aug > 08:11 04.Aug)
+2014-08-03 00:38:20,555 *-Gap: [kabel eins] Die Super-Heimwerker (05:21 05.Aug > 05:54 05.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:06 05.Aug > 08:09 05.Aug)
+2014-08-03 00:38:20,974 EPG is up to date
+2014-08-03 00:38:20,975 Observing recorder queue for 1 day, 0:00:10. Use 'sleepModeOn' for VCR mode
+2014-08-15 12:59:04,688 Starting daemon..
+2014-08-15 12:59:07,590 Setup channel infos
+2014-08-15 12:59:08,680 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 12:59:08,682 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 12:59:08,958 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 12:59:09,635 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 12:59:09,743 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 12:59:09,745 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 12:59:44,207 Last EPG update 12 day(s) ago - Updating now..
+2014-08-15 12:59:44,208 Error running SuspensionDaemon: 32
+Traceback (most recent call last):
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 276, in _startDaemon
+    self._updateEPGData()
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 65, in _updateEPGData
+    self._log("Last EPG update %s day(s) ago - Updating now.."%str(days))
+  File "/home/matze/git/Rembrandt/VCR/VideoRecorder/src/RecorderDaemon.py", line 145, in _log
+    print aString
+IOError: [Errno 32] Broken pipe
+2014-08-15 13:00:56,135 Starting daemon..
+2014-08-15 13:00:59,064 Setup channel infos
+2014-08-15 13:01:00,168 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 13:01:00,171 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 13:01:00,430 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 13:01:01,142 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 13:01:01,272 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 13:01:01,274 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 13:05:00,856 Last EPG update 12 day(s) ago - Updating now..
+2014-08-15 18:05:56,026 Starting daemon..
+2014-08-15 18:05:59,754 Setup channel infos
+2014-08-15 18:06:01,208 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:06:01,211 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:06:01,563 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:06:02,394 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:06:02,531 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:06:02,533 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:06:18,510 Last EPG update 12 day(s) ago - Updating now..
+2014-08-15 18:06:22,701 Setup channel infos
+2014-08-15 18:06:24,175 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:06:24,178 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:06:24,524 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:06:25,426 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:06:25,590 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:06:25,592 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:06:26,625 Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-08-15 18:06:26,626 EPG Update failed: Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-08-15 18:06:53,502 Last EPG update 12 day(s) ago - Updating now..
+2014-08-15 18:06:57,637 Setup channel infos
+2014-08-15 18:06:59,167 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:06:59,170 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:06:59,521 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:07:23,161 Starting daemon..
+2014-08-15 18:07:26,806 Setup channel infos
+2014-08-15 18:07:28,224 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:07:28,227 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:07:28,557 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:07:29,368 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:07:29,521 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:07:29,522 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:07:36,726 Last EPG update -1 day(s) ago - Updating now..
+2014-08-15 18:07:40,819 Setup channel infos
+2014-08-15 18:07:42,232 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:07:42,235 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:07:42,585 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:07:43,451 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:07:43,601 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:07:43,603 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:08:37,277 Starting daemon..
+2014-08-15 18:08:40,984 Setup channel infos
+2014-08-15 18:08:42,396 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:08:42,400 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:08:42,730 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:08:43,569 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:08:43,726 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:08:43,728 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:08:51,430 EPG is up to date
+2014-08-15 18:09:11,615 EPG is up to date
+2014-08-15 18:09:34,718 Starting daemon..
+2014-08-15 18:09:38,410 Setup channel infos
+2014-08-15 18:09:39,855 *-Gap: [COMEDY CENTRAL] n.a. (20:05 15.Aug > 20:13 15.Aug)->[COMEDY CENTRAL] n.a. (20:15 15.Aug > 20:40 15.Aug)
+2014-08-15 18:09:39,858 *-Gap: [COMEDY CENTRAL] n.a. (20:05 16.Aug > 20:13 16.Aug)->[COMEDY CENTRAL] n.a. (20:15 16.Aug > 20:40 16.Aug)
+2014-08-15 18:09:40,200 *-Gap: [KiKA] Jane und der Drache (12:55 19.Aug > 13:35 19.Aug)->[KiKA] Die Pfefferkörner (13:40 19.Aug > 14:08 19.Aug)
+2014-08-15 18:09:41,062 *-Gap: [ProSieben MAXX] EUReKA - Die geheime Stadt (03:45 17.Aug > 04:36 17.Aug)->[ProSieben MAXX] Tierisch Extrem (04:37 17.Aug > 05:25 17.Aug)
+2014-08-15 18:09:41,218 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:20 17.Aug > 05:32 17.Aug)->[kabel eins] Charmed - Zauberhafte Hexen (06:14 17.Aug > 07:12 17.Aug)
+2014-08-15 18:09:41,220 *-Gap: [kabel eins] Der zuckersüße Tod (04:15 18.Aug > 05:58 18.Aug)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:14 18.Aug > 08:15 18.Aug)
+2014-08-15 18:09:45,070 EPG is up to date

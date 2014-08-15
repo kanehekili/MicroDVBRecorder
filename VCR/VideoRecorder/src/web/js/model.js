@@ -51,7 +51,7 @@ function ProgrammCollection(){
 			var anItem=this.items[i];
 			var result = anItem.jsonData.title.search(regEx);
 			if (result >= 0){
-				lastSearchedItemIndex=i;
+				this.lastSearchedItemIndex=i;
 				return anItem;
 			}
 		}
@@ -59,28 +59,28 @@ function ProgrammCollection(){
 	};
 
 	ProgrammCollection.prototype.find = function(searchString){
-		lastSearchedItemIndex=-1;
+		this.lastSearchedItemIndex=-1;
 		return this.internalFind(0,searchString);
 	}
 
 
 	ProgrammCollection.prototype.findNext = function(searchString){
-		if (lastSearchedItemIndex<0)
+		if (this.lastSearchedItemIndex<0)
 			return this.internalFind(0,searchString);
 			
-		return this.internalFind(lastSearchedItemIndex+1,searchString);
+		return this.internalFind(this.lastSearchedItemIndex+1,searchString);
 	};
 
 	ProgrammCollection.prototype.findPrevious = function(searchString){
-		if (lastSearchedItemIndex<0)
+		if (this.lastSearchedItemIndex<0)
 			return this.internalFind(0,searchString);
 			
 		var regEx = new RegExp(searchString,"i");
-		for (i=lastSearchedItemIndex-1; i>-1; i--){ 
+		for (i=this.lastSearchedItemIndex-1; i>-1; i--){ 
 			var anItem=this.items[i];
 			var result = anItem.jsonData.title.search(regEx);
 			if (result >= 0){
-				lastSearchedItemIndex=i;
+				this.lastSearchedItemIndex=i;
 				return anItem;
 			}
 		}
@@ -202,39 +202,6 @@ function ListEntry (index,domObject) {
 		this.domObject.className="channelSelected";
 	};
 
-function SelectionEntry (index,epgInfo,domObject) {
-	this.index = index;
-	this.domObject=domObject;
-	domObject.model=this;
-	this.jsonData = epgInfo;
-}
-    
-	SelectionEntry.prototype.registerEvents= function(){
-		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
-	};
-
-    //context DOM not object
-	SelectionEntry.prototype.handleDbleClicked = function(event) {
-		//class because of a click handle? Make you own handler!
-		var jString=JSON.stringify(this.model.jsonData);
-		executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
-		//refresh the list
-		refreshProgrammList();
-	};
-	
-	SelectionEntry.prototype.updateProgrammInfo = function(jsonData){
-		//happens on program list toggle - update alter the icon..
-		if (jsonData=="None"){
-			showStatus("Toggle Recording failed");
-			return; 
-		}
-		var epgInfo = JSON.parse(jsonData);
-		var selectedNode=this.domObject;
-		var parentNode= selectedNode.parentNode;
-		var recMode = epgInfo.recordMode;
-		if (recMode!=MODE_REC && parentNode!=null)
-			parentNode.removeChild(selectedNode);
-	}
 
 
 /*programm row */
@@ -336,17 +303,20 @@ function ProgramListBuilder(serverData) {
 	removeDOMChildren(programmDOM);
 	programmList=new ProgrammCollection();
 	if (this.jsonResult=="None"){
-		this.showNoData();
+		this.showNoData(programmDOM);
+		rootDOM.appendChild(programmDOM)
+		return false;
 	}
 
 	var daybydayList = JSON.parse(this.jsonResult);
 	if (daybydayList.error != null){
-		this.showNoData();
+		this.showNoData(programmDOM);
 		showStatus("Error -"+daybydayList.args);
 		rootDOM.appendChild(programmDOM)
 		return false;
 	}
 	var index=0;
+	var addHeaderData=false
 	for (dx=0; dx< daybydayList.length; dx++){ 
 		var dayList=daybydayList[dx];
 		var header = dayList.head;
@@ -354,7 +324,7 @@ function ProgramListBuilder(serverData) {
 		this.createProgramHeader(programmDOM,header,dx);
 		for (i=0; i< dailyProgramList.length; i++){ 
 			var epgInfo = dailyProgramList[i];
-			var programm=this.createProgramEntry(programmDOM,epgInfo,index);
+			var programm=this.createProgramEntry(addHeaderData,programmDOM,epgInfo,index);
 			index++;
 			programmList.add(programm);
 		}
@@ -363,12 +333,8 @@ function ProgramListBuilder(serverData) {
 	return true;
 };
 
-	ProgramListBuilder.prototype.showNoData = function(){
-		var row = document.createElement("div");
-		row.className="dayrow"; //should be error row or icon or so
-		row.innerHTML="No Data found";
-		programmDOM.appendChild(row);
-		rootDOM.appendChild(programmDOM);
+	ProgramListBuilder.prototype.showNoData = function(mainDOM){
+		showMessageInProgrammArea("No Data found",mainDOM);
 		return false;
 	}
 	
@@ -387,7 +353,7 @@ function ProgramListBuilder(serverData) {
 		node.appendChild(row)
 	};
 
-	ProgramListBuilder.prototype.createProgramEntry = function(node,epgInfo,rowIndex){
+	ProgramListBuilder.prototype.createProgramEntry = function(showFullData,node,epgInfo,rowIndex){
 		var row = document.createElement("div");
 		row.id="progitem_"+rowIndex;
 		if (rowIndex%2==0){
@@ -414,6 +380,13 @@ function ProgramListBuilder(serverData) {
 		}
 		row.appendChild(icoCol);
 
+		if (showFullData){
+			var infoPlus = document.createElement("div");
+			infoPlus.className="ColumnInfoPlus"
+			infoPlus.innerHTML= "<b>"+epgInfo.channel+"</b> "+epgInfo.date+"<br>&zwnj;";
+			row.appendChild(infoPlus);
+		}
+
 		var timeCol = document.createElement("div");
 		if (epgInfo.epgOK)
 			timeCol.className="ColumnTime";
@@ -434,7 +407,7 @@ function ProgramListBuilder(serverData) {
 	};
 	
 
-//Recording list builder
+// ------------- Recording list builder ---------------------
 var updateRecordList=function(jsonResult){
 	var recordListDOM=document.getElementById("recordlist");
 	removeDOMChildren(recordListDOM);
@@ -457,27 +430,180 @@ var updateRecordList=function(jsonResult){
 		}
 		row.id="infoitem_"+i;
 		var timeCol = document.createElement("div");
-		timeCol.className="InfoTime";
+		timeCol.className="InfoChannel";
 		timeCol.innerHTML=epgInfos[i].timetext;
 		row.appendChild(timeCol);
+		
+		var marginCol= document.createElement("div");
+		marginCol.className="RecMargins";
+		/*data will be set with #updateMargins*/
+		row.appendChild(marginCol);
+		
 		var infoCol= document.createElement("div");
 		infoCol.className="InfoText";
 		infoCol.innerHTML= epgInfos[i].text;
 		row.appendChild(infoCol)
-		var listEntry = new SelectionEntry(i-1,epgInfos[i],row);
+		var recEntry = new SelectionEntry(i-1,epgInfos[i],row);
 		recordListDOM.appendChild(row);
-     	listEntry.registerEvents();
+     	recEntry.registerEvents();
+
+		m1=epgInfos[i].marginStart;
+		m2=epgInfos[i].marginStop;
+		recEntry.updateMargins(m1,m2);
+
+		var domRecStart = document.getElementById("recStart");
+		var domRecEnd = document.getElementById("recEnd");
+     	domRecStart.value="";
+     	domRecEnd.value="";
      	showStatus("Record list loaded");
 	}	
 	//TODO log errors
 };
 
+//Right now the entry is the selection entry of a recording list!!!
+function SelectionEntry (index,epgInfo,domObject) {
+	this.index = index;
+	this.domObject=domObject;
+	domObject.model=this;
+	this.jsonData = epgInfo;
+}
+    
+	SelectionEntry.prototype.registerEvents= function(){
+		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
+		this.domObject.addEventListener("click",this.handleClicked,false);
+	};
+
+    //context DOM not object
+	SelectionEntry.prototype.handleDbleClicked = function(event) {
+		//class because of a click handle? Make you own handler!
+		var jString=JSON.stringify(this.model.jsonData);
+		executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
+		//refresh the list
+		refreshProgrammList();
+	};
+	
+	//context DOM not object
+	SelectionEntry.prototype.handleClicked = function(event) {
+		previousSelection = currentRecListSelection;
+		if (previousSelection != null)
+			previousSelection.removeSelection();
+		currentRecListSelection = this.model;
+		currentRecListSelection.setSelection();
+		//now set the current margins to the two entry fields
+		var domRecStart = document.getElementById("recStart");
+		var domRecEnd = document.getElementById("recEnd");
+		
+		m1=this.model.jsonData.marginStart;
+		m2=this.model.jsonData.marginStop;
+		var startMargin = secondStringToMinutes(m1);
+		var endMargin = secondStringToMinutes(m2);
+		domRecStart.value = startMargin;
+		domRecEnd.value = endMargin;
+
+	};
+	
+	SelectionEntry.prototype.removeSelection = function() {
+		removeClassName(this.domObject,"channelSelected");
+	};
+	
+	SelectionEntry.prototype.setSelection = function(){
+		addClassName(this.domObject,"channelSelected");
+	};
+	
+	//called by server command (MARK_Programm)
+	SelectionEntry.prototype.updateProgrammInfo = function(jsonData){
+		//happens on program list toggle - update alter the icon..
+		if (jsonData=="None"){
+			showStatus("Toggle Recording failed");
+			return; 
+		}
+		var epgInfo = JSON.parse(jsonData);
+		var selectedNode=this.domObject;
+		var parentNode= selectedNode.parentNode;
+		var recMode = epgInfo.recordMode;
+		if (recMode!=MODE_REC && parentNode!=null)
+			parentNode.removeChild(selectedNode);
+	}
+	
+	SelectionEntry.prototype.updateMargins = function (prerunSeconds, postrunSeconds){
+		this.jsonData.marginStart = prerunSeconds;
+		this.jsonData.marginStop = postrunSeconds;
+		
+		var startMargin = secondStringToMinutes(prerunSeconds);
+		var endMargin = secondStringToMinutes(postrunSeconds);
+		
+		var marginDOM = this.domObject.childNodes.item(1);
+		var ico = "\u25ca";
+		marginDOM.innerHTML= startMargin+"<"+ ico + ">"+endMargin;
+	}
+
+
+var handleRecButtonChangeTime=function(event){
+	if (currentRecListSelection == null)
+		return;
+		
+	delta = 5;
+	var domRecStart = document.getElementById("recStart");
+	var domRecEnd = document.getElementById("recEnd");
+	switch (this.id){
+		case "rec1p":
+		  var minutes = parseInt(domRecStart.value);
+		  minutes+=delta;
+		  domRecStart.value=minutes;			
+		break;
+		case "rec1m":
+		    var minutes = parseInt(domRecStart.value);
+			minutes = Math.max(0,minutes-=delta);
+			domRecStart.value=minutes;
+		break;
+		case "rec2p":
+		    var minutes = parseInt(domRecEnd.value);
+			minutes+=delta;			
+			domRecEnd.value=minutes;
+		break;
+		case "rec2m":
+		    var minutes = parseInt(domRecEnd.value);
+			minutes = Math.max(0,minutes-=delta);		
+			domRecEnd.value=minutes;
+		break;
+		
+		default:
+			return;
+	}
+	//update the stuff in the list. when closed save it.
+	//must be seconds /string
+	var secsStart = minuteStringToSeconds(domRecStart.value)
+	var secsEnd = minuteStringToSeconds(domRecEnd.value)
+	currentRecListSelection.updateMargins(secsStart,secsEnd);
+
+
+};	
+//called on close of the rec overlay
+var onOverlayClose=function(event){
+	var recordListDOM=document.getElementById("recordlist");
+	children= recordListDOM.childNodes;
+	var items=[];
+	for (i=0; i< children.length; i++){
+		var recData = children[i].model.jsonData;
+		var dataDict={};
+		dataDict["jobID"] = recData.jobID;
+		dataDict["marginStop"] = recData.marginStop;
+		dataDict["marginStart"] = recData.marginStart;
+		items.push(dataDict);
+	}
+	var jString=JSON.stringify(items);
+	executeServerCommand(new ServerCommand("REC_MARGINS",jString));
+};
+
+//----------- Autoselect section ---------------------
 var updateAutoselectList=function(jsonResult){
 	var recordListDOM=document.getElementById("autoselectlist");
 	removeDOMChildren(recordListDOM);
 	var autoSelectList;
 	if (jsonResult!="None"){
-		autoSelectList = JSON.parse(jsonResult);
+		var autoSelectData = JSON.parse(jsonResult);
+		var weekModes = autoSelectData.weekTypes;
+		var autoSelectList = autoSelectData.elements;
 		if (autoSelectList.error != null){
 			showStatus("Error retrieving data:"+epgInfos.args);
 			return;
@@ -497,27 +623,91 @@ var updateAutoselectList=function(jsonResult){
 		timeCol.className="InfoTime";
 		timeCol.innerHTML=autoSelectList[i].timetext;
 		row.appendChild(timeCol);
+
+		var chanCol= document.createElement("div");
+		chanCol.className="InfoChannel";
+		chanCol.innerHTML= autoSelectList[i].chanID;
+		row.appendChild(chanCol);
+		
+		var chanPeriod= document.createElement("div");
+		chanPeriod.className="InfoPeriod";
+
+		
+		var selector = document.createElement("select");
+		for (k=0; k< weekModes.length; k++){
+		  var opt = document.createElement("option");
+		  opt.text=weekModes[k];    
+		  opt.value=k;
+		  selector.appendChild(opt);
+		}
+		selector.value=autoSelectList[i].weekMode;/*the id*/
+		selector.addEventListener("change",setAutoselectionWeekMode,false);
+		chanPeriod.appendChild(selector);
+		row.appendChild(chanPeriod);
+
 		var infoCol= document.createElement("div");
 		infoCol.className="InfoText";
 		infoCol.innerHTML= autoSelectList[i].text;
-		row.appendChild(infoCol)
+		row.appendChild(infoCol);
+		
 		//var listEntry = new SelectionEntry(i-1,epgInfos[i],row);
 		//TRY a basic approach without model..
 		row.addEventListener("dblclick",handleAutoSelectDbleClicked,false);
 		row.jsonData=autoSelectList[i];
 		recordListDOM.appendChild(row);
-		showStatus("Idle");
 	}	
+	showStatus("Idle");
 };
+
+function setAutoselectionWeekMode(event){
+  var hugo = this.parentNode.parentNode.jsonData;
+  hugo.weekMode = this.value;
+  var jString=JSON.stringify(hugo);
+  executeServerCommand(new ServerCommand("AUTO_WEEKMODE",jString,this));
+}
+
 //Basic autoselect approach
 function handleAutoSelectDbleClicked(event){
 	var jString=JSON.stringify(this.jsonData);
 	executeServerCommand(new ServerCommand("RM_AUTOSELECT",jString,this));
-}
+};
 
 function refreshAutoSelectList(selectedNode){
 		var parentNode= selectedNode.parentNode;
 		//TODO no error handling, nothing...
 		parentNode.removeChild(selectedNode);
 		showStatus("Idle");
+}
+
+//-- search function create a seach list...---
+function createSearchList(jsonResult){
+	var programmDOM=document.getElementById("programmbody");
+	var rootDOM = programmDOM.parentNode
+	//disconnect
+	rootDOM.removeChild(programmDOM)
+	removeDOMChildren(programmDOM);
+	if (jsonResult=="None"){
+		this.showMessageInProgrammArea("Broken search",programmDOM);
+		rootDOM.appendChild(programmDOM)
+		return false;
+	}
+
+	var result = JSON.parse(jsonResult);
+	
+	if (result.error != null){
+		this.showMessageInProgrammArea("Search error",programmDOM);
+		showStatus(result.error);
+		rootDOM.appendChild(programmDOM);
+		return false;
+	}
+	var epgInfos = result.list;
+	//now lets build something	
+	var builder = new ProgramListBuilder(null);
+	for (i=0; i< epgInfos.length; i++){ 
+		builder.createProgramEntry(true,programmDOM,epgInfos[i],i);
+	}
+	
+	//this.showMessageInProgrammArea("Not implemented yet",programmDOM);
+	rootDOM.appendChild(programmDOM)
+	showStatus("Idle "+epgInfos.length);
 }

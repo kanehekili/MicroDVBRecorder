@@ -6,7 +6,7 @@ var getCSSRule = function(ruleClass,property){
 		var styleSheet = document.styleSheets[i];
 		for (var j = 0; j < styleSheet.cssRules.length; j++){
 			var rule = styleSheet.cssRules[j];
-			console.log("type:"+rule.type+" txt:"+rule.selectorText);
+			//console.log("type:"+rule.type+" txt:"+rule.selectorText);
 			if (rule.selectorText==searchRule){
 				// Do something with rule.style.width
 				return rule.style.backgroundColor;
@@ -71,4 +71,19 @@ var addClassName = function(node, aClassname) {
 	this.removeClassName(node,aClassname);
 	var aClassName=node.className+replacement;
 	node.className=aClassName;
+}
+
+var secondStringToMinutes = function(seconds){
+	return parseInt(seconds)/60;
+}
+
+var minuteStringToSeconds = function(minutes){
+	return parseInt(minutes)*60;
+}
+
+var showMessageInProgrammArea = function(message, mainDOM) {
+	var row = document.createElement("div");
+	row.className="nodatarow"; //should be error row or icon or so
+	row.innerHTML=message;
+	mainDOM.appendChild(row);
 }

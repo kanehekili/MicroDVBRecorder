@@ -8,7 +8,7 @@ Data will be stored.
 Needs to remember the last update... Should run once a day 
 '''
 from ChannelReader import ChannelReader
-from EpgReader import EpgReader
+from EpgReader import EpgReader, EpgReaderPlugin
 import DVBDevice
 from EPGDatabase import EpgDatabase
 from RecordQueue import RecordQueue
@@ -51,7 +51,8 @@ class EpgUpdater:
         self._database = EpgDatabase(self._config)
         path = self._config.getCachedXMLTVFilePath()
         epgReader=EpgReader(self._channelList)
-        epgList= epgReader.readCachedXMLFile(path)
+        epgPlugin=EpgReaderPlugin(None,False)
+        epgList= epgReader.readCachedXMLFile(epgPlugin,path)
         self._database.setUpChannelList(epgList)
 
     '''
@@ -96,11 +97,14 @@ class EpgUpdater:
             return self._errorMessage
         
         epgReader=EpgReader(self._channelList)
-        epgList=[]
-        for xmls in dvbList:    
-            epgReader.parseXML_TVString(xmls,epgList,UTC=True)
+        #epgList=[]
         
-        self._database.updateChannelList(epgList)
+        for xmls in dvbList:
+            epgReaderPlug = EpgReaderPlugin(xmls,UTC=True)    
+            #epgReader.parseXML_TVString(xmls,epgList,UTC=True)
+            epgReader.convertXMLToEPG(epgReaderPlug)
+            self._database.updateChannelList(epgReaderPlug.resultList)
+        
         epgData= self._database.getData()
         self._updateRecordInfo(epgData)
         

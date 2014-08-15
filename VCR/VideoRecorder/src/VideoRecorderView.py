@@ -708,12 +708,12 @@ class AutoSelectDialog:
         self.dialog.show_all()
 
     def createList(self,asList):
-        titles=["Hour","Name"]
-        listWindow = gtk.CList(2,titles)
+        titles=["Hour","Channel","Name"]
+        listWindow = gtk.CList(3,titles)
         listWindow.set_shadow_type(gtk.SHADOW_OUT)
-        listWindow.set_column_width(0, 50)
+        listWindow.set_column_width(0,60)
         for autoSelection in asList:
-            listWindow.append([autoSelection.getHourListString(),autoSelection.getTitle()]);#TODO: escape
+            listWindow.append([autoSelection.getHourListString(),autoSelection.getChannelID(),autoSelection.getTitle()]);#TODO: escape
 
         listWindow.connect("select_row",self._on_Selection,asList)
         listWindow.set_selection_mode( 'browse' )#Selected if present
@@ -725,9 +725,10 @@ class AutoSelectDialog:
     def _on_Selection(self,clist,row,column,event,aList):
         #a selection has been made - only double click is relevant
         data = clist.get_text(row,0)
-        title = clist.get_text(row,1)
+        title = clist.get_text(row,2)
+        chan = clist.get_text(row,1)
         if event and event.type == gtk.gdk._2BUTTON_PRESS:  # @UndefinedVariable
-            self._progProvider.getAutoSelector().removeFromAutoSelectPreference(data,title)
+            self._progProvider.getAutoSelector().removeFromAutoSelectPreference(data,title,chan)
             clist.remove(row);
             
 

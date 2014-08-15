@@ -35,6 +35,10 @@
   				<a id="filterBtn" class="icoAction">
 					<img src="img/filter_list.png" height= "36" width="36">
 				</a>
+				<a id="searchBtn" class="icoAction">
+					<img src="img/system-search.png" height= "36" width="36">
+				</a>
+				<!-- TODO reset tsearch button to go back to programm view : system-minus.png -->
 				<a id="nextPageBtn" class="icoAction">
 					<img src="img/go-down.svg" height= "36" width="36">
 				</a>
@@ -78,11 +82,20 @@
 		<p>Double click to remove a recording</p>
 		<!-- Define seperator and list -->
 		<hr>
-		<div class=SelectFrame id="recordlist">
+		<div class="SelectFrame" id="recordlist">
 		</div>	
 		<hr>
-		<input type="button" value="Change time" />
-		<a class="close" href="#close"></a>
+		<div class="SetRecTime">
+			<a>Pre:</a>
+			<input class="recInput" id="recStart" type="text" value="0"/>
+			<input type="button" class="recBtn" id="rec1p" value="+"/>
+			<input type="button" class="recBtn" id="rec1m"value="-"/>
+			<a>Post:</a>
+			<input class="recInput" id="recEnd"type="text" value="0"/>
+			<input type="button" class="recBtn" id="rec2p"value="+"/>
+			<input type="button" class="recBtn" id="rec2m"value="-"/>			
+		</div>		
+		<a class="closeOvl" id="ox1" href=""></a>
 	</div>
 
     <!-- AutoSelect #2 -->
@@ -91,10 +104,10 @@
 		<h2>Autoselect List</h2>
 		<p>Double click to remove an entry</p>
 		<hr>
-		<div class=SelectFrame id="autoselectlist">
+		<div class="SelectFrame" id="autoselectlist">
 		</div>
 		<hr>
-		<a class="close" href="#close"></a>
+		<a class="closeOvl" id="ox2" href=""></a>
 	</div>
 	</body>
 </html>

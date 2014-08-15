@@ -2,12 +2,14 @@ var isFilterOn=false;
 
 var channelList= null;
 var programmList= null;
+var currentRecListSelection=null;
 //constanst definition
 var TYPE_HEAD=0;
 var TYPE_PROG=1;
 var TYPE_INFO=2;
-var CHANNEL_STORAGE = "channelStore";
+var CHANNEL_STORAGE = "channelStore"; //OLD and deprecated
 var CHANNEL_KEY = document.domain+"channelStore";
+var CHANNEL_SELECTION_KEY = document.domain+"channelSelection";
 
 var MODE_DATA = 0xA0;
 var MODE_REC = 0xA1;
@@ -84,6 +86,12 @@ function handleServerResponse(aServerCommand,jsonResult){
 		return;
 	}
 
+	if (command=="SEARCH_ALL"){
+		createSearchList(jsonResult);
+		return;
+	}
+
+
 	if (command=="LIST_REC"){
 		updateRecordList(jsonResult);
 		return;
@@ -101,7 +109,10 @@ function handleServerResponse(aServerCommand,jsonResult){
 		refreshAutoSelectList(aServerCommand.data);
 		return;
 	}
-
+	if (command=="AUTO_WEEKMODE"){ 
+	   console.log("WEEK Mode set"); 
+	   return;
+	}
 
 };
 
@@ -127,7 +138,10 @@ function updateChannels(jsonResult){
 		listEntry.registerEvents();
 		channelList.add(listEntry);
 	}
-	channelList.selectedIndex=0;
+	var lastSel = localStorage[CHANNEL_SELECTION_KEY];
+	if (lastSel == null)
+		lastSel=0;
+	channelList.selectedIndex=lastSel;
 	showStatus("Channels loaded");
 };
 
@@ -154,10 +168,12 @@ function getSortedChannels(channels){
 
 function updateProgrammList(jsonResult){
 	var builder = new ProgramListBuilder(jsonResult);
-	if (builder.updateProgrammList()){
-		channelList.getSelected().setSelection();
+	//if (builder.updateProgrammList()){
+	var ok= builder.updateProgrammList()
+	channelList.getSelected().setSelection();
+	localStorage[CHANNEL_SELECTION_KEY] = channelList.selectedIndex;
+	if (ok)
 		showStatus("Infos loaded");
-	}
 };
 
 
@@ -175,6 +191,10 @@ var hookActionEvents = function(){
 	
 	button = document.getElementById("filterBtn");
 	button.addEventListener("click",handleFilterClicked,false);
+
+	button = document.getElementById("searchBtn");
+	button.addEventListener("click",handleSearchClicked,false);
+
 	
 	button = document.getElementById("nextPageBtn");
 	button.addEventListener("click",handleNextDayClicked,false);
@@ -191,6 +211,14 @@ var hookActionEvents = function(){
 	
 	var input = button = document.getElementById("search");
 	input.addEventListener("keyup",this.handleKeypress,false);
+	
+	//- the rec time buttons --
+	var recButtons = document.getElementsByClassName("recBtn")
+	for (i=0; i< recButtons.length; i++){ 
+		recButtons[i].addEventListener("click",handleRecButtonChangeTime,false);
+	}
+	//- rec overlay close btn
+	document.getElementById("ox1").addEventListener("click",onOverlayClose,false);
 };
 
 //--- DnD action handler -----
@@ -241,6 +269,7 @@ var handleAutoListClicked= function(event) {
 	executeServerCommand(new ServerCommand("LIST_AUTO",""));
 };
 
+
 //-Log button button
 var handleShowLogClicked=function(event) {
 	window.open("/Log.txt",'_blank');
@@ -248,8 +277,9 @@ var handleShowLogClicked=function(event) {
 //--Rec list handler
 var handleRecListClicked= function(event) {
 	executeServerCommand(new ServerCommand("LIST_REC",""));
-	console.log("rec list clicked:"+event);
 };
+
+
 //--Filter list handler
 var handleFilterClicked= function(event) {
 	if (channelList.getSelected() == null){
@@ -271,6 +301,14 @@ var handleFilterClicked= function(event) {
 		executeServerCommand(new ServerCommand("FILTER",searchData));
 	}
 };
+
+//-- Search Button handler
+var handleSearchClicked= function(event) {
+	var result = window.prompt("Search a programm","?");
+	if (result != null)
+	   executeServerCommand(new ServerCommand("SEARCH_ALL",result));
+	   /* TODO needs a spcial page */
+}
 
 //--Next day handler
 var handleNextDayClicked= function(event) {
@@ -301,6 +339,8 @@ var handleKeypress=function(evt) {
 	var inputField = (evt.target) ? evt.target : evt.srcElement;
 	var searchString = inputField.value;
 	var keytype = evt.keyIdentifier;
+	if (keytype == null)
+		keytype = evt.key;
 	//console.log("search for:"+searchString+" key="+keytype);
 	var programEntry;
 	if (keytype=="Down"){
@@ -313,5 +353,6 @@ var handleKeypress=function(evt) {
 	if (programEntry != null){
 		programEntry.domObject.scrollIntoView(true);
 	}
-	
 };
+
+

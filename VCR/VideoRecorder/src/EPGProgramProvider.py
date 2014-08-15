@@ -12,6 +12,7 @@ GUIs may get the sorted stuff via this
  
 '''
 from EpgUpdate import EpgUpdater
+from datetime import datetime
  
 class EPGProgramProvider:
     '''
@@ -27,9 +28,10 @@ class EPGProgramProvider:
     
     #called on view update and channel select
     def getInfosForChannel(self,aChannelString):
+        now = datetime.today();#speed up
         dayToDayList = self.getDatabase().getInfosForChannel(aChannelString)
         for dayList in dayToDayList:
-                dayList[:]=[epgInfo for epgInfo in dayList if epgInfo.isActual()]
+                dayList[:]=[epgInfo for epgInfo in dayList if epgInfo.isActual(now)]
         dayToDayList[:]=[dl for dl in dayToDayList if len(dl)>0]
         self.getRecordQueue().markRecordingSlots(dayToDayList)    
         return dayToDayList
@@ -46,7 +48,9 @@ class EPGProgramProvider:
                 searchResult.append(dailySearch)
             
         return searchResult
-        
+   
+    def searchAll(self,searchString):
+        return self.getDatabase().findAllInfos(searchString)
     
     def getChannels(self):
         return self.channelList

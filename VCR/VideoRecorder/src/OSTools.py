@@ -125,6 +125,7 @@ def ensureDirectory(path,tail):
     if not os.access(path, os.F_OK):
         try:
             os.makedirs(path)
+            os.chmod(path,0o777) #This took half a night!
         except OSError as osError:
             logging.log(logging.ERROR,"target not created:"+path)
             logging.log(logging.ERROR,"Error: "+ str(osError.strerror))
