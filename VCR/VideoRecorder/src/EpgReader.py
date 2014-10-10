@@ -276,6 +276,14 @@ class EpgProgramInfo:
         date2=otherInfo.getStartTime().date()
         return date1.day == date2.day and date1.month == date2.month        
 
+    '''
+    Indicates that this entry starts at one day and end the next day
+    '''
+    def isOverMidnight(self):
+        date1=self.getStartTime().date()
+        date2=self.getEndTime().date()
+        return date1.day != date2.day
+
     def isActual(self,timeNow):
         #now = datetime.today();
         td = self.getStartTime()-timeNow;
@@ -312,17 +320,17 @@ class EpgProgramInfo:
             
    
     def getString(self):
-        test = "?"
+        testWorkthread = "?"
         prog= self.getChannel().getName()
         try:
-            test= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
+            testWorkthread= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
         except UnicodeDecodeError,ex:
             error = sys.exc_info()[0]
             msg= "Unicode error: "+str(ex.args[0])
             logging.log(logging.ERROR,msg)
             logging.log(logging.ERROR,' Sys Error:'+str(error))
                 
-        return test
+        return testWorkthread
 
     #-XML part
     '''

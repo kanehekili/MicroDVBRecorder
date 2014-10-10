@@ -100,7 +100,7 @@ class EpgUpdater:
         #epgList=[]
         
         for xmls in dvbList:
-            epgReaderPlug = EpgReaderPlugin(xmls,UTC=True)    
+            epgReaderPlug = EpgReaderPlugin(xmls,True)    
             #epgReader.parseXML_TVString(xmls,epgList,UTC=True)
             epgReader.convertXMLToEPG(epgReaderPlug)
             self._database.updateChannelList(epgReaderPlug.resultList)

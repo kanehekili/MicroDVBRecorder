@@ -199,8 +199,7 @@ class WebRecorder():
     search the database for a string
     "cmd":"SEARCH_ALL","arg":"test","data":""}
     '''    
-    def searchAll(self,jSearchString): 
-        searchString = jSearchString.encode('utf-8')
+    def searchAll(self,searchString): 
         epgInfoList = self.progProvider.searchAll(searchString)
         #jDayToDayArray = self._formatProgramList(epgInfoList)
         #return json.dumps(jDayToDayArray)

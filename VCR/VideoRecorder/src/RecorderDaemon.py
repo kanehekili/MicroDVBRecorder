@@ -372,7 +372,7 @@ class VCRPolicy():
 class ServerPolicy():        
     def __init__(self,recDaemon):
         self._daemon = recDaemon
-        self.PRERUN_SECONDS=10
+        self.PRERUN_SECONDS=1
 
     #read epg after 24 hrs     
     def handleNoJobs(self):  
@@ -386,7 +386,9 @@ class ServerPolicy():
              
     def _argusWait(self,secondsToWait):
         startTime = datetime.now() 
-        self._log("Observing recorder queue for %s. Use 'sleepModeOn' for VCR mode"%OSTools.convertSecondsToString(secondsToWait))
+        
+        #self._log("Observing recorder queue for %s. Use 'sleepModeOn' for VCR mode"%OSTools.convertSecondsToString(secondsToWait))
+        self._log("Observing recorder queue until %s. Execute 'sleepModeOn' for VCR mode"%OSTools.showDateTimeWithOffset(secondsToWait))
         lastQCheck=None
         while (OSTools.getDifferenceInSeconds(datetime.now(),startTime) < secondsToWait):
             xtime.sleep(self.PRERUN_SECONDS)
@@ -491,8 +493,8 @@ def main():
     else:
         cmd = argv[1]
         if "epg" in cmd.lower():
-            return RecorderDaemon().readEPGData()
-        if "job" in cmd.lower():
+            RecorderDaemon().readEPGData()
+        elif "job" in cmd.lower():
             job = RecorderDaemon()._getNextJob()
             if job is None:
                 print "No jobs pending"

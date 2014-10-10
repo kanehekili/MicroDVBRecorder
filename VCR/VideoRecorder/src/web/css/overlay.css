@@ -97,7 +97,7 @@
 }
 /*.popup p, .popup div {*/
 .popup p,.popup h2 {
-    margin-bottom: 5 px;
+    margin-bottom: 5px;
     text-align:center;
 }
 .popup p {
@@ -111,6 +111,7 @@
 /*Entry field in recording list overlay*/
 .recInput {
 	width: 2em;
+	padding:2px;
 }
 
 /*access the ID of an input!! with: input#id - button not used...*/

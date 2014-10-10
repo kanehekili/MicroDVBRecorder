@@ -114,13 +114,13 @@ class EpgDatabase:
     def _insertEPGData(self,channelName, dayToDayList):
         for dayList in dayToDayList:
             searchDate = self._getDateFromDayList(dayList)
-            currentList = self._getCurrentDayList(channelName,searchDate)
-            if currentList is None:
+            dbDayList = self._getCurrentDayList(channelName,searchDate)
+            if dbDayList is None:
                 #adds the dayList into the day to day array
-                self._insertToDayToDayList(channelName,dayList)
+                dbDayList = self._insertToDayToDayList(channelName,dayList)
             else:
-                self._mergeDailyEntries(currentList,dayList)
-            self._verifyListConsistency(dayList)
+                dbDayList = self._mergeDailyEntries(dbDayList,dayList)
+            self._verifyListConsistency(dbDayList)
         
             
     '''
@@ -141,27 +141,31 @@ class EpgDatabase:
             
         if cnt!=-1:
             dayToDayList.append(newDayList)
+        return newDayList
+            
         
     '''
     merge two daily lists. The new data rules on the same time slot
     Scope: day list
     Assumption: the new daylist rules. IF there's a gap, look for it in the 
-    currentList
+    currentList. The dbDayList will be persisted.
     '''
-    def _mergeDailyEntries(self,currentList, newDayList):
+    def _mergeDailyEntries(self,dbDayList, newDayList):
         prevInfo = None
         mergedList=[]
         for epgInfo in newDayList:
             if self._hasTimeGap(prevInfo,epgInfo):
                 self._config.logInfo("*Merge: slot missing:"+prevInfo.getString()+" -> "+epgInfo.getString())
-                slots = self._getMissingSlots(currentList, prevInfo.getEndTime(), epgInfo.getStartTime())
+                slots = self._getMissingSlots(dbDayList, prevInfo.getEndTime(), epgInfo.getStartTime())
                 mergedList.extend(slots)
             mergedList.append(epgInfo)
             prevInfo = epgInfo
-
-        slots = self._getRemainingSlots(currentList,epgInfo.getEndTime())
-        mergedList.extend(slots)
-        currentList[:] = mergedList
+        #NO remaining slots for epg that ends the next day
+        if not epgInfo.isOverMidnight():
+            slots = self._getRemainingSlots(dbDayList,epgInfo.getEndTime())
+            mergedList.extend(slots)
+        dbDayList[:] = mergedList
+        return dbDayList
     
     def __traceDayList(self,dayList):
         self._config.logInfo("--DayList --")
@@ -180,10 +184,14 @@ class EpgDatabase:
     '''
     def _getRemainingSlots(self,currentList,startTime):
         missingSlots=[]
+        
         for entry in currentList:
+            if not entry.isConsistent:
+                continue
             if entry.getStartTime()>= startTime:
                 missingSlots.append(entry)
-                self._config.logInfo("*Merge + old: "+entry.getString())
+        if len(missingSlots)>0:
+                self._config.logInfo("*Merged +tail ("+str(len(missingSlots))+") starting at: "+missingSlots[0].getString())
         return missingSlots
     
     '''
@@ -192,10 +200,12 @@ class EpgDatabase:
     def _getMissingSlots(self,currentList, startTime, endTime ):
         missingSlots=[]
         for entry in currentList:
+            if not entry.isConsistent:
+                continue
             if entry.getStartTime() >= endTime:
                 return missingSlots
             if entry.getStartTime() >= startTime and entry.getEndTime() <= endTime:
-                self._config.logInfo("*Merge + old: "+entry.getString())
+                self._config.logInfo("*Merge +old: "+entry.getString())
                 missingSlots.append(entry)
                 
         return missingSlots
@@ -207,7 +217,7 @@ class EpgDatabase:
         t2 = nextInfo.getStartTime()
         return t1 != t2
         
-        
+    #TODO:obsolete    
     def _findTimeslot(self,aList, epgInfo):
         for epg in aList:
             if epg.getStartTime()==epgInfo.getStartTime():
@@ -217,13 +227,13 @@ class EpgDatabase:
     def _verifyListConsistency(self,mergedList):
         if len(mergedList)==0:
             return
-        
-        gapList=[]
+        #TODO: Gaps from the day before and the first entry are not recognized       
+        filledGapList=[]
         
         previousEpgInfo=mergedList[0]
-        #previousEpgInfo.isConsistent = True
-        for index,epgInfo in enumerate(mergedList[1:]):
-            epgInfo.isConsistent = True
+        filledGapList.append(previousEpgInfo)
+        
+        for epgInfo in mergedList[1:]:
             if previousEpgInfo.getEndTime() != epgInfo.getStartTime():
                 self._config.logInfo("*-Gap: "+previousEpgInfo.getString()+"->" +epgInfo.getString())
                 #creates a gap info
@@ -234,11 +244,11 @@ class EpgDatabase:
                 gapInfo.setChannel(epgInfo.getChannel())
                 gapInfo.setStartTime(previousEpgInfo.getEndTime())
                 gapInfo.setEndTime(epgInfo.getStartTime())
-                gapList.append((index+1,gapInfo))
+                filledGapList.append(gapInfo)
             previousEpgInfo = epgInfo
+            filledGapList.append(epgInfo)
 
-        for gaps in gapList:
-            mergedList.insert(gaps[0],gaps[1])
+        mergedList[:]=filledGapList
         
     
     #gets the first entry of the EPGInfo array and answers the search date
@@ -272,22 +282,24 @@ class EpgDatabase:
                 dayToDayList.append(currentList)
             ## removes double and old entries!
             if not epgInfo.isAlike(previousEntry):
-                if not self._isEntryOverlapping(epgInfo, previousEntry):   
-                    currentList.append(epgInfo)
-                elif self._mergeOverlappingItem(previousEntry, epgInfo):
-                    self._config.logInfo("Altered: "+epgInfo.getString())
-                    currentList.append(epgInfo) 
+                currentList.append(epgInfo)
+#                 if not self._isEntryOverlapping(epgInfo, previousEntry):   
+#                     currentList.append(epgInfo)
+#                 elif self._mergeOverlappingItem(previousEntry, epgInfo):
+#                     self._config.logInfo("Altered: "+epgInfo.getString())
+#                     currentList.append(epgInfo) 
 
             previousEntry = epgInfo   
         
         return dayToDayList
 
-    #rule of thumb: adapt the second item to the first
+    #rule of thumb: adapt the second item to the first. 
+    #TODO: obsolete
     def _mergeOverlappingItem(self,firstItem,secondItem):
         secondItem.setStartTime(firstItem.getEndTime())
         return secondItem.getDurationInSeconds() > 5*60
             
-            
+    #TODO: obsolete        
     def _isEntryOverlapping(self,epgInfo, previousEpgInfo):
         if previousEpgInfo is None:
             return False

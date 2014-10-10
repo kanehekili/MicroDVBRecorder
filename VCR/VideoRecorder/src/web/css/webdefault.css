@@ -3,11 +3,7 @@
 	font-family: Helvetica, Arial, sans-serif;
 } 
 body{ /*prevents accidental the text selection */
- -webkit-user-select: none;  
-  -moz-user-select: none;    
-  -ms-user-select: none;      
-  -user-select: none;
-  	background:#F2EFE2;/*siver for llarge screens?*/
+   background:#F2EFE2;/*siver for llarge screens?*/
    font-size:0.9em;
 }
 
@@ -67,20 +63,40 @@ body > #wrap {height: auto; min-height: 100%;}
 	background: linear-gradient(to bottom,#FF9EA3 0%,#990707 50%,#420000 100%); 
 	box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
 	-webkit-box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+	-webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
 }
 
 #function {
-  /*background:silver;*/
-  height: 50px;
-  padding:10px;
-  float:right;
+    float:right;
+    padding-top:10px;
 }
 
-#dropzone {
-	float:left;
-	padding-left:50px;
-	padding-right:50px;
-	height: 50px;
+/*this removes the "stubborn link underline"*/
+#function a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#dropzone , #reclistBtn {
+	padding-left:25px;
+	padding-right:25px;
+}
+
+.dropped {
+	background:-webkit-gradient(linear,left top, left bottom, from(#FF9EA3), to(#420000), color-stop(50%, #990707));
+	background: linear-gradient(to bottom,#FF9EA3 0%,#990707 50%,#420000 100%); 
+	border-radius:20px;
+}
+
+.icoAction {
+	display:inline;
+		/*Firefox*/
+	background: linear-gradient(to bottom,#F9EFE9 0%,#FFF 50%,#F2EFE2 100%); 
+	border-radius:20px;
+	margin-right=5px;
 }
 
 #function img {
@@ -139,6 +155,11 @@ body > #wrap {height: auto; min-height: 100%;}
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(191,191,191,1) 10%,rgba(255,255,255,1) 90%,rgba(178,178,178,1) 100%);
      /* Chrome,Safari4+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(10%,rgba(191,191,191,1)), color-stop(90%,rgba(255,255,255,1)), color-stop(100%,rgba(178,178,178,1)));
+	-webkit-box-shadow: -5px 3px 5px rgba(0, 0, 0, 0.7);
+	-webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;    
 }
 
 /*channel definitions */
@@ -198,6 +219,10 @@ body > #wrap {height: auto; min-height: 100%;}
 #programmbody {
   height:100%;
   width:100%;
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }
 
 .Column1 {
@@ -215,10 +240,30 @@ body > #wrap {height: auto; min-height: 100%;}
 }
 
 .ColumnInfoPlus{
-	display:inline-block;
+    display: inline-block;
 	border-left:1px solid;
-	min-width:50px;
 	padding:5px;
+	width:15%;
+}
+/*makes the two paragraphs break in the div...*/
+
+.ColumnInfoPlus b {
+	display:block;
+	float:left;
+	padding-left:5px;
+	overflow: hidden;/*prevents writing over the border*/
+	/*white-space:pre; breaks at <br> otherwise not!*/
+	background:-webkit-gradient(linear,center top, center bottom, from(#FDFDFD), to(#A0A0A0));
+	background-image: linear-gradient(to bottom, #FDFDFD 0%,#A0A0A0 100%);
+	border-radius:15px;
+	width: 95%;
+}
+
+
+
+.ColumnInfoPlus i {
+	float:left;
+	overflow: hidden;
 }
 
 .ColumnTimeGap{

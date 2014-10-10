@@ -198,18 +198,19 @@ class RecordQueue():
         return reader.readCachedXMLFile(epgReaderPlug,self._config.getRecQueuePath())
 
     #TODO:? generate a "FAKE" entry if the next is more than 24 h away.
-    def getNextRecordingEntry(self,index=0):
+    def getNextRecordingEntry(self):
+        top=0;
         recList = self.getRecList()
-        if len(recList)<= index:
-            return None;
+        if len(recList)<= top:
+            return self.createMaintenanceRecord()
  
-        head = recList[index]
+        head = recList[top]
         #if exec time > 24 hrs return a maintenance entry
         if self.isMaintenanceNeeded(head):
             return self.createMaintenanceRecord()
         
-        if len(recList)>index+1:
-            successor = recList[index+1]
+        if len(recList)>top+1:
+            successor = recList[top+1]
             self._connect(head, successor)
         
         self._calculateExecutionTime(head)

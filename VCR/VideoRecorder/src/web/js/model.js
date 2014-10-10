@@ -88,18 +88,18 @@ function ProgrammCollection(){
 			
 	};
 
-/* ListEntry Object for channels */
-function ListEntry (index,domObject) {
+/* ChannelListEntry Object for channels */
+function ChannelListEntry (index,domObject) {
 	this.index = index;
 	this.domObject=domObject;
 	domObject.model=this;
 	
 }
-	ListEntry.prototype.getIndex = function(){
+	ChannelListEntry.prototype.getIndex = function(){
 		return this.index;
 	};
 	
-	ListEntry.prototype.registerEvents= function(){
+	ChannelListEntry.prototype.registerEvents= function(){
 		this.domObject.addEventListener("click",this.handleChannelClicked,false);
 		this.domObject.draggable=true;
 		this.domObject.addEventListener("dragstart",this.handleDragStart,false);
@@ -108,8 +108,8 @@ function ListEntry (index,domObject) {
 		this.domObject.addEventListener("dragleave",this.handleDragLeave,false);
 		this.domObject.addEventListener("drop",this.handleDrop,false);
 	};
-	/* context here is the dom object, not the ListEntry object */
-	ListEntry.prototype.handleChannelClicked = function(event) {
+	/* context here is the dom object, not the ChannelListEntry object */
+	ChannelListEntry.prototype.handleChannelClicked = function(event) {
 		var nbrString=this.model.getIndex();
 		var selectedChannel = channelList.getSelected();
 		if (selectedChannel != null){
@@ -122,12 +122,12 @@ function ListEntry (index,domObject) {
 	};
 
 	/*Context DOM object*/
-	ListEntry.prototype.handleDragStart = function(event){
+	ChannelListEntry.prototype.handleDragStart = function(event){
 		event.dataTransfer.setData("text", event.target.id);
 		return true;
 	};
 
-	ListEntry.prototype.handleDragEnter = function(event){
+	ChannelListEntry.prototype.handleDragEnter = function(event){
 		event.preventDefault();
 		var node = event.target;
 		
@@ -143,18 +143,18 @@ function ListEntry (index,domObject) {
 		}
 	};
 
-	ListEntry.prototype.handleDragOver = function(event){
+	ChannelListEntry.prototype.handleDragOver = function(event){
 		event.preventDefault();
 	}
 
-	ListEntry.prototype.handleDragLeave = function(event){
+	ChannelListEntry.prototype.handleDragLeave = function(event){
 		var node = event.target;
 		node.style.borderTop ="none";
 		node.style.borderBottom="none";
 		event.preventDefault();
 	};
 
-	ListEntry.prototype.handleDrop = function(event){
+	ChannelListEntry.prototype.handleDrop = function(event){
 		var node = event.target;
 		node.style.borderTop ="none";
 		node.style.borderBottom="none";
@@ -190,15 +190,15 @@ function ListEntry (index,domObject) {
 	};
 
 
-	ListEntry.prototype.getTitle = function(){
+	ChannelListEntry.prototype.getTitle = function(){
 		return this.domObject.textContent;
 	};
 
-	ListEntry.prototype.removeSelection = function(){
+	ChannelListEntry.prototype.removeSelection = function(){
 		this.domObject.className="ChannelItem";
 	};
 	
-	ListEntry.prototype.setSelection = function(){
+	ChannelListEntry.prototype.setSelection = function(){
 		this.domObject.className="channelSelected";
 	};
 
@@ -353,7 +353,7 @@ function ProgramListBuilder(serverData) {
 		node.appendChild(row)
 	};
 
-	ProgramListBuilder.prototype.createProgramEntry = function(showFullData,node,epgInfo,rowIndex){
+	ProgramListBuilder.prototype.createProgramEntry = function(isSearchEntry,node,epgInfo,rowIndex){
 		var row = document.createElement("div");
 		row.id="progitem_"+rowIndex;
 		if (rowIndex%2==0){
@@ -380,10 +380,10 @@ function ProgramListBuilder(serverData) {
 		}
 		row.appendChild(icoCol);
 
-		if (showFullData){
+		if (isSearchEntry){
 			var infoPlus = document.createElement("div");
 			infoPlus.className="ColumnInfoPlus"
-			infoPlus.innerHTML= "<b>"+epgInfo.channel+"</b> "+epgInfo.date+"<br>&zwnj;";
+			infoPlus.innerHTML= "<b>"+epgInfo.channel+"</b><br><i>"+epgInfo.date+"</i>&zwnj;";
 			row.appendChild(infoPlus);
 		}
 
@@ -402,7 +402,8 @@ function ProgramListBuilder(serverData) {
 		row.appendChild(code);
 		node.appendChild(row)
 		var prog = new ProgramEntry(rowIndex,epgInfo,row);
-		prog.registerEvents();
+		if (!isSearchEntry)
+			prog.registerEvents();
 		return prog;
 	};
 	
@@ -596,7 +597,7 @@ var onOverlayClose=function(event){
 };
 
 //----------- Autoselect section ---------------------
-var updateAutoselectList=function(jsonResult){
+function updateAutoselectList(jsonResult){
 	var recordListDOM=document.getElementById("autoselectlist");
 	removeDOMChildren(recordListDOM);
 	var autoSelectList;
@@ -649,9 +650,7 @@ var updateAutoselectList=function(jsonResult){
 		infoCol.className="InfoText";
 		infoCol.innerHTML= autoSelectList[i].text;
 		row.appendChild(infoCol);
-		
-		//var listEntry = new SelectionEntry(i-1,epgInfos[i],row);
-		//TRY a basic approach without model..
+
 		row.addEventListener("dblclick",handleAutoSelectDbleClicked,false);
 		row.jsonData=autoSelectList[i];
 		recordListDOM.appendChild(row);
@@ -695,7 +694,7 @@ function createSearchList(jsonResult){
 	var result = JSON.parse(jsonResult);
 	
 	if (result.error != null){
-		this.showMessageInProgrammArea("Search error",programmDOM);
+		this.showMessageInProgrammArea(result.error,programmDOM);
 		showStatus(result.error);
 		rootDOM.appendChild(programmDOM);
 		return false;
@@ -704,10 +703,16 @@ function createSearchList(jsonResult){
 	//now lets build something	
 	var builder = new ProgramListBuilder(null);
 	for (i=0; i< epgInfos.length; i++){ 
-		builder.createProgramEntry(true,programmDOM,epgInfos[i],i);
+		var entry = builder.createProgramEntry(true,programmDOM,epgInfos[i],i);
+		//entry.domObject.addEventListener("click",handleClicked,false);
+		entry.domObject.addEventListener("dblclick",handleFullSearchDbleClicked,false);
 	}
-	
-	//this.showMessageInProgrammArea("Not implemented yet",programmDOM);
 	rootDOM.appendChild(programmDOM)
-	showStatus("Idle "+epgInfos.length);
+	showStatus("Found "+epgInfos.length+" items");
+}
+
+function handleFullSearchDbleClicked(event) {
+	programmList.selectedIndex=this.model.getIndex();
+	var jString=JSON.stringify(this.model.jsonData);
+	executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
 }

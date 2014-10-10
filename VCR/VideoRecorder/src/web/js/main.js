@@ -3,11 +3,10 @@ var isFilterOn=false;
 var channelList= null;
 var programmList= null;
 var currentRecListSelection=null;
-//constanst definition
+//constant definition
 var TYPE_HEAD=0;
 var TYPE_PROG=1;
 var TYPE_INFO=2;
-var CHANNEL_STORAGE = "channelStore"; //OLD and deprecated
 var CHANNEL_KEY = document.domain+"channelStore";
 var CHANNEL_SELECTION_KEY = document.domain+"channelSelection";
 
@@ -15,7 +14,7 @@ var MODE_DATA = 0xA0;
 var MODE_REC = 0xA1;
 var MODE_BLOCK = 0xA3;
 
-/*TODO: use local store for this kind of data. Keeps it over a refresh!*
+/*
  * Note:
  * var functionX = function() == is defined at runtime, calls muss lie below it.
  * function functionX() == defined at parse time, so refrences can be anywhere
@@ -62,6 +61,7 @@ function executeServerCommand(aServerCommand){
 
 function handleServerResponse(aServerCommand,jsonResult){
 	var command = aServerCommand.cmd;
+
 	if (command=="REQ_Channels"){
 		updateChannels(jsonResult);
 		refreshProgrammList();
@@ -74,8 +74,6 @@ function handleServerResponse(aServerCommand,jsonResult){
 	}
 
 	if (command=="MARK_Programm"){
-		//var builder= new ProgramListBuilder(jsonResult);
-		//builder.updateProgrammInfo(aServerCommand.data);
 		aServerCommand.data.updateProgrammInfo(jsonResult);
 		return;
 	}
@@ -134,7 +132,7 @@ function updateChannels(jsonResult){
 		li.textContent=sortedChannels[i];
 		li.id="channel_"+(i+1);
 		channelDOM.appendChild(li);
-		var listEntry = new ListEntry(i,li);
+		var listEntry = new ChannelListEntry(i,li);
 		listEntry.registerEvents();
 		channelList.add(listEntry);
 	}
@@ -146,14 +144,7 @@ function updateChannels(jsonResult){
 };
 
 function getSortedChannels(channels){
-	var items = localStorage[CHANNEL_STORAGE];
-	/*TODO Transition from old to new storage key  to be removed...*/
-	if (items==null || items.length<10)
-	  items = localStorage[CHANNEL_KEY];
-	else {
-	  localStorage[CHANNEL_KEY]=items;
-	  localStorage[CHANNEL_STORAGE]=null;
-	}
+	var items = localStorage[CHANNEL_KEY];
 	if (items == null || items.length < 10){
 		items = JSON.stringify(channels);
 		localStorage[CHANNEL_KEY] = items;
@@ -168,7 +159,6 @@ function getSortedChannels(channels){
 
 function updateProgrammList(jsonResult){
 	var builder = new ProgramListBuilder(jsonResult);
-	//if (builder.updateProgrammList()){
 	var ok= builder.updateProgrammList()
 	channelList.getSelected().setSelection();
 	localStorage[CHANNEL_SELECTION_KEY] = channelList.selectedIndex;
@@ -183,11 +173,14 @@ var hookActionEvents = function(){
 	//var nodes = document.getElementsByClassName("icoAction");
 	//Connect the buttons to events
 	
-	button = document.getElementById("logBtn");
+	var button = document.getElementById("logBtn");
 	button.addEventListener("click",handleShowLogClicked,false);
 
-	var button = document.getElementById("reclistBtn");
+	button = document.getElementById("reclistBtn");
 	button.addEventListener("click",handleRecListClicked,false);
+	button.addEventListener("dragover",handleDragenter,false);
+	button.addEventListener("dragleave",handleDragleave,false);
+	button.addEventListener("drop",handleDropOnRec,false);	
 	
 	button = document.getElementById("filterBtn");
 	button.addEventListener("click",handleFilterClicked,false);
@@ -223,49 +216,55 @@ var hookActionEvents = function(){
 
 //--- DnD action handler -----
 var handleDragenter= function(event){
-	var node = event.target;
-	if (event.target.id.length==0){
-		node= node.parentNode;
-	}
-	console.log("dragenter:"+node.id+">"+event.target.id);
-	event.preventDefault();
-	node.style.webkitTransform="scale(1.4,1.4)";
-	node.style.transform="scale(1.5,1.5)";
+	var node = getActionDropNode(event);
+	node.style.webkitTransform="scale(1.5)";
+	node.style.transform="scale(1.5)";
+	addClassName(node,"dropped");
 };
 
 var handleDragleave= function(event){
-	var node = event.target;
-	if (event.target.id.length==0){
-		node= node.parentNode;
-	}
-	console.log("dragleave:"+node.id+">"+event.target.id);
-	event.preventDefault();
-	node.style.webkitTransform="scale(1,1)";
-	node.style.transform="scale(1,1)";
+	var node = getActionDropNode(event);
+	node.style.webkitTransform="scale(1.0)";
+	node.style.transform="scale(1.0)";
+	removeClassName(node,"dropped");
 };
 
 var handleDrop= function(event){
-	event.preventDefault();
-	var node = event.target;
-	if (event.target.id.length==0){
-		node= node.parentNode;
-	}
-	console.log("droping:"+node.id);
-	node.style.webkitTransform="scale(1,1)";
-	node.style.transform="scale(1,1)";
-	var id=event.dataTransfer.getData("text");
-	if (id=="")
-		return;
-	var node = document.getElementById(id);
-	console.log("Auto select von: "+node);
-	var jString=JSON.stringify(node.model.jsonData);
+	var jString=prepareToDrop(event);
 	executeServerCommand(new ServerCommand("AUTO_SELECT",jString));
 };
 
+function prepareToDrop(event){
+	var node = getActionDropNode(event);
+	node.style.webkitTransform="scale(1.0)";
+	node.style.transform="scale(1.0)";
+	var id=event.dataTransfer.getData("text");
+	if (id=="")
+		return null;
+	removeClassName(node,"dropped");		
+	var selnode = document.getElementById(id);
+	return JSON.stringify(selnode.model.jsonData);
+}
+
+function handleDropOnRec(event){
+	var jString=prepareToDrop(event);
+	var id=event.dataTransfer.getData("text");
+	var node = document.getElementById(id);
+	node.model.updateProgrammInfo(jString);
+	executeServerCommand(new ServerCommand("MARK_Programm",jString,node.model));
+};
+
+function getActionDropNode(event){
+	event.preventDefault();
+	var node = event.target;
+	if (event.target.id.length != 0){
+		node = node.childNodes[1]; 
+	}
+	return node;
+}
 
 //--Autoselect click handler
 var handleAutoListClicked= function(event) {
-	console.log("auto list clicked:"+event);
 	executeServerCommand(new ServerCommand("LIST_AUTO",""));
 };
 
@@ -307,7 +306,6 @@ var handleSearchClicked= function(event) {
 	var result = window.prompt("Search a programm","?");
 	if (result != null)
 	   executeServerCommand(new ServerCommand("SEARCH_ALL",result));
-	   /* TODO needs a spcial page */
 }
 
 //--Next day handler
