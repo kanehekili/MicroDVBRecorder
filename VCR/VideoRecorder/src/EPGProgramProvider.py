@@ -50,7 +50,11 @@ class EPGProgramProvider:
         return searchResult
    
     def searchAll(self,searchString):
-        return self.getDatabase().findAllInfos(searchString)
+        dayListWrapper=[]
+        dayList = self.getDatabase().findAllInfos(searchString)
+        dayListWrapper.append(dayList)
+        self.getRecordQueue().markRecordingSlots(dayListWrapper)
+        return dayList
     
     def getChannels(self):
         return self.channelList

@@ -320,17 +320,17 @@ class EpgProgramInfo:
             
    
     def getString(self):
-        testWorkthread = "?"
+        stringRep = "?"
         prog= self.getChannel().getName()
         try:
-            testWorkthread= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
+            stringRep= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
         except UnicodeDecodeError,ex:
             error = sys.exc_info()[0]
             msg= "Unicode error: "+str(ex.args[0])
             logging.log(logging.ERROR,msg)
             logging.log(logging.ERROR,' Sys Error:'+str(error))
                 
-        return testWorkthread
+        return stringRep
 
     #-XML part
     '''

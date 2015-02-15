@@ -14,7 +14,7 @@ import json
 import OSTools
 import os
 import mimetypes
-
+import codecs
 
 
 class WebRecorder():
@@ -357,7 +357,7 @@ class WebRecorder():
 '''
 class RecorderPlugin():
     Commands = ["REQ_Channels", "REQ_Programs", "MARK_Programm", "AUTO_SELECT", "LIST_REC", "LIST_AUTO", "FILTER", "RM_AUTOSELECT", "AUTO_WEEKMODE","REC_MARGINS","SEARCH_ALL","-Download"]
- 
+    LogPos=0
     
     ''' initial sequence
         Mimetypes will be registered on import, to avoid missing types
@@ -375,8 +375,9 @@ class RecorderPlugin():
         self.count = 0;
         self._webRecorder = WebRecorder()
         self._config = self._webRecorder.configuration
-        self.__linkLogging()
+        #self.__linkLogging()
 
+    #TODO: deprected
     def __linkLogging(self):
         # ../../../VideoRecorder/src/log/
         # NO! That is where the command shell sits: currentPath=os.getcwd()
@@ -392,6 +393,60 @@ class RecorderPlugin():
     
     def _getArgs(self, commandDic):
         return commandDic["arg"].encode('utf-8')
+    
+    def handleLogCommand(self,command):
+        logStep=250;
+        if "NXT" in command:
+            self.LogPos+=logStep;
+        else:
+            self.LogPos=0
+        self.prepareLogFile(self.LogPos,logStep)
+            
+    
+    def prepareLogFile(self,lineStart,lineCount):
+        #read the log file, prepare it and put it into the log file text?
+        self.log("Getting Log request")
+        
+        srcFile = self._config.getLoggingPath();
+        srcFile = OSTools.ensureFile(srcFile, "dvb_suspend.log")
+        destFile = self._config.getFilePath(self._config.getWebPath(), "Log.html")
+        style ='<style>body { float:left;} div {white-space: nowrap;padding:2px;margin:0px;font-family: Helvetica, Arial, sans-serif;font-size:0.85em;} .evenrow {background-color: #F8E0D7;} .oddrow {background-color: #F8EEEE;}</style>'  
+
+        htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Micro Recorder Log</title><body>'
+        htmlend = '--- End ---</body></html>'
+        htmlmore = '<a href="./Log.html?NXT">Log more?</a></body></html>'
+
+        with codecs.open(srcFile, 'r',"utf-8") as logFile:
+            logLines = logFile.readlines()
+ 
+       
+        startIndex = len(logLines)
+        reqLines = lineStart+lineCount
+        reqEnd = max(0,startIndex-reqLines)
+        print "start:",startIndex," to:",reqEnd
+        #aRange=reversed(range(reqEnd,startIndex))   
+ 
+        isEven=False
+        with open(destFile, 'w+') as htmlFile:
+            htmlFile.write(htmlStart)
+            htmlFile.write("<b> The Logs (newest first) </b>")  
+            #for line in logLines:
+            lineIndex = startIndex
+            while lineIndex > reqEnd:
+                lineIndex-=1;
+                line=logLines[lineIndex]
+                asccode = line.encode('ascii', 'xmlcharrefreplace') #makes utf8 readable!
+                if isEven:
+                    divid="evenrow"
+                else:
+                    divid="oddrow"
+                htmlFile.write('<div class="'+divid+'">'+asccode+"</div>")
+                isEven=not isEven
+            if reqEnd==0:
+                htmlFile.write(htmlend)
+            else:
+                htmlFile.write(htmlmore)      
+        
         
     # Note: arguments must be encoded to utf-8     
     def executePostData(self, jsonCmd):

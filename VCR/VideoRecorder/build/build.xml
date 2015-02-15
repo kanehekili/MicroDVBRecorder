@@ -55,6 +55,7 @@
 		</copy>
 		
 		<delete file="${log}/webdvb.log"/>
+		<delete file="${web}/Log.html"/>
 		<delete file="${web}/Log.txt"/>
 		<copy todir="${rootDir}">
 			<fileset dir="${source}" includes="*.py">

@@ -45,6 +45,15 @@ function ProgrammCollection(){
 		this.selectedIndex=-1;
 	};
 	
+    ProgrammCollection.prototype.itemUnderCursor = function(px ,py){
+        for (i=0; i< this.items.length; i++){ 
+            var anItem=this.items[i];
+            if (isTouched(anItem.domObject,px,py))
+                return anItem;
+        }
+        return null;
+    }
+    
 	ProgrammCollection.prototype.internalFind = function(startIndex,searchString){
 		var regEx = new RegExp(searchString,"i");
 		for (i=startIndex; i< this.items.length; i++){ 
@@ -93,6 +102,7 @@ function ChannelListEntry (index,domObject) {
 	this.index = index;
 	this.domObject=domObject;
 	domObject.model=this;
+    this.dragNode=null;
 	
 }
 	ChannelListEntry.prototype.getIndex = function(){
@@ -107,6 +117,12 @@ function ChannelListEntry (index,domObject) {
 		this.domObject.addEventListener("dragover",this.handleDragOver,false)
 		this.domObject.addEventListener("dragleave",this.handleDragLeave,false);
 		this.domObject.addEventListener("drop",this.handleDrop,false);
+		/*touch*/
+        var th = new TouchHandler(this.domObject);
+        th.onTouchMove(this,this.handleTouchMove);
+        th.onTouchEnd(this,this.handleTouchEnd);
+
+
 	};
 	/* context here is the dom object, not the ChannelListEntry object */
 	ChannelListEntry.prototype.handleChannelClicked = function(event) {
@@ -203,6 +219,43 @@ function ChannelListEntry (index,domObject) {
 	};
 
 
+	ChannelListEntry.prototype.handleTouchMove = function(touch){
+        if (touch.touchMode  != TouchHandler.MODE_LONGTAB){
+			return false;
+		}
+        //Drag only if its the "main" div
+        var targetRect = this.domObject.getBoundingClientRect();
+		touchDragItem.style.visibility="visible";
+	    // Place element where the finger is
+        touchDragItem.style.left = touch.pageX-targetRect.right/2+25 + 'px';
+        touchDragItem.style.top = touch.pageY-25 + 'px';
+        touchDragItem.innerHTML = this.domObject.innerHTML;
+        var channel = channelList.itemUnderCursor(touch.pageX,touch.pageY);
+        if (channel == null)
+           return false;
+        var node= channel.domObject;
+        var isOverlap = this.dragNode==null || node==this.dragNode;
+		if (isOverlap){
+			this.handleDragEnter(new FakeDragEvent(node));
+		}
+		else {
+			this.handleDragLeave(new FakeDragEvent(this.dragNode));
+        }
+        this.dragNode = node;
+        return true;
+
+	};
+
+	ChannelListEntry.prototype.handleTouchEnd = function(event){
+        touchDragItem.style.visibility="hidden";
+        if (this.dragNode == null)
+            return;
+        var evt =  new FakeDragEvent(this.dragNode);
+        evt.setDomId(this.domObject.id);
+        this.handleDrop(evt);
+        this.dragNode=null;
+	};
+
 
 /*programm row */
 function ProgramEntry (index,epgInfo,domObject) {
@@ -210,7 +263,7 @@ function ProgramEntry (index,epgInfo,domObject) {
 	this.domObject=domObject;
 	this.jsonData = epgInfo;
 	domObject.model=this;
-	
+    this.touchActive=0;
 }
 	ProgramEntry.prototype.getIndex = function(){
 		return this.index;
@@ -220,29 +273,85 @@ function ProgramEntry (index,epgInfo,domObject) {
 		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
 		this.domObject.draggable=true;
 		this.domObject.addEventListener("dragstart",this.handleDragStart,false);
-		this.domObject.addEventListener("click",this.handleClicked,false);
-	};
+		this.domObject.addEventListener("click",this.handleClicked.bind(this),false);
+        var th = new TouchHandler(this.domObject);
+        th.onTab(this,this.toggleSelection);
+        th.onTouchMove(this,this.xTouchMove);
+        th.onTouchEnd(this,this.xTouchEnd);
+        th.onLongTouch(this.domObject.childNodes[0],this.handleOnLongTouch);
+        //alternative: swipe the recording...problem with dragn drop!
+        //th.onHorizontalSwipe(this.domObject.childNodes[0],this.xLongTouch);
+ };
+
+     ProgramEntry.prototype.xTouchMove = function(touch) {
+         if (touch.touchMode  != TouchHandler.MODE_LONGTAB)
+            return false;
+
+        //Drag only if its the "main" div
+		var dropzone = document.getElementById("dropzone");
+		touchDragItem.style.visibility="visible";
+	    // Place element where the finger is
+        touchDragItem.style.left = touch.pageX-25 + 'px';
+        touchDragItem.style.top = touch.pageY-25 + 'px';
+        touchDragItem.innerHTML = this.domObject.innerHTML;
+   
+		var isOverlap = isOverlapping(dropzone,touchDragItem);
+		var fakeEvent = new FakeDragEvent(dropzone);
+		if (isOverlap){
+			handleDragenter(fakeEvent);
+		}
+		else
+			handleDragleave(fakeEvent);
+        return true;
+    
+    };
+
+    //context is Column1
+    ProgramEntry.prototype.handleOnLongTouch = function(touch) {
+        if (isTouchedX(this,touch.pageX))
+           toggleRecording(this.parentNode.model);
+
+    }
+
 	
-	//JS context: this is DOM not the object...
+  	ProgramEntry.prototype.xTouchEnd = function(touch) {
+        touchDragItem.style.visibility="hidden";
+        var dropzone = document.getElementById("dropzone");
+		var isOverlap = isOverlapping(dropzone,touchDragItem);
+		var fakeEvent = new FakeDragEvent(dropzone);
+		if (isOverlap){
+			fakeEvent.setDomId(this.domObject.id);
+			handleDrop(fakeEvent);
+		}
+        resetTouchDragItem();
+    }
+ 
+	//JS context: changed thru bind
 	ProgramEntry.prototype.handleClicked = function(event) {
-		var node = programmList.getSelectedNode();
+        if (is_touch_device()){
+          return;
+        }
+        this.toggleSelection();
+	};
+
+    ProgramEntry.prototype.toggleSelection=function(){
+        var node = programmList.getSelectedNode();
 		if (node != null){
 			removeClassName(node,"channelSelected");
 		};
 		
-		if (node==this){
+		if (node==this.domObject){
 			programmList.unselect();
 			return;
 		}
-		programmList.selectedIndex=this.model.getIndex();
-		addClassName(this,"channelSelected");
-	};
+		programmList.selectedIndex=this.getIndex();
+		addClassName(this.domObject,"channelSelected");
+
+    }
 
 	//JS context: this is DOM not the object...
 	ProgramEntry.prototype.handleDbleClicked = function(event) {
-		programmList.selectedIndex=this.model.getIndex();
-		var jString=JSON.stringify(this.model.jsonData);
-		executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
+		toggleRecording(this.model);
 	};
 	
 	//JS context: this is DOM not the object...
@@ -252,7 +361,6 @@ function ProgramEntry (index,epgInfo,domObject) {
 			return;
 		}
 		var nbrString=this.model.getIndex();
-		console.log("dragging:"+nbrString);
 		this.model.draggable=true;
 		//Sets the node id for retrieval if dropped
 		event.dataTransfer.setData("text", this.id);
@@ -287,6 +395,13 @@ function ProgramEntry (index,epgInfo,domObject) {
 		else
 			showStatus("Ready");	
 };	
+
+function toggleRecording(progEntry) {
+	programmList.selectedIndex=progEntry.getIndex();
+	var jString=JSON.stringify(progEntry.jsonData);
+	executeServerCommand(new ServerCommand("MARK_Programm",jString,progEntry));
+
+}
 
 
 
@@ -404,6 +519,7 @@ function ProgramListBuilder(serverData) {
 		var prog = new ProgramEntry(rowIndex,epgInfo,row);
 		if (!isSearchEntry)
 			prog.registerEvents();
+
 		return prog;
 	};
 	
@@ -472,6 +588,9 @@ function SelectionEntry (index,epgInfo,domObject) {
 	SelectionEntry.prototype.registerEvents= function(){
 		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
 		this.domObject.addEventListener("click",this.handleClicked,false);
+		var th = new TouchHandler(this.domObject);
+		th.onHorizontalSwipe(this.domObject,this.handleDbleClicked);
+        th.onTab(this.domObject,this.handleClicked);
 	};
 
     //context DOM not object
@@ -635,6 +754,7 @@ function updateAutoselectList(jsonResult){
 
 		
 		var selector = document.createElement("select");
+        selector.className="InfoSelect";
 		for (k=0; k< weekModes.length; k++){
 		  var opt = document.createElement("option");
 		  opt.text=weekModes[k];    
@@ -643,6 +763,8 @@ function updateAutoselectList(jsonResult){
 		}
 		selector.value=autoSelectList[i].weekMode;/*the id*/
 		selector.addEventListener("change",setAutoselectionWeekMode,false);
+        selector.addEventListener("touchstart",dispatchClick);
+        
 		chanPeriod.appendChild(selector);
 		row.appendChild(chanPeriod);
 
@@ -652,12 +774,21 @@ function updateAutoselectList(jsonResult){
 		row.appendChild(infoCol);
 
 		row.addEventListener("dblclick",handleAutoSelectDbleClicked,false);
-		row.jsonData=autoSelectList[i];
+		var th = new TouchHandler(row);
+        //th.showHover(true);
+        th.onHorizontalSwipe(row,handleAutoSelectDbleClicked);
+ 		row.jsonData=autoSelectList[i];
 		recordListDOM.appendChild(row);
 	}	
 	showStatus("Idle");
 };
 
+function dispatchClick(e){
+    var event = document.createEvent('MouseEvents');
+    event.initMouseEvent('mousedown', true, true, window);
+    this.dispatchEvent(event);
+
+}
 function setAutoselectionWeekMode(event){
   var hugo = this.parentNode.parentNode.jsonData;
   hugo.weekMode = this.value;
@@ -678,7 +809,7 @@ function refreshAutoSelectList(selectedNode){
 		showStatus("Idle");
 }
 
-//-- search function create a seach list...---
+//-- search function create a search list...---
 function createSearchList(jsonResult){
 	var programmDOM=document.getElementById("programmbody");
 	var rootDOM = programmDOM.parentNode
@@ -708,6 +839,7 @@ function createSearchList(jsonResult){
 		entry.domObject.addEventListener("dblclick",handleFullSearchDbleClicked,false);
 	}
 	rootDOM.appendChild(programmDOM)
+    programmDOM.scrollIntoView(true);
 	showStatus("Found "+epgInfos.length+" items");
 }
 

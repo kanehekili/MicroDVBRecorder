@@ -6,6 +6,7 @@ Created on Aug 15, 2013
 @author: matze
 '''
 import OSTools
+import sys
 from BaseHTTPServer import HTTPServer
 from PythonWebBridge import RecorderPlugin
 from SimpleHTTPServer import SimpleHTTPRequestHandler
@@ -38,6 +39,8 @@ class RecorderHTTPHandler(SimpleHTTPRequestHandler):
     #use it for pages    
     def do_GET(self):
         self.path=self.Home+self.path
+        if "Log." in self.path:
+            self.AppConnector.handleLogCommand(self.path)
         self.AppConnector.log("GET:"+self.path)
         print "GET:"+self.path
         SimpleHTTPRequestHandler.do_GET(self)
@@ -54,7 +57,10 @@ class RecorderHTTPHandler(SimpleHTTPRequestHandler):
 
         
 def main():
-    if OSTools.checkIfInstanceRunning("RecorderWebServer"):   
+    if OSTools.checkIfInstanceRunning("RecorderWebServer"): 
+        argv = sys.argv
+        #OSTools.changeWorkingDirectory(argv[0]) 
+        OSTools.changeWorkingDirectory(OSTools.getWorkingDirectory()) 
         runHTTPServer()
  
 if __name__ == '__main__':

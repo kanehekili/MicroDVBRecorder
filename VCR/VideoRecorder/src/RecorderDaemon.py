@@ -191,6 +191,7 @@ class RecorderDaemon():
                     self._log("JOB "+jobID+" does not write any data")
                     if isRecurrentWriteError:
                         done=True
+                        self._log("Terminating Rec process, preventing reschedule.. ")
                         recProcess.terminate()
                         self.__handleProcessTermination(recProcess)
                     isRecurrentWriteError=True #only on retry permitted
@@ -487,6 +488,7 @@ class Recorder():
         return process
 
 def main():
+
     argv = sys.argv
     if len(argv)==1:
         RecorderDaemon().run()
@@ -494,16 +496,20 @@ def main():
         cmd = argv[1]
         if "epg" in cmd.lower():
             RecorderDaemon().readEPGData()
-        elif "job" in cmd.lower():
+            return 0;
+        if "job" in cmd.lower():
             job = RecorderDaemon()._getNextJob()
             if job is None:
                 print "No jobs pending"
             else:
-                print "Next Job @"+str(job.getExecutionTime()) 
-        else:
-            print "start daemon with no args.. Use 'getEpg' to read EPG or 'showJobs' for pending jobs"
+                print "Next Job @"+str(job.getExecutionTime())
+            return 0; 
+        
+        print "start daemon with no args.. Use 'getEpg' to read EPG or 'showJobs' for pending jobs"
+        return 1;
 if __name__ =="__main__":
     if OSTools.checkIfInstanceRunning("RecorderDaemon"):
+        OSTools.changeWorkingDirectory(OSTools.getWorkingDirectory())
         sys.exit(main())
     else:
         print "Daemon already running..." 

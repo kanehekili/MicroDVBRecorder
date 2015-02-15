@@ -11,6 +11,7 @@ from Configuration import MessageListener
 from EpgReader import EpgReader,EpgReaderPlugin, EpgProgramInfo
 import OSTools
 
+
 class RecordQueue():
     def __init__(self,channelList,config):
         self._config = config
@@ -23,10 +24,9 @@ class RecordQueue():
         recList = self.getRecList()
         if self.isInRecordingList(epgProgramInfo, recList):
             print "Oops -that should not happen (added recording twice)"
-            self._config.logError("QUEUE: added recording twice")
+            self._config.logError("QUEUE: tried to add recording twice:"+epgProgramInfo.getString())
             self._dispatchMessage("Error: Rec entry already present")
             return False
-        #TODO: Adding adjacent while running will truncate leading 5 mins
         jobID = self._generateJobID(recList) #all items in that group should have the same id..
         epgProgramInfo.setJobID(jobID)
         recList.append(RecordingInfo(epgProgramInfo))
@@ -129,10 +129,10 @@ class RecordQueue():
         recList=self.getRecList()
         for dailyItems in dayToDayList:
             for epgInfo in dailyItems:
-                self._updateRecordingInfos(epgInfo, recList)
+                self._setRecordingMarkersToEPG(epgInfo, recList)
     
-    #syncs the recoding data of the reclist with the epgInfo
-    def _updateRecordingInfos(self,epgInfo,recList):
+    #marks /syncs the recording data of the reclist with the epgInfo
+    def _setRecordingMarkersToEPG(self,epgInfo,recList):
         for recordInfo in recList:
             recEPGInfo=recordInfo.getEPGInfo()
             if epgInfo.isAlike(recEPGInfo):
@@ -144,7 +144,7 @@ class RecordQueue():
                 return
         epgInfo.setJobID('')
         epgInfo.markBlocked(False)
-  
+        
     '''
     makes sure that possibly changed epg data is in sync with the rec q.
     e.g Make sure that a moved recording gets the right time 
@@ -156,31 +156,29 @@ class RecordQueue():
             for dayList in dayToDayList:
                 for epgInfo in dayList:
                     #TODO: the right epg data- the rec contains the margins!
-                    if self.__makeConsistent(epgInfo, recList):
-                        syncedRecList.append(RecordingInfo(epgInfo))
+                    #if self.__makeConsistent(epgInfo, recList):
+                    found = self.__checkForTimeShiftEntries(epgInfo, recList)
+                    if found:
+                        syncedRecList.append(found)
 
         if len(recList) != len(syncedRecList):
             self._config.logError("Recordings lost on sync!")
                                             
         self._storeRecordQueue(syncedRecList)
     
-            
-  
-    def __makeConsistent(self,epgInfo,recList):
+    def __checkForTimeShiftEntries(self,epgInfo,recList):
         for recordInfo in recList:
             recEPGInfo=recordInfo.getEPGInfo()
-            if epgInfo.isAlike(recEPGInfo):
-                epgInfo.setJobID(recEPGInfo.getJobID()) 
-                return True #handled
-            
-            if epgInfo.isTimeShiftedWith(recEPGInfo):
-                #rec info changed...replace it
-                self._config.logInfo("Rec entry changed to:"+epgInfo.getString())
-                epgInfo.setJobID(recEPGInfo.getJobID())
-                return True #handled
-        return False   
-                
-
+            if recEPGInfo.hasSameContent(epgInfo):
+                if epgInfo.startTime ==  recEPGInfo.getStartTime():
+                    return recordInfo 
+                if epgInfo.isTimeShiftedWith(recEPGInfo):
+                    self._config.logInfo("RecQ-timeshift:"+epgInfo.getString())
+                    epgInfo.setJobID(recEPGInfo.getJobID())
+                    recordInfo._epgInfo=epgInfo
+                    return recordInfo
+        return None       
+                                            
              
     '''
     Stores the rec queue in its own list. Should be seen by the recorder daemon,reflecting the changes
@@ -197,7 +195,6 @@ class RecordQueue():
         epgReaderPlug = RecReaderPlugin()
         return reader.readCachedXMLFile(epgReaderPlug,self._config.getRecQueuePath())
 
-    #TODO:? generate a "FAKE" entry if the next is more than 24 h away.
     def getNextRecordingEntry(self):
         top=0;
         recList = self.getRecList()
@@ -207,7 +204,7 @@ class RecordQueue():
         head = recList[top]
         #if exec time > 24 hrs return a maintenance entry
         if self.isMaintenanceNeeded(head):
-            return self.createMaintenanceRecord()
+            return self.createMaintenanceRecord(head)
         
         if len(recList)>top+1:
             successor = recList[top+1]
@@ -222,18 +219,26 @@ class RecordQueue():
         aDay = 60*60*24;
         return deltaToNextSchedule > aDay
     
-    def createMaintenanceRecord(self):
+    def createMaintenanceRecord(self,nextEpg):
+        maintenanceDurance = 15*60;
+        scheduledStartTime = nextEpg.getEPGInfo().getStartTime()
         self._config.logInfo("creating a maintenance rec entry")
         aDay = 60*60*24;
         nextStart = OSTools.getDateTimeWithOffset(aDay)
+        runGap = OSTools.getDifferenceInSeconds(scheduledStartTime,nextStart)
+        #must have 30 minutes gap 
+        if runGap < maintenanceDurance:
+            td=timedelta(seconds=maintenanceDurance)
+            nextStart=nextStart-td
+        
         maint = RecordingInfo(None);
         maint.setExecutionTime(nextStart)
-        maint.setDurance(60*5)
+        maint.setDurance(maintenanceDurance)
         return maint
 
-#ACHTUNG! some needs the epgList, some the reclist.
-#Note - internal representaiton should be a REC List, not an EPGList.This way
-#we can store individual recording margins...     
+    '''
+    getting the embedded EPGInfo out of the rec list
+    '''    
     def getEpgList(self):
         recList = self._readRecordQueue()
         #remove old entries
@@ -403,7 +408,9 @@ class RecordingInfo():
         self._epgInfo = epgInfo;
        
     def getString(self):
-        return self._epgInfo.getString()    
+        if self._epgInfo:
+            return self._epgInfo.getString()
+        return "Maintenance @"+str(self._execTime)    
 
     #XML persistency 
     def storeAsXMLElement(self,builder,rootElement):

@@ -6,6 +6,8 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="Frontend to the micro DVB recorder">
+		<meta name="viewport" content="user-scalable=no"> <!--Prevents the "zoom" effect -->
+		<meta name="mobile-web-app-capable" content="yes"> <!--With a starter makes it fullscreen -->
 		<link rel="stylesheet" type="text/css" href="./css/webdefault.css" />
 		<link rel="stylesheet" type="text/css" href="./css/overlay.css" />
 		<script type="text/javascript" src="./js/main.js"></script>
@@ -21,28 +23,28 @@
 			<div id="header">Micro DVB Recorder</div>
 			<div id="function">
 				<a href="#autoselect_form">
-					<div id="dropzone" class="icoAction">
+					<div id="dropzone" class="icoAction" title="Auto recording">
 						<img src="img/robot-icon.png" height= "36" width="36">
 					</div>
 				</a>
 	     		<a href="#recList_form">
-					<div id="reclistBtn" class="icoAction">
+					<div id="reclistBtn" class="icoAction" title="List of recordings">
 						<img src="img/multimedia.svg" height= "36" width="36">
 					</div>
 				</a>	
-				<a id="logBtn" class="icoAction">
+				<a id="logBtn" class="icoAction" title="Show the log">
 					<img src="img/open_folder.png" height= "36" width="36">
 				</a>
-  				<a id="filterBtn" class="icoAction">
+  				<a id="filterBtn" class="icoAction" title="Filter on selection">
 					<img src="img/filter_list.png" height= "36" width="36">
 				</a>
-				<a id="searchBtn" class="icoAction">
+				<a id="searchBtn" class="icoAction" title="Search all">
 					<img src="img/system-search.png" height= "36" width="36">
 				</a>
-				<a id="nextPageBtn" class="icoAction">
+				<a id="nextPageBtn" class="icoAction" title="Next day">
 					<img src="img/go-down.svg" height= "36" width="36">
 				</a>
-				<a id="prevPageBtn" class="icoAction">
+				<a id="prevPageBtn" class="icoAction" title="Previous day">
 					<img src="img/go-up.svg" height= "36" width="36">
 				</a>
 			</div>
@@ -79,7 +81,7 @@
 	<a class="overlay" id="recList_form"></a>
 	<div class="popup">
 		<h2>Recording List</h2>
-		<p>Double click to remove a recording</p>
+		<p>Swipe or Double click to remove a recording</p>
 		<!-- Define seperator and list -->
 		<hr>
 		<div class="SelectFrame" id="recordlist">
@@ -102,7 +104,7 @@
 	<a class="overlay" id="autoselect_form"></a>
 	<div class="popup">
 		<h2>Autoselect List</h2>
-		<p>Double click to remove an entry</p>
+		<p>Swipe or Double click to remove an entry</p>
 		<hr>
 		<div class="SelectFrame" id="autoselectlist">
 		</div>

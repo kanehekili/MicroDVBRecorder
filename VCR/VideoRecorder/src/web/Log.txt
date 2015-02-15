@@ -1,290 +1,88 @@
-2014-09-19 14:00:01,761 Last EPG update -1 day(s) ago - Updating now..
-2014-09-19 14:00:02,440 Setup channel infos
-2014-09-19 14:00:02,515 *-Gap: [SAT.1 Gold] Richter Alexander Hold (05:10 20.Sep > 06:12 20.Sep)->[SAT.1 Gold] Lenßen & Partner (06:13 20.Sep > 06:36 20.Sep)
-2014-09-19 14:00:02,547 *-Gap: [kabel eins] Die Super-Heimwerker (05:05 20.Sep > 05:29 20.Sep)->[kabel eins] Abenteuer Leben - täglich neu entdecken (06:48 20.Sep > 07:51 20.Sep)
-2014-09-19 14:00:02,586 *-Gap: [N24] Die Tragödie von Norwegen (05:29 20.Sep > 06:10 20.Sep)->[N24] Dirty Great Machines: Tunnelbohrer (07:03 20.Sep > 07:59 20.Sep)
-2014-09-19 14:00:02,587 *-Gap: [N24] N24 Nachrichten (07:59 20.Sep > 08:01 20.Sep)->[N24] N24 Nachrichten (08:59 20.Sep > 09:13 20.Sep)
-2014-09-19 14:00:02,587 *-Gap: [N24] Die X-Akten: Begegnungen der dritten Art (102) (18:31 20.Sep > 18:59 20.Sep)->[N24] N24 Nachrichten (19:02 20.Sep > 19:10 20.Sep)
-2014-09-19 14:00:02,587 *-Gap: [N24] Die X-Akten: Begegnungen der dritten Art (102) (05:50 21.Sep > 06:10 21.Sep)->[N24] Schatten der Zukunft: Entdeckung der Aliens (07:04 21.Sep > 07:59 21.Sep)
-2014-09-19 14:00:02,622 *-Gap: [DMAX] The Devils Ride - Ein Leben auf zwei Rädern (03:50 22.Sep > 04:40 22.Sep)->[DMAX] Infomercial (06:50 22.Sep > 08:55 22.Sep)
-2014-09-19 14:00:02,650 *-Gap: [zdf.kultur] Kasachstan - Geliebte Diktatur (06:10 20.Sep > 06:45 20.Sep)->[zdf.kultur] Hitparade (06:50 20.Sep > 07:35 20.Sep)
-2014-09-19 14:00:05,941 Tuned to channel SAT.1
-2014-09-19 14:00:35,867 Block read:SAT.1 size:169255
-2014-09-19 14:00:37,047 Tuned to channel COMEDY CENTRAL
-2014-09-19 14:01:20,772 Block read:COMEDY CENTRAL size:776707
-2014-09-19 14:01:21,951 Tuned to channel rbb Berlin
-2014-09-19 14:02:35,232 Block read:rbb Berlin size:1637502
-2014-09-19 14:02:36,494 Tuned to channel Kabel Digital Info
-2014-09-19 14:02:55,215 Block read:Kabel Digital Info size:313196
-2014-09-19 14:02:56,395 Tuned to channel arte HD
-2014-09-19 14:03:53,584 Block read:arte HD size:338085
-2014-09-19 14:03:54,763 Tuned to channel RTL NITRO
-2014-09-19 14:04:20,021 Block read:RTL NITRO size:768342
-2014-09-19 14:04:21,197 Tuned to channel N24
-2014-09-19 14:04:40,563 Block read:N24 size:754083
-2014-09-19 14:04:41,738 Tuned to channel Disney Channel
-2014-09-19 14:05:00,727 Block read:Disney Channel size:437196
-2014-09-19 14:05:01,906 Tuned to channel Das Erste HD
-2014-09-19 14:05:33,549 Block read:Das Erste HD size:522162
-2014-09-19 14:05:34,727 Tuned to channel ZDF HD
-2014-09-19 14:05:53,849 Block read:ZDF HD size:472068
-2014-09-19 14:05:55,025 Tuned to channel Bayerisches Fernsehen Süd HD
-2014-09-19 14:06:14,902 Block read:Bayerisches Fernsehen Süd HD size:873990
-2014-09-19 14:06:16,068 Tuned to channel SUPER RTL
-2014-09-19 14:06:35,713 Block read:SUPER RTL size:699374
-2014-09-19 14:06:36,889 Tuned to channel 3sat HD
-2014-09-19 14:06:56,270 Block read:3sat HD size:227569
-2014-09-19 14:06:56,322 Updating channel infos
-2014-09-19 14:06:56,331 *Merge: slot missing:[SAT.1] Im Namen der Gerechtigkeit - Wir kämpfen für Sie! (14:58 19.Sep > 15:58 19.Sep) -> [SAT.1] Schicksale - und plötzlich ist alles anders (17:30 19.Sep > 17:59 19.Sep)
-2014-09-19 14:06:56,331 *Merge +old: [SAT.1] Anwälte im Einsatz (15:58 19.Sep > 16:59 19.Sep)
-2014-09-19 14:06:56,331 *Merge +old: [SAT.1] Mein dunkles Geheimnis (16:59 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:56,332 *Merge: slot missing:[SAT.1] Mein dunkles Geheimnis (05:43 21.Sep > 06:07 21.Sep) -> [SAT.1] Auf Streife (07:06 21.Sep > 08:06 21.Sep)
-2014-09-19 14:06:56,332 *Merge +old: [SAT.1] Auf Streife (06:07 21.Sep > 07:06 21.Sep)
-2014-09-19 14:06:56,337 *Merge: slot missing:[SR Fernsehen] Eisenbahn-Romantik (14:15 19.Sep > 14:45 19.Sep) -> [SR Fernsehen] saarland aktuell (17:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:56,337 *Merge +old: [SR Fernsehen] Bilderbuch: Madonnenländchen (14:45 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:56,337 *Merge +old: [SR Fernsehen] Grünzeug unterwegs - auf der Landesgartenschau Schwäbisch Gmünd (4/5) (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:56,338 *Merge +old: [SR Fernsehen] saarland aktuell (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:56,338 *Merge +old: [SR Fernsehen] Kaffee oder Tee (16:05 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,449 Updating channel infos
-2014-09-19 14:06:56,458 *Merge: slot missing:[COMEDY CENTRAL] SpongeBob Schwammkopf (14:10 19.Sep > 14:40 19.Sep) -> [COMEDY CENTRAL] Sam & Cat (17:05 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:56,458 *Merge +old: [COMEDY CENTRAL] SpongeBob Schwammkopf (14:40 19.Sep > 15:10 19.Sep)
-2014-09-19 14:06:56,458 *Merge +old: [COMEDY CENTRAL] Totally Spies (15:10 19.Sep > 15:35 19.Sep)
-2014-09-19 14:06:56,458 *Merge +old: [COMEDY CENTRAL] Voll Vergeistert (15:35 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:56,458 *Merge +old: [COMEDY CENTRAL] Die Thundermans (16:05 19.Sep > 16:35 19.Sep)
-2014-09-19 14:06:56,459 *Merge +old: [COMEDY CENTRAL] Big Time Rush (16:35 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:56,466 *Merge: slot missing:[VIVA] Band sucht bleibe (16:00 19.Sep > 16:30 19.Sep) -> [VIVA] Family Guy (17:00 19.Sep > 17:25 19.Sep)
-2014-09-19 14:06:56,466 *Merge +old: [VIVA] American Dad (16:30 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,470 *Merge: slot missing:[DMAX] Haus gesucht in Hawaii (14:15 19.Sep > 14:45 19.Sep) -> [DMAX] Ausgesetzt in der Wildnis (17:15 19.Sep > 18:15 19.Sep)
-2014-09-19 14:06:56,470 *Merge +old: [DMAX] Die Gebrauchtwagen-Profis - Neuer Glanz für alte Kisten (14:45 19.Sep > 15:15 19.Sep)
-2014-09-19 14:06:56,470 *Merge +old: [DMAX] Test My Ride! Das Tuning-Duell (15:15 19.Sep > 16:15 19.Sep)
-2014-09-19 14:06:56,470 *Merge +old: [DMAX] Holzfäller extrem (16:15 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:56,471 *Merge: slot missing:[DMAX] The Devils Ride - Ein Leben auf zwei Rädern (03:50 22.Sep > 04:40 22.Sep) -> [DMAX] Infomercial (06:50 22.Sep > 08:55 22.Sep)
-2014-09-19 14:06:56,471 *-Gap: [DMAX] The Devils Ride - Ein Leben auf zwei Rädern (03:50 22.Sep > 04:40 22.Sep)->[DMAX] Infomercial (06:50 22.Sep > 08:55 22.Sep)
-2014-09-19 14:06:56,684 Updating channel infos
-2014-09-19 14:06:56,690 *Merge: slot missing:[rbb Berlin] Planet Wissen: Lebensborn - Kinder für Hitler (14:15 19.Sep > 15:15 19.Sep) -> [rbb Berlin] rbb AKTUELL (17:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:56,691 *Merge +old: [rbb Berlin] mareTV (15:15 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:56,691 *Merge +old: [rbb Berlin] rbb AKTUELL (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:56,691 *Merge +old: [rbb Berlin] Immer ostwärts - Von Berlin nach Wladiwostok (4/5) (16:05 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:56,691 *Merge +old: [rbb Berlin] kurz vor 5 (16:50 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,698 *Merge: slot missing:[NDR FS MV] Bilderbuch Deutschland (14:15 19.Sep > 15:00 19.Sep) -> [NDR FS MV] Leopard, Seebär & Co. (143) (17:10 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:56,698 *Merge +old: [NDR FS MV] NDR aktuell (15:00 19.Sep > 15:15 19.Sep)
-2014-09-19 14:06:56,698 *Merge +old: [NDR FS MV] mareTV (15:15 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:56,698 *Merge +old: [NDR FS MV] NDR aktuell (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:56,698 *Merge +old: [NDR FS MV] Mein Nachmittag (16:10 19.Sep > 17:10 19.Sep)
-2014-09-19 14:06:56,705 *Merge: slot missing:[MDR Thüringen] MDR aktuell Eins30 (14:59 19.Sep > 15:00 19.Sep) -> [MDR Thüringen] MDR um 4 (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:56,705 *Merge +old: [MDR Thüringen] LexiTV - Wissen für alle (15:00 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:56,706 *Merge +old: [MDR Thüringen] MDR um 4 (16:00 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:56,706 *Merge +old: [MDR Thüringen] MDR um 4 (16:30 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,751 Updating channel infos
-2014-09-19 14:06:56,755 *Merge: slot missing:[SAT.1 Gold] Richterin Barbara Salesch (14:29 19.Sep > 15:12 19.Sep) -> [SAT.1 Gold] Mord ist ihr Hobby (17:48 19.Sep > 18:39 19.Sep)
-2014-09-19 14:06:56,755 *Merge +old: [SAT.1 Gold] Richter Alexander Hold (15:12 19.Sep > 16:04 19.Sep)
-2014-09-19 14:06:56,755 *Merge +old: [SAT.1 Gold] Unsere kleine Farm (16:04 19.Sep > 16:59 19.Sep)
-2014-09-19 14:06:56,755 *Merge +old: [SAT.1 Gold] Mord ist ihr Hobby (16:59 19.Sep > 17:48 19.Sep)
-2014-09-19 14:06:56,756 *Merge: slot missing:[SAT.1 Gold] Richter Alexander Hold (05:10 20.Sep > 06:12 20.Sep) -> [SAT.1 Gold] Lenßen & Partner (06:13 20.Sep > 06:36 20.Sep)
-2014-09-19 14:06:56,756 *-Gap: [SAT.1 Gold] Richter Alexander Hold (05:10 20.Sep > 06:12 20.Sep)->[SAT.1 Gold] Lenßen & Partner (06:13 20.Sep > 06:36 20.Sep)
-2014-09-19 14:06:56,757 *Merge: slot missing:[SAT.1 Gold] K 11 - Kommissare im Einsatz (05:36 21.Sep > 06:10 21.Sep) -> [SAT.1 Gold] GOLFTOTAL - Das Magazin (06:30 21.Sep > 07:01 21.Sep)
-2014-09-19 14:06:56,757 *-Gap: [SAT.1 Gold] K 11 - Kommissare im Einsatz (05:36 21.Sep > 06:10 21.Sep)->[SAT.1 Gold] GOLFTOTAL - Das Magazin (06:30 21.Sep > 07:01 21.Sep)
-2014-09-19 14:06:56,845 Updating channel infos
-2014-09-19 14:06:56,856 *Merge: slot missing:[hr-fernsehen HD] Der Rauch, der donnert - Die Victoria-Fälle (15:15 19.Sep > 16:00 19.Sep) -> [hr-fernsehen HD] hallo hessen (17:00 19.Sep > 17:50 19.Sep)
-2014-09-19 14:06:56,857 *Merge +old: [hr-fernsehen HD] hessenschau kompakt (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:56,857 *Merge +old: [hr-fernsehen HD] hallo hessen (16:05 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:56,857 *Merge +old: [hr-fernsehen HD] hessenschau kompakt (16:45 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,982 Updating channel infos
-2014-09-19 14:06:56,988 *Merge: slot missing:[ServusTV] Naturschützer im Einsatz (14:40 19.Sep > 15:30 19.Sep) -> [ServusTV] Servus Wetter (17:00 19.Sep > 17:08 19.Sep)
-2014-09-19 14:06:56,988 *Merge +old: [ServusTV] Die Briten: Geschichte einer Kolonialmacht (15:30 19.Sep > 16:15 19.Sep)
-2014-09-19 14:06:56,988 *Merge +old: [ServusTV] Moderne Wunder (16:15 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:56,994 *Merge: slot missing:[CNN (eng)] World Business Today (15:00 19.Sep > 16:00 19.Sep) -> [CNN (eng)] News Special (17:30 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:56,994 *Merge +old: [CNN (eng)] International Desk (16:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,002 *Merge: slot missing:[BBC World News (eng)] World Business Report (14:30 19.Sep > 14:45 19.Sep) -> [BBC World News (eng)] Sports World Have Your Say (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,002 *Merge +old: [BBC World News (eng)] Sport Today (14:45 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,002 *Merge +old: [BBC World News (eng)] Impact (15:00 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:57,002 *Merge +old: [BBC World News (eng)] Impact (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,003 *Merge +old: [BBC World News (eng)] Impact (16:00 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,003 *Merge +old: [BBC World News (eng)] Talking Business with Linda Yueh (16:30 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,009 *Merge: slot missing:[RTL NITRO] Notruf California (14:20 19.Sep > 15:05 19.Sep) -> [RTL NITRO] MacGyver (17:40 19.Sep > 18:30 19.Sep)
-2014-09-19 14:06:57,009 *Merge +old: [RTL NITRO] Matlock (15:05 19.Sep > 15:55 19.Sep)
-2014-09-19 14:06:57,009 *Merge +old: [RTL NITRO] Die Straßen von San Francisco (15:55 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:57,009 *Merge +old: [RTL NITRO] Walker, Texas Ranger (16:50 19.Sep > 17:40 19.Sep)
-2014-09-19 14:06:57,119 Updating channel infos
-2014-09-19 14:06:57,128 *Merge: slot missing:[sixx] Trau Dich - Den REST erledige ich! (14:17 19.Sep > 15:22 19.Sep) -> [sixx] Private Practice (17:25 19.Sep > 18:21 19.Sep)
-2014-09-19 14:06:57,128 *Merge +old: [sixx] Der Hundeflüsterer (15:22 19.Sep > 16:23 19.Sep)
-2014-09-19 14:06:57,128 *Merge +old: [sixx] sixx QUICKIE (16:23 19.Sep > 16:28 19.Sep)
-2014-09-19 14:06:57,128 *Merge +old: [sixx] Desperate Housewives (16:28 19.Sep > 17:25 19.Sep)
-2014-09-19 14:06:57,129 *Merge: slot missing:[sixx] How Do I Look? (05:02 21.Sep > 05:51 21.Sep) -> [sixx] Mission: Makeover - by Trinny and Susannah (06:38 21.Sep > 07:32 21.Sep)
-2014-09-19 14:06:57,129 *Merge +old: [sixx] Mission: Makeover - by Trinny and Susannah (05:51 21.Sep > 06:38 21.Sep)
-2014-09-19 14:06:57,134 *Merge: slot missing:[ProSieben] The Big Bang Theory (14:15 19.Sep > 14:42 19.Sep) -> [ProSieben] How I Met Your Mother (16:02 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,134 *Merge +old: [ProSieben] The Big Bang Theory (14:42 19.Sep > 15:08 19.Sep)
-2014-09-19 14:06:57,134 *Merge +old: [ProSieben] The Big Bang Theory (15:08 19.Sep > 15:35 19.Sep)
-2014-09-19 14:06:57,134 *Merge +old: [ProSieben] How I Met Your Mother (15:35 19.Sep > 16:02 19.Sep)
-2014-09-19 14:06:57,135 *Merge: slot missing:[ProSieben] Scrubs - Die Anfänger (07:02 20.Sep > 07:29 20.Sep) -> [ProSieben] Scrubs - Die Anfänger (07:39 20.Sep > 08:05 20.Sep)
-2014-09-19 14:06:57,135 *-Gap: [ProSieben] Scrubs - Die Anfänger (07:02 20.Sep > 07:29 20.Sep)->[ProSieben] Scrubs - Die Anfänger (07:39 20.Sep > 08:05 20.Sep)
-2014-09-19 14:06:57,139 *Merge: slot missing:[kabel eins] Die Super-Heimwerker (05:05 20.Sep > 05:29 20.Sep) -> [kabel eins] Abenteuer Leben - täglich neu entdecken (06:48 20.Sep > 07:51 20.Sep)
-2014-09-19 14:06:57,139 *-Gap: [kabel eins] Die Super-Heimwerker (05:05 20.Sep > 05:29 20.Sep)->[kabel eins] Abenteuer Leben - täglich neu entdecken (06:48 20.Sep > 07:51 20.Sep)
-2014-09-19 14:06:57,140 *Merge: slot missing:[kabel eins] Medium - Nichts bleibt verborgen (04:07 21.Sep > 04:58 21.Sep) -> [kabel eins] Charmed - Zauberhafte Hexen (05:39 21.Sep > 06:34 21.Sep)
-2014-09-19 14:06:57,140 *Merge: slot missing:[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (20:14 21.Sep > 20:14 21.Sep) -> [kabel eins] Abenteuer Leben (22:20 21.Sep > 00:11 22.Sep)
-2014-09-19 14:06:57,140 *Merge +old: [kabel eins] Mein Revier (20:14 21.Sep > 22:19 21.Sep)
-2014-09-19 14:06:57,140 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (04:07 21.Sep > 04:58 21.Sep)->[kabel eins] Charmed - Zauberhafte Hexen (05:39 21.Sep > 06:34 21.Sep)
-2014-09-19 14:06:57,141 *-Gap: [kabel eins] Mein Revier (20:14 21.Sep > 22:19 21.Sep)->[kabel eins] Abenteuer Leben (22:20 21.Sep > 00:11 22.Sep)
-2014-09-19 14:06:57,141 *Merge: slot missing:[kabel eins] Steven liebt Kino - Spezial: A Most Wanted Man (05:40 22.Sep > 06:04 22.Sep) -> [kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:19 22.Sep > 08:18 22.Sep)
-2014-09-19 14:06:57,141 *-Gap: [kabel eins] Steven liebt Kino - Spezial: A Most Wanted Man (05:40 22.Sep > 06:04 22.Sep)->[kabel eins] Mein Lokal, Dein Lokal - Wo schmeckt's am besten? (07:19 22.Sep > 08:18 22.Sep)
-2014-09-19 14:06:57,145 *Merge: slot missing:[N24] N24 Nachrichten (07:59 20.Sep > 08:01 20.Sep) -> [N24] N24 Nachrichten (08:59 20.Sep > 09:13 20.Sep)
-2014-09-19 14:06:57,145 *Merge: slot missing:[N24] Die X-Akten: Begegnungen der dritten Art (102) (18:31 20.Sep > 18:59 20.Sep) -> [N24] N24 Nachrichten (19:02 20.Sep > 19:10 20.Sep)
-2014-09-19 14:06:57,145 *-Gap: [N24] N24 Nachrichten (07:59 20.Sep > 08:01 20.Sep)->[N24] N24 Nachrichten (08:59 20.Sep > 09:13 20.Sep)
-2014-09-19 14:06:57,145 *-Gap: [N24] Die X-Akten: Begegnungen der dritten Art (102) (18:31 20.Sep > 18:59 20.Sep)->[N24] N24 Nachrichten (19:02 20.Sep > 19:10 20.Sep)
-2014-09-19 14:06:57,146 *Merge: slot missing:[N24] Die X-Akten: Begegnungen der dritten Art (102) (05:50 21.Sep > 06:10 21.Sep) -> [N24] Schatten der Zukunft: Entdeckung der Aliens (07:04 21.Sep > 07:59 21.Sep)
-2014-09-19 14:06:57,146 *-Gap: [N24] Die X-Akten: Begegnungen der dritten Art (102) (05:50 21.Sep > 06:10 21.Sep)->[N24] Schatten der Zukunft: Entdeckung der Aliens (07:04 21.Sep > 07:59 21.Sep)
-2014-09-19 14:06:57,203 Updating channel infos
-2014-09-19 14:06:57,207 *Merge: slot missing:[Disney Channel] Meine Schwester Charlie (14:25 19.Sep > 14:55 19.Sep) -> [Disney Channel] Sabrina - Verhext nochmal! (17:10 19.Sep > 17:40 19.Sep)
-2014-09-19 14:06:57,207 *Merge +old: [Disney Channel] Violetta (14:55 19.Sep > 15:50 19.Sep)
-2014-09-19 14:06:57,207 *Merge +old: [Disney Channel] Zack & Cody an Bord (15:50 19.Sep > 16:20 19.Sep)
-2014-09-19 14:06:57,207 *Merge +old: [Disney Channel] Pair of Kings-Die Königsbrüder (16:20 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:57,207 *Merge +old: [Disney Channel] Die Zauberer vom Waverly Place (16:50 19.Sep > 17:10 19.Sep)
-2014-09-19 14:06:57,362 Updating channel infos
-2014-09-19 14:06:57,371 *Merge: slot missing:[Das Erste HD] Rote Rosen (1812) (14:10 19.Sep > 15:00 19.Sep) -> [Das Erste HD] Tagesschau (17:00 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,372 *Merge +old: [Das Erste HD] Tagesschau (15:00 19.Sep > 15:10 19.Sep)
-2014-09-19 14:06:57,372 *Merge +old: [Das Erste HD] Sturm der Liebe (2073) (15:10 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,372 *Merge +old: [Das Erste HD] Tagesschau (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,372 *Merge +old: [Das Erste HD] Nashorn, Zebra & Co. (236) (16:10 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,378 *Merge: slot missing:[PHOENIX] Schalom am Rhein (15:00 19.Sep > 15:15 19.Sep) -> [PHOENIX] Augstein und Blome (17:05 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,378 *Merge +old: [PHOENIX] Mission unter falscher Flagge (15:15 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,378 *Merge +old: [PHOENIX] Maybrit Illner (16:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:57,384 *Merge: slot missing:[WDR Köln HD] Abenteuer Erde: Wildes London (14:15 19.Sep > 15:00 19.Sep) -> [WDR Köln HD] Lokalzeit aus Köln (18:00 19.Sep > 18:05 19.Sep)
-2014-09-19 14:06:57,384 *Merge +old: [WDR Köln HD] Planet Wissen: Kriminalfall "Rattenfänger" - Was in Hameln wirklich geschah (15:00 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,384 *Merge +old: [WDR Köln HD] WDR aktuell (16:00 19.Sep > 16:15 19.Sep)
-2014-09-19 14:06:57,385 *Merge +old: [WDR Köln HD] daheim + unterwegs (16:15 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:57,390 *Merge: slot missing:[Einsfestival] Shaun das Schaf (Shaun the Sheep) (14:20 19.Sep > 14:28 19.Sep) -> [Einsfestival] Macht und Marionette (16:30 19.Sep > 17:17 19.Sep)
-2014-09-19 14:06:57,391 *Merge +old: [Einsfestival] Tagesschau in 100 Sekunden (14:28 19.Sep > 14:30 19.Sep)
-2014-09-19 14:06:57,391 *Merge +old: [Einsfestival] Zapp (14:30 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,391 *Merge +old: [Einsfestival] Kam der Dollar aus dem Erzgebirge? (15:00 19.Sep > 15:46 19.Sep)
-2014-09-19 14:06:57,391 *Merge +old: [Einsfestival] Wir sind nicht arm, wir haben nur kein Geld (15:46 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,397 *Merge: slot missing:[EinsPlus] BEATZZ in Concert (14:15 19.Sep > 15:00 19.Sep) -> [EinsPlus] Tagesschau (17:00 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,398 *Merge +old: [EinsPlus] direkt dabei (15:00 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:57,398 *Merge +old: [EinsPlus] nano (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,398 *Merge +old: [EinsPlus] Planet Wissen: Lebensborn - Kinder für Hitler (16:00 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,409 *Merge: slot missing:[tagesschau24] Tagesschau (20:00 19.Sep > 20:15 19.Sep) -> [tagesschau24] Tagesthemen (23:00 19.Sep > 23:15 19.Sep)
-2014-09-19 14:06:57,409 *Merge +old: [tagesschau24] Kontraste (20:15 19.Sep > 20:45 19.Sep)
-2014-09-19 14:06:57,409 *Merge +old: [tagesschau24] Reise in den Tod (20:45 19.Sep > 21:00 19.Sep)
-2014-09-19 14:06:57,409 *Merge +old: [tagesschau24] Tagesschau (21:00 19.Sep > 21:02 19.Sep)
-2014-09-19 14:06:57,409 *Merge +old: [tagesschau24] Geheimnisvolle Orte (2) (21:02 19.Sep > 21:45 19.Sep)
-2014-09-19 14:06:57,409 *Merge +old: [tagesschau24] Extra (21:45 19.Sep > 22:00 19.Sep)
-2014-09-19 14:06:57,410 *Merge +old: [tagesschau24] Tagesthemen (22:00 19.Sep > 22:15 19.Sep)
-2014-09-19 14:06:57,410 *Merge +old: [tagesschau24] Marktcheck (22:15 19.Sep > 23:00 19.Sep)
-2014-09-19 14:06:57,415 *Merge: slot missing:[SWR Fernsehen RP HD] Eisenbahn-Romantik (14:15 19.Sep > 14:45 19.Sep) -> [SWR Fernsehen RP HD] SWR Landesschau aktuell Rheinland-Pfalz (17:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:57,416 *Merge +old: [SWR Fernsehen RP HD] Bilderbuch: Madonnenländchen (14:45 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:57,416 *Merge +old: [SWR Fernsehen RP HD] Grünzeug unterwegs - auf der Landesgartenschau Schwäbisch Gmünd (4/5) (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,416 *Merge +old: [SWR Fernsehen RP HD] SWR Landesschau aktuell Rheinland-Pfalz (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:57,416 *Merge +old: [SWR Fernsehen RP HD] Kaffee oder Tee (16:05 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,423 *Merge: slot missing:[BR-alpha] Deutsch Klasse - Sprachprogramm (13/13) (14:15 19.Sep > 14:30 19.Sep) -> [BR-alpha] Kunstraum (17:00 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,423 *Merge +old: [BR-alpha] Willi wills wissen (14:30 19.Sep > 14:55 19.Sep)
-2014-09-19 14:06:57,423 *Merge +old: [BR-alpha] Checker Can Quick-Checks (14:55 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,424 *Merge +old: [BR-alpha] Planet Wissen: Kriminalfall "Rattenfänger" - Was in Hameln wirklich geschah (15:00 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,424 *Merge +old: [BR-alpha] Faszination Wissen (16:00 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,424 *Merge +old: [BR-alpha] nano (16:30 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,562 Updating channel infos
-2014-09-19 14:06:57,570 *Merge: slot missing:[zdf_neo] Die Rettungsflieger (14:30 19.Sep > 15:20 19.Sep) -> [zdf_neo] Drei Engel für Charlie (17:35 19.Sep > 18:45 19.Sep)
-2014-09-19 14:06:57,570 *Merge +old: [zdf_neo] Magnum (15:20 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:57,571 *Merge +old: [zdf_neo] Magnum (16:05 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:57,571 *Merge +old: [zdf_neo] Drei Engel für Charlie (16:50 19.Sep > 17:35 19.Sep)
-2014-09-19 14:06:57,576 *Merge: slot missing:[ZDFinfo] Ich war dabei - Schicksale im Ersten Weltkrieg (14:15 19.Sep > 15:00 19.Sep) -> [ZDFinfo] heute 100 sec (17:13 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,577 *Merge +old: [ZDFinfo] ZDF-History (15:00 19.Sep > 15:43 19.Sep)
-2014-09-19 14:06:57,577 *Merge +old: [ZDFinfo] heute 100 sec 1914 - Erster Weltkrieg (15:43 19.Sep > 15:45 19.Sep)
-2014-09-19 14:06:57,577 *Merge +old: [ZDFinfo] Die Suche nach den verlorenen Söhnen (15:45 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,577 *Merge +old: [ZDFinfo] Sarajevo - Der Weg in die Katastrophe (16:30 19.Sep > 17:13 19.Sep)
-2014-09-19 14:06:57,583 *Merge: slot missing:[3sat] Die Tierklinik (2/2) (14:05 19.Sep > 14:35 19.Sep) -> [3sat] Bayerisches Rodeo (16:45 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,583 *Merge +old: [3sat] Schäfers Stündchen (14:35 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,583 *Merge +old: [3sat] Bock auf Ziegen (15:00 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:57,583 *Merge +old: [3sat] Das große Summen (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,583 *Merge +old: [3sat] Starenliebe am Ammersee (16:00 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:57,589 *Merge: slot missing:[ZDF HD] Die Küchenschlacht (14:15 19.Sep > 15:00 19.Sep) -> [ZDF HD] heute (17:00 19.Sep > 17:10 19.Sep)
-2014-09-19 14:06:57,589 *Merge +old: [ZDF HD] heute (15:00 19.Sep > 15:05 19.Sep)
-2014-09-19 14:06:57,590 *Merge +old: [ZDF HD] Deutschlands bester Bäcker (15:05 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,590 *Merge +old: [ZDF HD] heute - in Europa (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,590 *Merge +old: [ZDF HD] SOKO Wien (16:10 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,596 *Merge: slot missing:[rbb Berlin HD] Planet Wissen: Lebensborn - Kinder für Hitler (14:15 19.Sep > 15:15 19.Sep) -> [rbb Berlin HD] rbb AKTUELL (17:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:57,597 *Merge +old: [rbb Berlin HD] mareTV (15:15 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,597 *Merge +old: [rbb Berlin HD] rbb AKTUELL (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:57,597 *Merge +old: [rbb Berlin HD] Immer ostwärts - Von Berlin nach Wladiwostok (4/5) (16:05 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:57,597 *Merge +old: [rbb Berlin HD] kurz vor 5 (16:50 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,603 *Merge: slot missing:[ZDF] Die Küchenschlacht (14:15 19.Sep > 15:00 19.Sep) -> [ZDF] heute (17:00 19.Sep > 17:10 19.Sep)
-2014-09-19 14:06:57,603 *Merge +old: [ZDF] heute (15:00 19.Sep > 15:05 19.Sep)
-2014-09-19 14:06:57,604 *Merge +old: [ZDF] Deutschlands bester Bäcker (15:05 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,604 *Merge +old: [ZDF] heute - in Europa (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,604 *Merge +old: [ZDF] SOKO Wien (16:10 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,611 *Merge: slot missing:[KiKA] logo! Die Welt und ich. (14:08 19.Sep > 14:10 19.Sep) -> [KiKA] Garfield - (The Garfield Show) (16:20 19.Sep > 16:40 19.Sep)
-2014-09-19 14:06:57,611 *Merge +old: [KiKA] Schloss Einstein - Erfurt (14:10 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,611 *Merge +old: [KiKA] Wendy (15:00 19.Sep > 15:25 19.Sep)
-2014-09-19 14:06:57,611 *Merge +old: [KiKA] Horseland, die Pferderanch (15:25 19.Sep > 15:50 19.Sep)
-2014-09-19 14:06:57,611 *Merge +old: [KiKA] Lou! (15:50 19.Sep > 16:15 19.Sep)
-2014-09-19 14:06:57,611 *Merge +old: [KiKA] logo! Die Welt und ich. (16:15 19.Sep > 16:20 19.Sep)
-2014-09-19 14:06:57,617 *Merge: slot missing:[zdf.kultur] Hitparade (14:20 19.Sep > 15:05 19.Sep) -> [zdf.kultur] Tierische Kumpel (2) (17:15 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:57,617 *Merge +old: [zdf.kultur] Disco (15:05 19.Sep > 15:50 19.Sep)
-2014-09-19 14:06:57,617 *Merge +old: [zdf.kultur] Schlosshotel Orth (15:50 19.Sep > 16:35 19.Sep)
-2014-09-19 14:06:57,617 *Merge +old: [zdf.kultur] Forsthaus Falkenau (16:35 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,813 Updating channel infos
-2014-09-19 14:06:57,822 *Merge: slot missing:[Das Erste] Rote Rosen (1812) (14:10 19.Sep > 15:00 19.Sep) -> [Das Erste] Tagesschau (17:00 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:57,823 *Merge +old: [Das Erste] Tagesschau (15:00 19.Sep > 15:10 19.Sep)
-2014-09-19 14:06:57,823 *Merge +old: [Das Erste] Sturm der Liebe (2073) (15:10 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,823 *Merge +old: [Das Erste] Tagesschau (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,823 *Merge +old: [Das Erste] Nashorn, Zebra & Co. (236) (16:10 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,829 *Merge: slot missing:[WDR Köln] Abenteuer Erde: Wildes London (14:15 19.Sep > 15:00 19.Sep) -> [WDR Köln] Lokalzeit aus Köln (18:00 19.Sep > 18:05 19.Sep)
-2014-09-19 14:06:57,829 *Merge +old: [WDR Köln] Planet Wissen: Kriminalfall "Rattenfänger" - Was in Hameln wirklich geschah (15:00 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,830 *Merge +old: [WDR Köln] WDR aktuell (16:00 19.Sep > 16:15 19.Sep)
-2014-09-19 14:06:57,830 *Merge +old: [WDR Köln] daheim + unterwegs (16:15 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:57,837 *Merge: slot missing:[MDR Sachsen HD] MDR aktuell Eins30 (14:59 19.Sep > 15:00 19.Sep) -> [MDR Sachsen HD] MDR um 4 (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,837 *Merge +old: [MDR Sachsen HD] LexiTV - Wissen für alle (15:00 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,837 *Merge +old: [MDR Sachsen HD] MDR um 4 (16:00 19.Sep > 16:30 19.Sep)
-2014-09-19 14:06:57,837 *Merge +old: [MDR Sachsen HD] MDR um 4 (16:30 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,844 *Merge: slot missing:[NDR FS HH HD] Bilderbuch Deutschland (14:15 19.Sep > 15:00 19.Sep) -> [NDR FS HH HD] Leopard, Seebär & Co. (143) (17:10 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:57,844 *Merge +old: [NDR FS HH HD] NDR aktuell (15:00 19.Sep > 15:15 19.Sep)
-2014-09-19 14:06:57,844 *Merge +old: [NDR FS HH HD] mareTV (15:15 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,844 *Merge +old: [NDR FS HH HD] NDR aktuell (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,844 *Merge +old: [NDR FS HH HD] Mein Nachmittag (16:10 19.Sep > 17:10 19.Sep)
-2014-09-19 14:06:57,851 *Merge: slot missing:[Bayerisches Fernsehen Süd HD] Erntebräuche in Bayern (15:00 19.Sep > 15:30 19.Sep) -> [Bayerisches Fernsehen Süd HD] Honig erhält Heimat (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,851 *Merge +old: [Bayerisches Fernsehen Süd HD] Wir in Bayern (15:30 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:57,851 *Merge +old: [Bayerisches Fernsehen Süd HD] Rundschau (16:45 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,857 *Merge: slot missing:[Bayerisches FS Süd] Erntebräuche in Bayern (15:00 19.Sep > 15:30 19.Sep) -> [Bayerisches FS Süd] Honig erhält Heimat (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,858 *Merge +old: [Bayerisches FS Süd] Wir in Bayern (15:30 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:57,858 *Merge +old: [Bayerisches FS Süd] Rundschau (16:45 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,864 *Merge: slot missing:[hr-fernsehen] Der Rauch, der donnert - Die Victoria-Fälle (15:15 19.Sep > 16:00 19.Sep) -> [hr-fernsehen] hallo hessen (17:00 19.Sep > 17:50 19.Sep)
-2014-09-19 14:06:57,864 *Merge +old: [hr-fernsehen] hessenschau kompakt (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:57,865 *Merge +old: [hr-fernsehen] hallo hessen (16:05 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:57,865 *Merge +old: [hr-fernsehen] hessenschau kompakt (16:45 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,871 *Merge: slot missing:[SWR Fernsehen RP] Eisenbahn-Romantik (14:15 19.Sep > 14:45 19.Sep) -> [SWR Fernsehen RP] SWR Landesschau aktuell Rheinland-Pfalz (17:00 19.Sep > 17:05 19.Sep)
-2014-09-19 14:06:57,871 *Merge +old: [SWR Fernsehen RP] Bilderbuch: Madonnenländchen (14:45 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:57,871 *Merge +old: [SWR Fernsehen RP] Grünzeug unterwegs - auf der Landesgartenschau Schwäbisch Gmünd (4/5) (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,871 *Merge +old: [SWR Fernsehen RP] SWR Landesschau aktuell Rheinland-Pfalz (16:00 19.Sep > 16:05 19.Sep)
-2014-09-19 14:06:57,871 *Merge +old: [SWR Fernsehen RP] Kaffee oder Tee (16:05 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:57,988 Updating channel infos
-2014-09-19 14:06:57,997 *Merge: slot missing:[n-tv] Telebörse (14:10 19.Sep > 14:30 19.Sep) -> [n-tv] Nachrichten (17:00 19.Sep > 17:30 19.Sep)
-2014-09-19 14:06:57,997 *Merge +old: [n-tv] News Spezial (14:30 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:57,998 *Merge +old: [n-tv] Nachrichten (15:00 19.Sep > 15:10 19.Sep)
-2014-09-19 14:06:57,998 *Merge +old: [n-tv] Auslandsreport (15:10 19.Sep > 15:40 19.Sep)
-2014-09-19 14:06:57,998 *Merge +old: [n-tv] Telebörse (15:40 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:57,998 *Merge +old: [n-tv] Nachrichten (16:00 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:57,998 *Merge +old: [n-tv] Planeten-Jäger: Auf der Suche nach der Erde 2.0 (16:10 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:58,006 *Merge: slot missing:[SUPER RTL] Coop gegen Kat (14:30 19.Sep > 15:00 19.Sep) -> [SUPER RTL] Scooby-Doo! (17:20 19.Sep > 17:45 19.Sep)
-2014-09-19 14:06:58,006 *Merge +old: [SUPER RTL] 5 Freunde - Für alle Fälle (15:00 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:58,006 *Merge +old: [SUPER RTL] Sally Bollywood (15:30 19.Sep > 15:55 19.Sep)
-2014-09-19 14:06:58,006 *Merge +old: [SUPER RTL] Legenden von Chima (15:55 19.Sep > 16:25 19.Sep)
-2014-09-19 14:06:58,006 *Merge +old: [SUPER RTL] DreamWorks Dragons - Die Wächter von Berk (16:25 19.Sep > 16:50 19.Sep)
-2014-09-19 14:06:58,006 *Merge +old: [SUPER RTL] Cosmo & Wanda - Wenn Elfen helfen (16:50 19.Sep > 17:20 19.Sep)
-2014-09-19 14:06:58,011 *Merge: slot missing:[VOX] Shopping Queen (15:00 19.Sep > 16:00 19.Sep) -> [VOX] Mein himmlisches Hotel (17:00 19.Sep > 18:00 19.Sep)
-2014-09-19 14:06:58,011 *Merge +old: [VOX] 4 Hochzeiten und eine Traumreise (16:00 19.Sep > 17:00 19.Sep)
-2014-09-19 14:06:58,015 *Merge: slot missing:[RTL II] Frauentausch (14:57 19.Sep > 16:56 19.Sep) -> [RTL II] Köln 50667 (17:59 19.Sep > 19:00 19.Sep)
-2014-09-19 14:06:58,016 *-Gap: [RTL II] Frauentausch (14:57 19.Sep > 16:56 19.Sep)->[RTL II] Köln 50667 (17:59 19.Sep > 19:00 19.Sep)
-2014-09-19 14:06:58,068 Updating channel infos
-2014-09-19 14:06:58,073 *Merge: slot missing:[3sat HD] Die Tierklinik (2/2) (14:05 19.Sep > 14:35 19.Sep) -> [3sat HD] Bayerisches Rodeo (16:45 19.Sep > 17:15 19.Sep)
-2014-09-19 14:06:58,074 *Merge +old: [3sat HD] Schäfers Stündchen (14:35 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:58,074 *Merge +old: [3sat HD] Bock auf Ziegen (15:00 19.Sep > 15:30 19.Sep)
-2014-09-19 14:06:58,074 *Merge +old: [3sat HD] Das große Summen (15:30 19.Sep > 16:00 19.Sep)
-2014-09-19 14:06:58,074 *Merge +old: [3sat HD] Starenliebe am Ammersee (16:00 19.Sep > 16:45 19.Sep)
-2014-09-19 14:06:58,080 *Merge: slot missing:[ProSieben MAXX] Dragonball (14:15 19.Sep > 14:37 19.Sep) -> [ProSieben MAXX] One Piece (17:23 19.Sep > 17:50 19.Sep)
-2014-09-19 14:06:58,080 *Merge +old: [ProSieben MAXX] Dragonball (14:37 19.Sep > 15:00 19.Sep)
-2014-09-19 14:06:58,080 *Merge +old: [ProSieben MAXX] Pokémon (15:00 19.Sep > 15:24 19.Sep)
-2014-09-19 14:06:58,080 *Merge +old: [ProSieben MAXX] Pokémon (15:24 19.Sep > 15:46 19.Sep)
-2014-09-19 14:06:58,081 *Merge +old: [ProSieben MAXX] Yu-Gi-Oh! Zexal (15:46 19.Sep > 16:10 19.Sep)
-2014-09-19 14:06:58,081 *Merge +old: [ProSieben MAXX] Tenkai Knights (16:10 19.Sep > 16:34 19.Sep)
-2014-09-19 14:06:58,081 *Merge +old: [ProSieben MAXX] Naruto Shippuden (16:34 19.Sep > 16:57 19.Sep)
-2014-09-19 14:06:58,081 *Merge +old: [ProSieben MAXX] One Piece (16:57 19.Sep > 17:23 19.Sep)
-2014-09-19 14:06:58,081 *Merge: slot missing:[ProSieben MAXX] Stargate (04:00 20.Sep > 04:43 20.Sep) -> [ProSieben MAXX] Tierisch Extrem (04:52 20.Sep > 05:42 20.Sep)
-2014-09-19 14:06:58,082 *-Gap: [ProSieben MAXX] Stargate (04:00 20.Sep > 04:43 20.Sep)->[ProSieben MAXX] Tierisch Extrem (04:52 20.Sep > 05:42 20.Sep)
+<!DOCTYPE html><html><head><title>Micro Recorder Log</title><body> "2014-12-05 20:44:24,308 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:44:28,068 Setup channel infos
+2014-12-05 20:44:28,530 *-Gap: [sixx] Steven liebt Kino - Spezial: Paddington (06:32 06.Dec > 06:42 06.Dec)->[sixx] Trau Dich - Den REST erledige ich! (06:44 06.Dec > 07:56 06.Dec)
+2014-12-05 20:44:28,868 *-Gap: [SAT.1 Gold] Lenßen & Partner (07:32 06.Dec > 07:54 06.Dec)->[SAT.1 Gold] K 11 - Kommissare im Einsatz (08:38 06.Dec > 09:00 06.Dec)
+2014-12-05 20:44:28,870 *-Gap: [SAT.1 Gold] Britt (13:25 06.Dec > 14:05 06.Dec)->[SAT.1 Gold] Neu für Null - Schöner Wohnen ohne Geld (15:50 06.Dec > 16:14 06.Dec)
+2014-12-05 20:44:28,871 *-Gap: [SAT.1 Gold] Mord ist ihr Hobby (01:24 07.Dec > 02:09 07.Dec)->[SAT.1 Gold] Lenßen & Partner (03:18 07.Dec > 03:40 07.Dec)
+2014-12-05 20:44:28,872 *-Gap: [SAT.1 Gold] Lenßen & Partner (03:18 07.Dec > 03:40 07.Dec)->[SAT.1 Gold] K 11 - Kommissare im Einsatz (04:24 07.Dec > 04:46 07.Dec)
+2014-12-05 20:44:28,873 *-Gap: [SAT.1 Gold] K 11 - Kommissare im Einsatz (05:31 07.Dec > 06:00 07.Dec)->[SAT.1 Gold] Lenßen & Partner (06:24 07.Dec > 06:46 07.Dec)
+2014-12-05 20:44:28,875 *-Gap: [SAT.1 Gold] Lenßen & Partner (06:46 07.Dec > 07:07 07.Dec)->[SAT.1 Gold] Edel & Starck (08:16 07.Dec > 09:02 07.Dec)
+2014-12-05 20:44:28,876 *-Gap: [SAT.1 Gold] Edel & Starck (08:16 07.Dec > 09:02 07.Dec)->[SAT.1 Gold] Bonanza (10:31 07.Dec > 11:17 07.Dec)
+2014-12-05 20:44:28,877 *-Gap: [SAT.1 Gold] Britt (03:10 08.Dec > 03:50 08.Dec)->[SAT.1 Gold] Richter Alexander Hold (04:34 08.Dec > 05:19 08.Dec)
+2014-12-05 20:44:29,489 *-Gap: [N24] Geheimnisse des Weltalls: UFOs und Aliens (05:21 06.Dec > 06:04 06.Dec)->[N24] U-Bootklasse 206 Alpha - Letzte Schleichfahrt Richtung Schrottplatz (06:54 06.Dec > 07:59 06.Dec)
+2014-12-05 20:44:30,114 *-Gap: [ProSieben MAXX] Pokémon (05:42 08.Dec > 06:07 08.Dec)->[ProSieben MAXX] Yu-Gi-Oh! 5D's (06:55 08.Dec > 07:21 08.Dec)
+2014-12-05 20:44:30,115 *-Gap: [ProSieben MAXX] Pokémon (15:12 08.Dec > 15:36 08.Dec)->[ProSieben MAXX] Naruto Shippuden (16:25 08.Dec > 16:47 08.Dec)
+2014-12-05 20:44:30,117 *-Gap: [ProSieben MAXX] Galileo Genial (05:13 09.Dec > 05:44 09.Dec)->[ProSieben MAXX] Pokémon (06:32 09.Dec > 06:57 09.Dec)
+2014-12-05 20:44:30,118 *-Gap: [ProSieben MAXX] Naruto Shippuden (07:23 09.Dec > 07:46 09.Dec)->[ProSieben MAXX] Stargate (10:43 09.Dec > 11:30 09.Dec)
+2014-12-05 20:44:30,120 *-Gap: [ProSieben MAXX] Jackie Chan (14:25 09.Dec > 14:48 09.Dec)->[ProSieben MAXX] Yu-Gi-Oh! 5D's (15:36 09.Dec > 16:02 09.Dec)
+2014-12-05 20:44:30,121 *-Gap: [ProSieben MAXX] Digimon Fusion (16:02 09.Dec > 16:25 09.Dec)->[ProSieben MAXX] Andromeda (17:49 09.Dec > 18:35 09.Dec)
+2014-12-05 20:44:30,216 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (03:34 07.Dec > 04:13 07.Dec)->[kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (04:55 07.Dec > 05:46 07.Dec)
+2014-12-05 20:44:30,217 *-Gap: [kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (04:55 07.Dec > 05:46 07.Dec)->[kabel eins] Without a Trace - Spurlos verschwunden (05:47 07.Dec > 06:30 07.Dec)
+2014-12-05 20:44:30,219 *-Gap: [kabel eins] Charmed - Zauberhafte Hexen (12:57 08.Dec > 13:55 08.Dec)->[kabel eins] kabel eins news (15:50 08.Dec > 16:00 08.Dec)
+2014-12-05 20:44:30,220 *-Gap: [kabel eins] kabel eins late news (00:59 09.Dec > 01:02 09.Dec)->[kabel eins] Tränen der Sonne (03:03 09.Dec > 04:59 09.Dec)
+2014-12-05 20:44:32,050 Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-12-05 20:44:32,052 EPG Update failed: Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-12-05 20:47:04,535 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:47:08,189 Setup channel infos
+2014-12-05 20:47:08,623 *-Gap: [sixx] Steven liebt Kino - Spezial: Paddington (06:32 06.Dec > 06:42 06.Dec)->[sixx] Trau Dich - Den REST erledige ich! (06:44 06.Dec > 07:56 06.Dec)
+2014-12-05 20:47:08,936 *-Gap: [SAT.1 Gold] Lenßen & Partner (07:32 06.Dec > 07:54 06.Dec)->[SAT.1 Gold] K 11 - Kommissare im Einsatz (08:38 06.Dec > 09:00 06.Dec)
+2014-12-05 20:47:08,937 *-Gap: [SAT.1 Gold] Britt (13:25 06.Dec > 14:05 06.Dec)->[SAT.1 Gold] Neu für Null - Schöner Wohnen ohne Geld (15:50 06.Dec > 16:14 06.Dec)
+2014-12-05 20:47:08,938 *-Gap: [SAT.1 Gold] Mord ist ihr Hobby (01:24 07.Dec > 02:09 07.Dec)->[SAT.1 Gold] Lenßen & Partner (03:18 07.Dec > 03:40 07.Dec)
+2014-12-05 20:47:08,940 *-Gap: [SAT.1 Gold] Lenßen & Partner (03:18 07.Dec > 03:40 07.Dec)->[SAT.1 Gold] K 11 - Kommissare im Einsatz (04:24 07.Dec > 04:46 07.Dec)
+2014-12-05 20:47:08,941 *-Gap: [SAT.1 Gold] K 11 - Kommissare im Einsatz (05:31 07.Dec > 06:00 07.Dec)->[SAT.1 Gold] Lenßen & Partner (06:24 07.Dec > 06:46 07.Dec)
+2014-12-05 20:47:08,942 *-Gap: [SAT.1 Gold] Lenßen & Partner (06:46 07.Dec > 07:07 07.Dec)->[SAT.1 Gold] Edel & Starck (08:16 07.Dec > 09:02 07.Dec)
+2014-12-05 20:47:08,943 *-Gap: [SAT.1 Gold] Edel & Starck (08:16 07.Dec > 09:02 07.Dec)->[SAT.1 Gold] Bonanza (10:31 07.Dec > 11:17 07.Dec)
+2014-12-05 20:47:08,944 *-Gap: [SAT.1 Gold] Britt (03:10 08.Dec > 03:50 08.Dec)->[SAT.1 Gold] Richter Alexander Hold (04:34 08.Dec > 05:19 08.Dec)
+2014-12-05 20:47:09,540 *-Gap: [N24] Geheimnisse des Weltalls: UFOs und Aliens (05:21 06.Dec > 06:04 06.Dec)->[N24] U-Bootklasse 206 Alpha - Letzte Schleichfahrt Richtung Schrottplatz (06:54 06.Dec > 07:59 06.Dec)
+2014-12-05 20:47:10,169 *-Gap: [ProSieben MAXX] Pokémon (05:42 08.Dec > 06:07 08.Dec)->[ProSieben MAXX] Yu-Gi-Oh! 5D's (06:55 08.Dec > 07:21 08.Dec)
+2014-12-05 20:47:10,171 *-Gap: [ProSieben MAXX] Pokémon (15:12 08.Dec > 15:36 08.Dec)->[ProSieben MAXX] Naruto Shippuden (16:25 08.Dec > 16:47 08.Dec)
+2014-12-05 20:47:10,173 *-Gap: [ProSieben MAXX] Galileo Genial (05:13 09.Dec > 05:44 09.Dec)->[ProSieben MAXX] Pokémon (06:32 09.Dec > 06:57 09.Dec)
+2014-12-05 20:47:10,174 *-Gap: [ProSieben MAXX] Naruto Shippuden (07:23 09.Dec > 07:46 09.Dec)->[ProSieben MAXX] Stargate (10:43 09.Dec > 11:30 09.Dec)
+2014-12-05 20:47:10,175 *-Gap: [ProSieben MAXX] Jackie Chan (14:25 09.Dec > 14:48 09.Dec)->[ProSieben MAXX] Yu-Gi-Oh! 5D's (15:36 09.Dec > 16:02 09.Dec)
+2014-12-05 20:47:10,176 *-Gap: [ProSieben MAXX] Digimon Fusion (16:02 09.Dec > 16:25 09.Dec)->[ProSieben MAXX] Andromeda (17:49 09.Dec > 18:35 09.Dec)
+2014-12-05 20:47:10,275 *-Gap: [kabel eins] Medium - Nichts bleibt verborgen (03:34 07.Dec > 04:13 07.Dec)->[kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (04:55 07.Dec > 05:46 07.Dec)
+2014-12-05 20:47:10,277 *-Gap: [kabel eins] Ghost Whisperer - Stimmen aus dem Jenseits (04:55 07.Dec > 05:46 07.Dec)->[kabel eins] Without a Trace - Spurlos verschwunden (05:47 07.Dec > 06:30 07.Dec)
+2014-12-05 20:47:10,279 *-Gap: [kabel eins] Charmed - Zauberhafte Hexen (12:57 08.Dec > 13:55 08.Dec)->[kabel eins] kabel eins news (15:50 08.Dec > 16:00 08.Dec)
+2014-12-05 20:47:10,280 *-Gap: [kabel eins] kabel eins late news (00:59 09.Dec > 01:02 09.Dec)->[kabel eins] Tränen der Sonne (03:03 09.Dec > 04:59 09.Dec)
+2014-12-05 20:48:56,546 Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-12-05 20:49:12,762 EPG Update failed: Error while retrieving EPG data: ("ERROR: failed opening '/dev/dvb/adapter0/frontend0' (No such file or directory)\n",)
+2014-12-05 20:52:52,567 Invalid channel path
+2014-12-05 20:52:52,571 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:52:53,842 No EPG data received
+2014-12-05 20:52:53,843 EPG Update failed: No EPG data received
+2014-12-05 20:57:48,464 Invalid channel path
+2014-12-05 20:57:48,466 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:57:48,707 No EPG data received
+2014-12-05 20:57:48,707 EPG Update failed: No EPG data received
+2014-12-05 20:58:15,991 Invalid channel path
+2014-12-05 20:58:15,995 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:58:17,260 No EPG data received
+2014-12-05 20:58:17,261 EPG Update failed: No EPG data received
+2014-12-05 20:58:30,430 Invalid channel path
+2014-12-05 20:58:30,434 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:58:31,719 No EPG data received
+2014-12-05 20:58:31,721 EPG Update failed: No EPG data received
+2014-12-05 20:58:43,008 Invalid channel path
+2014-12-05 20:58:49,853 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 20:58:51,337 No EPG data received
+2014-12-05 20:58:51,338 EPG Update failed: No EPG data received
+2014-12-05 21:01:46,046 Invalid channel path
+2014-12-05 21:01:58,615 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 21:02:24,951 No EPG data received
+2014-12-05 21:02:41,671 EPG Update failed: No EPG data received
+2014-12-05 21:06:10,791 Invalid channel path
+2014-12-05 21:06:10,795 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 21:06:12,276 No EPG data received
+2014-12-05 21:06:12,277 EPG Update failed: No EPG data received
+2014-12-05 21:07:14,392 Invalid channel path
+2014-12-05 21:07:14,399 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 21:07:15,834 No EPG data received
+2014-12-05 21:07:15,835 EPG Update failed: No EPG data received
+2014-12-05 21:17:08,223 Invalid channel path
+2014-12-05 21:17:08,229 Starting daemon..
+2014-12-05 21:17:09,614 creating a maintenance rec entry
+2014-12-05 21:17:09,616 Last EPG update -1 day(s) ago - Updating now..
+2014-12-05 21:17:10,972 No EPG data received
+2014-12-05 21:17:10,973 EPG Update failed: No EPG data received
+2014-12-05 21:17:10,974 Observing recorder queue until  06.12-21:17.07. Execute 'sleepModeOn' for VCR mode
+" </body></html>

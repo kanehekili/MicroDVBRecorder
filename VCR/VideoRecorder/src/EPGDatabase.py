@@ -155,7 +155,7 @@ class EpgDatabase:
         mergedList=[]
         for epgInfo in newDayList:
             if self._hasTimeGap(prevInfo,epgInfo):
-                self._config.logInfo("*Merge: slot missing:"+prevInfo.getString()+" -> "+epgInfo.getString())
+                #self._config.logInfo("*Merge: slot missing:"+prevInfo.getString()+" -> "+epgInfo.getString())
                 slots = self._getMissingSlots(dbDayList, prevInfo.getEndTime(), epgInfo.getStartTime())
                 mergedList.extend(slots)
             mergedList.append(epgInfo)
@@ -190,8 +190,8 @@ class EpgDatabase:
                 continue
             if entry.getStartTime()>= startTime:
                 missingSlots.append(entry)
-        if len(missingSlots)>0:
-                self._config.logInfo("*Merged +tail ("+str(len(missingSlots))+") starting at: "+missingSlots[0].getString())
+        #if len(missingSlots)>0:
+                #self._config.logInfo("*Merged +tail ("+str(len(missingSlots))+") starting at: "+missingSlots[0].getString())
         return missingSlots
     
     '''
@@ -205,7 +205,7 @@ class EpgDatabase:
             if entry.getStartTime() >= endTime:
                 return missingSlots
             if entry.getStartTime() >= startTime and entry.getEndTime() <= endTime:
-                self._config.logInfo("*Merge +old: "+entry.getString())
+                #self._config.logInfo("*Merge +old: "+entry.getString())
                 missingSlots.append(entry)
                 
         return missingSlots
@@ -217,17 +217,10 @@ class EpgDatabase:
         t2 = nextInfo.getStartTime()
         return t1 != t2
         
-    #TODO:obsolete    
-    def _findTimeslot(self,aList, epgInfo):
-        for epg in aList:
-            if epg.getStartTime()==epgInfo.getStartTime():
-                return epg
-        return None
-            
+      
     def _verifyListConsistency(self,mergedList):
         if len(mergedList)==0:
             return
-        #TODO: Gaps from the day before and the first entry are not recognized       
         filledGapList=[]
         
         previousEpgInfo=mergedList[0]
@@ -283,34 +276,12 @@ class EpgDatabase:
             ## removes double and old entries!
             if not epgInfo.isAlike(previousEntry):
                 currentList.append(epgInfo)
-#                 if not self._isEntryOverlapping(epgInfo, previousEntry):   
-#                     currentList.append(epgInfo)
-#                 elif self._mergeOverlappingItem(previousEntry, epgInfo):
-#                     self._config.logInfo("Altered: "+epgInfo.getString())
-#                     currentList.append(epgInfo) 
 
             previousEntry = epgInfo   
         
         return dayToDayList
 
-    #rule of thumb: adapt the second item to the first. 
-    #TODO: obsolete
-    def _mergeOverlappingItem(self,firstItem,secondItem):
-        secondItem.setStartTime(firstItem.getEndTime())
-        return secondItem.getDurationInSeconds() > 5*60
-            
-    #TODO: obsolete        
-    def _isEntryOverlapping(self,epgInfo, previousEpgInfo):
-        if previousEpgInfo is None:
-            return False
-        
-        isOverlapping = epgInfo.overlapsWith(previousEpgInfo)
-        if isOverlapping:
-            self._config.logInfo("!Overlaps: "+previousEpgInfo.getString()+">>"+epgInfo.getString())
-        
-        return isOverlapping            
-    
-        
+     
 
 #Access to autoselect list. Reads and writes to file    
 class AutoSelectAccessor:
@@ -321,7 +292,6 @@ class AutoSelectAccessor:
         self.readAutoSelectData()
             
     def addAutoSelectPreference(self,epgInfo):
-        #TODO:- introduce week day!
         if self._isEPGRegistered(epgInfo):
             self._config.logInfo("Double AutoSelect entry - ignored ")
         else:

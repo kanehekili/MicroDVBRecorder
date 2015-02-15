@@ -117,6 +117,13 @@ def rtcWake(secondsToWakeup,rtcMode):
     secondStr=str(secondsToWakeup)
     return Popen(["sudo","rtcwake","-s",secondStr,"-m",rtcMode],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 
+def getWorkingDirectory():
+    abspath = os.path.abspath(__file__)
+    dname = os.path.dirname(abspath)
+    return dname               
+
+def changeWorkingDirectory(path):
+    os.chdir(path)
 
 def ensureDirectory(path,tail):
     #make sure the target dir is present

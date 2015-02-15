@@ -13,16 +13,50 @@ var CHANNEL_SELECTION_KEY = document.domain+"channelSelection";
 var MODE_DATA = 0xA0;
 var MODE_REC = 0xA1;
 var MODE_BLOCK = 0xA3;
+var touchDragItem;
 
 /*
  * Note:
  * var functionX = function() == is defined at runtime, calls muss lie below it.
  * function functionX() == defined at parse time, so refrences can be anywhere
+ * 
+ * TODO FULLSCREEN
+ * 	touchTODO = document.getElementById("wrap");
+	touchTODO.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+	touchTODO.requestFullscreen();
  */
 
 var initialize = function(){
 	connectToServer();
 	hookActionEvents();
+	var rootElement = document.documentElement;
+    //no context menu
+    window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
+    //prevents hover effects
+    if ("ontouchstart" in rootElement) {
+        rootElement.className += " no-touch";
+        setDynamicCSS("touchdefault.css");
+    }
+    else {
+        setDynamicCSS("clickdefault.css");
+    }
+    
+    	touchDragItem = document.createElement("div");
+	    touchDragItem.id="draggable";
+	    rootElement.appendChild(touchDragItem);
+        resetTouchDragItem();
+    //}
+};
+
+function setDynamicCSS(cssName){
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.id   = 0xAE;
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = './css/'+cssName;
+    link.media = 'all';
+    head.appendChild(link);
 };
 
 function refreshProgrammList(){
@@ -44,7 +78,7 @@ function executeServerCommand(aServerCommand){
 	var url="cmd";
 	var jCommand = JSON.stringify(aServerCommand,aServerCommand.stringify);
 	var request = new XMLHttpRequest();
-	request.open("POST",url,false);
+	request.open("POST",url,true);
 	request.onload = function() {
 		if (request.status==200){
 			handleServerResponse(aServerCommand,request.responseText);
@@ -99,7 +133,7 @@ function handleServerResponse(aServerCommand,jsonResult){
 		return;
 	}
 	if (command=="AUTO_SELECT"){ //DnD add to autoselect
-		console.log("select done");
+		showStatus("Idle");
 		return;
 	}
 	
@@ -158,12 +192,26 @@ function getSortedChannels(channels){
 };
 
 function updateProgrammList(jsonResult){
+	var currentDayPos = nearestDayRow();
 	var builder = new ProgramListBuilder(jsonResult);
 	var ok= builder.updateProgrammList()
 	channelList.getSelected().setSelection();
 	localStorage[CHANNEL_SELECTION_KEY] = channelList.selectedIndex;
+	//this is a webkit bug: Scrolling will lead to empty screen. Evil?
+	var programmDOM=document.getElementById("programmbody");
+	programmDOM.style.display='none';
+	programmDOM.offsetHeight;
+	programmDOM.style.display='block';
+	if (currentDayPos != null) {
+		var nextHook=getDayRowByName(currentDayPos.innerHTML);
+		if (nextHook != null){
+			nextHook.scrollIntoView(true);
+		}
+
+	}
 	if (ok)
 		showStatus("Infos loaded");
+	
 };
 
 
@@ -212,6 +260,7 @@ var hookActionEvents = function(){
 	}
 	//- rec overlay close btn
 	document.getElementById("ox1").addEventListener("click",onOverlayClose,false);
+    document.getElementById("recList_form").addEventListener("click",onOverlayClose,false);
 };
 
 //--- DnD action handler -----
@@ -271,7 +320,7 @@ var handleAutoListClicked= function(event) {
 
 //-Log button button
 var handleShowLogClicked=function(event) {
-	window.open("/Log.txt",'_blank');
+	window.open("/Log.html",'_blank');
 };
 //--Rec list handler
 var handleRecListClicked= function(event) {

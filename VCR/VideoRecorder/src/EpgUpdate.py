@@ -118,14 +118,8 @@ class EpgUpdater:
             #mark the newly received data in the record queue
             epgsToCheck=autoSelector.getEPGListForAutoSelect(dayToDayList)
             for epgInfo in epgsToCheck:
-                requestedForRecording = True
-                if epgInfo.isBlockedForRecord():
-                    requestedForRecording = False
-                if epgInfo.isMarkedForRecord():
-                    requestedForRecording = False
-                if requestedForRecording:
+                if not (epgInfo.isBlockedForRecord() or epgInfo.isMarkedForRecord()):
                     self._recordQueue.addRecording(epgInfo)
-
 
 
     def _getEPGDevice(self):

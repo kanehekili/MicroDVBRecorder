@@ -1,6 +1,6 @@
 .overlay {
     background-color: rgba(0, 0, 0, 0.6);
-    bottom: 0;
+    bottom: 45px;
     cursor: default;
     left: 0;
     opacity: 0;
@@ -20,6 +20,7 @@
     visibility: visible;
      opacity: 1;
 }
+
 .popup {
     background-color: #fff;
     border: 3px solid #fff;
@@ -69,12 +70,14 @@
     background-color: rgba(255, 0, 0, 0.8);
     height: 30px;
     line-height: 30px;
+    width: 30px;
+       
     position: absolute;
     right: 0;
     text-align: center;
     text-decoration: none;
     top: -15px;
-    width: 30px;
+
 
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
@@ -143,12 +146,11 @@ input#recBtnStore {
   box-shadow: 0px 2px 4px #aaa, inset 0px 1px 2px #efefef;
 }
 
-
 /*frame for select list*/
 .SelectFrame {
    display:inline-block;
-   height:400px;
-   width:450px;
+   height:60vh;
+   width:60vw;
    background:#F8EEEE;
    margin:5px;
   overflow-y:scroll;
@@ -171,6 +173,10 @@ input#recBtnStore {
 
 .InfoPeriod{
 	min-width: 30px;
+
+}
+.InfoSelect{
+    font-size:1.2em;
 }
 
 .RecMargins {
@@ -194,8 +200,13 @@ input#recBtnStore {
     border-bottom:1px inset;
     width:100%;
 }
-.InfoRow{
-	font-size: 12px;
-	white-space: nowrap;
-	display: table-row;
+
+.InfoRowHover{
+	background: linear-gradient(to bottom, rgba(196,196,196,0.01) 0%,rgba(255,255,255,0.02) 50%,rgba(0,0,0,0.05) 90%,rgba(0,0,0,0.3) 100%); /* W3C */
 }
+.InfoRowHit{
+    color:#F7FE2E;
+	background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);
+	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));
+}
+
