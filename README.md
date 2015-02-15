@@ -4,7 +4,9 @@ Version 3.0.2
 
 DVB-T/C Recording Daemon + Webservice  Runs on Linux X86 and arm
 
-MicroDVB Recorder has been written for recording TV films from dvb devices. The software uses the EPG Data contained in the TV Stream to update its program guide.
+![Screenshot](https://github.com/kanehekili/MicroDVBRecorder/blob/master/Recorder.png)
+
+MicroDVB Recorder has been written for recording TV films from dvb devices. The software uses the EPG Data contained in the TV Stream to update its program guide.<br>
 The EPG grabbing code (tv_Grab_dvb)  has been taken and adapted from http://bryars.eu/projects/tv_grab_dvb/
 
 In order to use the Recorder the following prerequisites have to be met:
@@ -19,11 +21,9 @@ MDVBRecorder needs a channel list in *zap format, so in order to retrieve the ch
 
 w_scan -f c -x -c de (de is for Germany, use your country code )
 
-The resulting file needs to be in one of the follwing directories in "home":
-
-.tzap\channels.conf, 
+The resulting file needs to be in one of the follwing directories in "home":<br>
+.tzap\channels.conf<br>
 .czap\channels.conf
-
 
 The channels.conf is the base for getting the EPG data as well as the recording. Prior to starting the recorder please check if it works:
 czap "ZDF" or tzap "ARD" or whatever channel names you have.
@@ -35,15 +35,15 @@ Unpack the mdvbrec tar file in a dedicated folder (i.e Recorder) and make the fo
 * all sh files in that folder using "chmod+x"
 
 In case you are using a Sundtek Media Pro DVB Stick it is strongly recommended to download the drivers and install them with:
-./sundtek_netinst.sh -system
-The necessary "LD_PRELOAD" export is included in all relevant executables.
+<br>./sundtek_netinst.sh -system
+<br>The necessary "LD_PRELOAD" export is included in all relevant executables.
 
 ###Configuring the basics
 MDVBRec needs to know which kind of device it should use. Tested are TZAP and CZAP. Plugins may be written to support more devices
-*(ONE OF "TZAP" "CZAP")
-RECORD_TYPE = CZAP
-*Indicates where the files should be stored:
-RECORDING_PATH = /home/Video/recme
+<br>*ONE OF "TZAP" "CZAP")
+<br>RECORD_TYPE = CZAP
+<br>*Indicates where the files should be stored:
+<br>RECORDING_PATH = /home/Video/recme
 
 
 Recorder Daemon
@@ -51,21 +51,21 @@ Recorder Daemon
 The deamon can be started with the "startDaemon.sh"
 
 If all prerequisites are met it will start reading the EPG data, which might take up to 10 minutes. If done the deamon will now wait until a recording is scheduled.
-The daemon will create folders named as the channel. Its file names will contain a time stamp and the title.
-An additional "info.txt" file lists the descriptions per file.
-The type of file may either be mp2 (transport stream) or AVCHD (mp4 transport Stream)
+<br>The daemon will create folders named as the channel. Its file names will contain a time stamp and the title.
+<br>An additional "info.txt" file lists the descriptions per file.
+<br>The type of file may either be mp2 (transport stream) or AVCHD (mp4 transport Stream)
 
 ###Converting/Handling
-SD: mp2 ts files can be cut & converted with DVBCut. Very convinient an fast.
-HD: mp4 ? Im working on a VideoCut right now. Until then you may cut the files and convert them using ffmpeg.
-Tip (fastseek): ffmpeg -ss 00:05:30.00 -i in.m2t -t 00:29:00 -vcodec copy  -acodec copy out.mp4
+<br>SD: mp2 ts files can be cut & converted with DVBCut. Very convinient an fast.
+<br>HD: mp4 ? Im working on a VideoCut right now. Until then you may cut the files and convert them using ffmpeg.
+<br>Tip (fastseek): ffmpeg -ss 00:05:30.00 -i in.m2t -t 00:29:00 -vcodec copy  -acodec copy out.mp4
 
 WebServer
 ---------
 As frontend a Webserver must be startet, using the "startWebServer.sh"
-Enter the follwing URL in your favourite browser (no- not IE ):
-ipaddress:8080/
-You should see the channels as well as the program list 
+<br>Enter the follwing URL in your favourite browser (no- not IE ):
+<br>ipaddress:8080/
+<br>You should see the channels as well as the program list 
 
 MDVBREC Interface
 -----------------
@@ -85,18 +85,18 @@ The recorder runs (deamon and web server) on a cubieboard. If you use an arm dev
 
 ###Keeping the sessions with tmux
 If tmux is installed you can use tmuxStart.sh to run both daemon and webserver in a session. Whenever you log in via ssh on the device the session can be restored with "tmux a"
-In the tmux window the sessions can be supervised or killed (use crtl+c)
+<br>In the tmux window the sessions can be supervised or killed (use crtl+c)
 
 
 VCR Mode
 ---------
 If you are using a Laptop or worse you may activate the VCR Mode.
-The mode will put the computer to sleep until the next recording. After the recording, it will sleep again, so saving some energy (and noise)
-Note that the webserver will also not be available at that time...
-If turned on again (e.g by liftig the lid) the Recording deamon will go into Server mode - so VCR mode has to be switched on again.
-For this mode these files help:
-./serverModeOn switches from VCR mode to server mode
-./sleepModeOn switches to VCR Mode. The computer will, if not just recording, be put into sleep.
+<br>The mode will put the computer to sleep until the next recording. After the recording, it will sleep again, so saving some energy (and noise)
+<br>Note that the webserver will also not be available at that time...
+<br>If turned on again (e.g by liftig the lid) the Recording deamon will go into Server mode - so VCR mode has to be switched on again.
+<br>For this mode these files help:
+* ./serverModeOn switches from VCR mode to server mode
+* ./sleepModeOn switches to VCR Mode. The computer will, if not just recording, be put into sleep.
 
 ###Note for VCR Policy
 In order to run this daemon the /etc/sudoer file has to be changed:
