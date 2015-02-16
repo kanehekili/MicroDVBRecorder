@@ -186,12 +186,12 @@ class WebRecorder():
     def updateRecorderMargins(self,jsonString):
         jsonList = json.loads(jsonString)
         recInfoList = self.progProvider.getRecordQueue().getRecList();
-        for dict in jsonList:
-            jobID= dict["jobID"].encode('utf-8')
+        for jEntry in jsonList:
+            jobID= jEntry["jobID"].encode('utf-8')
             found = next((recEntry for recEntry in recInfoList if recEntry.getEPGInfo().getJobID()==jobID),None)
             if found:
-                found.setMarginStart(dict["marginStart"])
-                found.setMarginStop(dict["marginStop"])
+                found.setMarginStart(jEntry["marginStart"])
+                found.setMarginStop(jEntry["marginStop"])
         
         self.progProvider.getRecordQueue()._storeRecordQueue(recInfoList)
 
