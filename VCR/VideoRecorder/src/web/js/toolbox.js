@@ -186,7 +186,6 @@ TouchHandler.prototype._connectToTouch = function(){
 };
 //thru "bind" context is this, not the dom
 TouchHandler.prototype.handleTouchStart= function(event){
-    showStatus("touchStart");
 	var touch=event.changedTouches[0];
 	this.startX=touch.pageX;
 	this.startY=touch.pageY;
@@ -208,7 +207,6 @@ TouchHandler.prototype.handleTouchStart= function(event){
 };
 
 TouchHandler.prototype.handleContextMenu= function(event){
-    showStatus("CTX MENU");
     this.touchMode=TouchHandler.MODE_LONGTAB;
     removeClassName(this.domObject,"InfoRowHover");
 	addClassName(this.domObject,"InfoRowHit");
@@ -217,7 +215,6 @@ TouchHandler.prototype.handleContextMenu= function(event){
 
 //Android hook- does not really show moves!
 TouchHandler.prototype.handleTouchCanx= function(event){
-    showStatus("touch canx");
 	removeClassName(this.domObject,"InfoRowHover");
 	removeClassName(this.domObject,"InfoRowHit");
     this.lastTouch=null;
@@ -226,7 +223,6 @@ TouchHandler.prototype.handleTouchCanx= function(event){
 
 TouchHandler.prototype.handleTouchLeave= function(event){
      //Stub
-     showStatus("touch lea ve");
 };
 
 TouchHandler.prototype.handleTouchMove= function(event){
@@ -235,20 +231,17 @@ TouchHandler.prototype.handleTouchMove= function(event){
     var dy = Math.abs(touch.pageY-this.startY);
     touch.touchMode=this.touchMode;
     if (dx>dy){
-        //showStatus("touch HORZ");
         event.preventDefault();//needed if we want a horizonal swipe - otherwise canx is activated
     }
     
     if (this.connectOnTouchMove !=null && this.connectOnTouchMove(touch)){
            event.preventDefault();//This prevents scrolling in a list, but fires more touch events
-           showStatus("touch move");
-    }
+     }
 
 
 	if (this.touchMode == TouchHandler.MODE_SWIPEY && !isTouched(this.domObject,touch.pageX,touch.pageY)){
     	removeClassName(this.domObject,"InfoRowHover");
 		removeClassName(this.domObject,"InfoRowHit");
-        showStatus("touch move EXIT: "+this.domObject.innerHTML);
         return;
 	}
 
@@ -282,7 +275,6 @@ TouchHandler.prototype.handleTouchEnd= function(event){
        this.connectOnTouchEnd(touch);
        
 	if (!isTouched(this.domObject,touch.pageX,touch.pageY)){
-        showStatus("touch end X");
  		return;
 	}
 	
@@ -301,7 +293,6 @@ TouchHandler.prototype.handleTouchEnd= function(event){
 		if (this.runOnTab != null && delta>200)
 			this.runOnTab(touch);
 	}
-    showStatus("touch end");
 	this.touchMode=TouchHandler.MODE_NONE;
     this.lastTouch=null;
 	//event.preventDefault();
