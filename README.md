@@ -12,14 +12,15 @@ The EPG grabbing code (tv_Grab_dvb)  has been taken and adapted from http://brya
 In order to use the Recorder the following prerequisites have to be met:
 * dvb-apps or equivalent 
 * rtcwake (only if VCR mode is used)
-* Sundtek driver if using a Sundtek Stick
+* tmux - if you want to keep the sessions on a server (optional)
+* Firmware for you DVB stick or a Sundtek driver if using a Sundtek Stick
 
-###Setting up the DVB:
-The dvb-apps usually come with a commandline tool called w_scan.
+###Preparing the DVB system:
+Download the "dvb-apps" package. It usually come with a commandline tool called _w_scan_.
 
-MDVBRecorder needs a channel list in *zap format, so in order to retrieve the channels install your stick, hook it to the device and execute:
+MDVBRecorder needs a channel list in *zap format, so in order to retrieve the channels install your DVB-stick, connect it to the device and execute:
 
-w_scan -f c -x -c de (de is for Germany, use your country code )
+<code>w_scan -f c -x -c de</code> (de is for Germany, use your country code )
 
 The resulting file needs to be in one of the follwing directories in "home":<br>
 .tzap\channels.conf<br>
@@ -29,22 +30,21 @@ The channels.conf is the base for getting the EPG data as well as the recording.
 czap "ZDF" or tzap "ARD" or whatever channel names you have.
 
 ###Preparing the executables
-Unpack the mdvbrec tar file in a dedicated folder (i.e Recorder) and make the following files executable:
+Unpack the _mdvbrec.tar_ file (found in the _build_ folder) to a dedicated folder (i.e Recorder) and make the following files executable:
 * mdvbrec\bin czapRecord.sh,
 * tv_grab_dvb
 * all sh files in that folder using "chmod+x"
 
 In case you are using a Sundtek Media Pro DVB Stick it is strongly recommended to download the drivers and install them with:
-<br>./sundtek_netinst.sh -system
+<br><code>./sundtek_netinst.sh -system</code>
 <br>The necessary "LD_PRELOAD" export is included in all relevant executables.
 
 ###Configuring the basics
-MDVBRec needs to know which kind of device it should use. Tested are TZAP and CZAP. Plugins may be written to support more devices
+MDVBRec needs to know which kind of device it should use. Edit the config file "xmltv/config.xml". Tested are TZAP and CZAP. Plugins may be written to support more devices
 <br>*ONE OF "TZAP" "CZAP")
 <br>RECORD_TYPE = CZAP
 <br>*Indicates where the files should be stored:
 <br>RECORDING_PATH = /home/Video/recme
-
 
 Recorder Daemon
 ---------------
@@ -67,6 +67,10 @@ As frontend a Webserver must be startet, using the "startWebServer.sh"
 <br>ipaddress:8080/
 <br>You should see the channels as well as the program list 
 
+##GTK GUI
+You may use a GTK application instead of the webserver. A desktop file can be found in the "mdvbrec.tar". Copy it to .local/share/applications.
+
+
 MDVBREC Interface
 -----------------
 * Green Arrows: Move up and down one day
@@ -81,7 +85,8 @@ Double click on a programm item will put it in the record queue. An icon might s
 
 Arm support
 -----------
-The recorder runs (deamon and web server) on a cubieboard. If you use an arm device, replace tv_grab_dvb with the /arm/tv_grab_dvb version by copying it.
+The recorder runs also (daemon and web server) on a cubieboard or rasberry pi. If you use an arm device, replace tv_grab_dvb with the /arm/tv_grab_dvb version by copying it.
+Note that there is no support for "openelec" yet - there are plans to change that.
 
 ###Keeping the sessions with tmux
 If tmux is installed you can use tmuxStart.sh to run both daemon and webserver in a session. Whenever you log in via ssh on the device the session can be restored with "tmux a"
