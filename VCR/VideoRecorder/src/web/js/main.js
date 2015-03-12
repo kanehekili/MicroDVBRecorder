@@ -19,33 +19,30 @@ var touchDragItem;
  * Note:
  * var functionX = function() == is defined at runtime, calls muss lie below it.
  * function functionX() == defined at parse time, so refrences can be anywhere
- * 
- * TODO FULLSCREEN
- * 	touchTODO = document.getElementById("wrap");
-	touchTODO.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-	touchTODO.requestFullscreen();
  */
+window.onload=initialize;
 
-var initialize = function(){
+function initialize(){
+    //BROWSER_TYPE=checkBrowserType();
 	connectToServer();
 	hookActionEvents();
 	var rootElement = document.documentElement;
+
     //no context menu
     window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
-    //prevents hover effects
     if ("ontouchstart" in rootElement) {
+        //prevents hover effects?
         rootElement.className += " no-touch";
         setDynamicCSS("touchdefault.css");
+        //--touch only
+    	touchDragItem = document.createElement("div");
+	    touchDragItem.id="draggable";
+	    rootElement.appendChild(touchDragItem);
+        resetTouchDragItem();        
     }
     else {
         setDynamicCSS("clickdefault.css");
     }
-    
-    	touchDragItem = document.createElement("div");
-	    touchDragItem.id="draggable";
-	    rootElement.appendChild(touchDragItem);
-        resetTouchDragItem();
-    //}
 };
 
 function setDynamicCSS(cssName){
@@ -99,11 +96,13 @@ function handleServerResponse(aServerCommand,jsonResult){
 	if (command=="REQ_Channels"){
 		updateChannels(jsonResult);
 		refreshProgrammList();
+        //setChannelToViewPort();
 		return;
 	} 
 	if (command=="REQ_Programs"){
 		updateProgrammList(jsonResult);
 		isFilterOn=false;
+        //setChannelToViewPort();
 		return;
 	}
 
@@ -126,6 +125,7 @@ function handleServerResponse(aServerCommand,jsonResult){
 
 	if (command=="LIST_REC"){
 		updateRecordList(jsonResult);
+        //setChannelToViewPort();
 		return;
 	}
 	if (command=="LIST_AUTO"){
@@ -139,12 +139,17 @@ function handleServerResponse(aServerCommand,jsonResult){
 	
 	if (command=="RM_AUTOSELECT"){ 
 		refreshAutoSelectList(aServerCommand.data);
+        //setChannelToViewPort();
 		return;
 	}
 	if (command=="AUTO_WEEKMODE"){ 
 	   console.log("WEEK Mode set"); 
 	   return;
 	}
+    
+    if (command=="REC_MARGINS"){
+        showStatus("Margins saved");
+    }
 
 };
 
@@ -174,6 +179,7 @@ function updateChannels(jsonResult){
 	if (lastSel == null)
 		lastSel=0;
 	channelList.selectedIndex=lastSel;
+    setChannelToViewPort();
 	showStatus("Channels loaded");
 };
 
@@ -259,8 +265,12 @@ var hookActionEvents = function(){
 		recButtons[i].addEventListener("click",handleRecButtonChangeTime,false);
 	}
 	//- rec overlay close btn
-	document.getElementById("ox1").addEventListener("click",onOverlayClose,false);
-    document.getElementById("recList_form").addEventListener("click",onOverlayClose,false);
+	document.getElementById("recOK").addEventListener("click",onRecordingDialogClose,false);
+    document.getElementById("autoOK").addEventListener("click",onAutoSelectDialogClose,false);
+    document.getElementById("startRecOverlay").addEventListener("click",onOverlayOpen,false);
+    document.getElementById("startAutoOverlay").addEventListener("click",onOverlayOpen,false);
+    document.addEventListener("click", onClickedAnywhere, false);
+    
 };
 
 //--- DnD action handler -----
@@ -324,6 +334,9 @@ var handleShowLogClicked=function(event) {
 };
 //--Rec list handler
 var handleRecListClicked= function(event) {
+/*    var popup = document.getElementById("rec_popup");
+    popup.style.opacity=1.0;
+    popup.style.visibility = "visible";*/
 	executeServerCommand(new ServerCommand("LIST_REC",""));
 };
 

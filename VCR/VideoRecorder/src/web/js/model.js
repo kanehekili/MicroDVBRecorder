@@ -227,7 +227,7 @@ function ChannelListEntry (index,domObject) {
         var targetRect = this.domObject.getBoundingClientRect();
 		touchDragItem.style.visibility="visible";
 	    // Place element where the finger is
-        touchDragItem.style.left = touch.pageX-targetRect.right/2+25 + 'px';
+        touchDragItem.style.left = targetRect.left + 'px';
         touchDragItem.style.top = touch.pageY-25 + 'px';
         touchDragItem.innerHTML = this.domObject.innerHTML;
         var channel = channelList.itemUnderCursor(touch.pageX,touch.pageY);
@@ -291,7 +291,9 @@ function ProgramEntry (index,epgInfo,domObject) {
 		var dropzone = document.getElementById("dropzone");
 		touchDragItem.style.visibility="visible";
 	    // Place element where the finger is
-        touchDragItem.style.left = touch.pageX-25 + 'px';
+        var targetRect = this.domObject.getBoundingClientRect();
+        var offx= touch.pageX - targetRect.width/8;
+        touchDragItem.style.left = offx+'px';
         touchDragItem.style.top = touch.pageY-25 + 'px';
         touchDragItem.innerHTML = this.domObject.innerHTML;
    
@@ -338,7 +340,7 @@ function ProgramEntry (index,epgInfo,domObject) {
         var node = programmList.getSelectedNode();
 		if (node != null){
 			removeClassName(node,"channelSelected");
-		};
+		}
 		
 		if (node==this.domObject){
 			programmList.unselect();
@@ -397,7 +399,7 @@ function ProgramEntry (index,epgInfo,domObject) {
 };	
 
 function toggleRecording(progEntry) {
-	programmList.selectedIndex=progEntry.getIndex();
+	//programmList.selectedIndex=progEntry.getIndex();
 	var jString=JSON.stringify(progEntry.jsonData);
 	executeServerCommand(new ServerCommand("MARK_Programm",jString,progEntry));
 
@@ -560,7 +562,7 @@ var updateRecordList=function(jsonResult){
 		infoCol.className="InfoText";
 		infoCol.innerHTML= epgInfos[i].text;
 		row.appendChild(infoCol)
-		var recEntry = new SelectionEntry(i-1,epgInfos[i],row);
+		var recEntry = new RecordEntry(i-1,epgInfos[i],row);
 		recordListDOM.appendChild(row);
      	recEntry.registerEvents();
 
@@ -572,20 +574,20 @@ var updateRecordList=function(jsonResult){
 		var domRecEnd = document.getElementById("recEnd");
      	domRecStart.value="";
      	domRecEnd.value="";
-     	showStatus("Record list loaded");
 	}	
+    showStatus("Record list loaded");
 	//TODO log errors
 };
 
 //Right now the entry is the selection entry of a recording list!!!
-function SelectionEntry (index,epgInfo,domObject) {
+function RecordEntry (index,epgInfo,domObject) {
 	this.index = index;
 	this.domObject=domObject;
 	domObject.model=this;
 	this.jsonData = epgInfo;
 }
     
-	SelectionEntry.prototype.registerEvents= function(){
+	RecordEntry.prototype.registerEvents= function(){
 		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
 		this.domObject.addEventListener("click",this.handleClicked,false);
 		var th = new TouchHandler(this.domObject);
@@ -594,7 +596,7 @@ function SelectionEntry (index,epgInfo,domObject) {
 	};
 
     //context DOM not object
-	SelectionEntry.prototype.handleDbleClicked = function(event) {
+	RecordEntry.prototype.handleDbleClicked = function(event) {
 		//class because of a click handle? Make you own handler!
 		var jString=JSON.stringify(this.model.jsonData);
 		executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
@@ -603,7 +605,7 @@ function SelectionEntry (index,epgInfo,domObject) {
 	};
 	
 	//context DOM not object
-	SelectionEntry.prototype.handleClicked = function(event) {
+	RecordEntry.prototype.handleClicked = function(event) {
 		previousSelection = currentRecListSelection;
 		if (previousSelection != null)
 			previousSelection.removeSelection();
@@ -622,16 +624,16 @@ function SelectionEntry (index,epgInfo,domObject) {
 
 	};
 	
-	SelectionEntry.prototype.removeSelection = function() {
+	RecordEntry.prototype.removeSelection = function() {
 		removeClassName(this.domObject,"channelSelected");
 	};
 	
-	SelectionEntry.prototype.setSelection = function(){
+	RecordEntry.prototype.setSelection = function(){
 		addClassName(this.domObject,"channelSelected");
 	};
 	
 	//called by server command (MARK_Programm)
-	SelectionEntry.prototype.updateProgrammInfo = function(jsonData){
+	RecordEntry.prototype.updateProgrammInfo = function(jsonData){
 		//happens on program list toggle - update alter the icon..
 		if (jsonData=="None"){
 			showStatus("Toggle Recording failed");
@@ -645,7 +647,7 @@ function SelectionEntry (index,epgInfo,domObject) {
 			parentNode.removeChild(selectedNode);
 	}
 	
-	SelectionEntry.prototype.updateMargins = function (prerunSeconds, postrunSeconds){
+	RecordEntry.prototype.updateMargins = function (prerunSeconds, postrunSeconds){
 		this.jsonData.marginStart = prerunSeconds;
 		this.jsonData.marginStop = postrunSeconds;
 		
@@ -699,7 +701,10 @@ var handleRecButtonChangeTime=function(event){
 
 };	
 //called on close of the rec overlay
-var onOverlayClose=function(event){
+var onRecordingDialogClose=function(event){
+    //closing overlay
+    document.getElementById("recList_form").className = ""
+
 	var recordListDOM=document.getElementById("recordlist");
 	children= recordListDOM.childNodes;
 	var items=[];
@@ -713,6 +718,25 @@ var onOverlayClose=function(event){
 	}
 	var jString=JSON.stringify(items);
 	executeServerCommand(new ServerCommand("REC_MARGINS",jString));
+};
+
+//-Overlay open stuff
+var onOverlayOpen=function(event){
+    var overlayID = this.getAttribute('data-overlay');
+    var ovlWrapper= document.getElementById(overlayID);
+    ovlWrapper.className = "overlay"
+    event.preventDefault();
+};
+
+//overlay close off boundaries
+function onClickedAnywhere(event){
+    if(!event.target) 
+       event.target = e.srcElement; 
+    if(event.target.tagName == "DIV") { 
+       if(event.target.className == "overlay") 
+            event.target.className="";
+            showStatus("Idle");
+    } 
 };
 
 //----------- Autoselect section ---------------------
@@ -783,6 +807,12 @@ function updateAutoselectList(jsonResult){
 	showStatus("Idle");
 };
 
+//called on close of the auto select overlay
+var onAutoSelectDialogClose=function(event){
+    //closing overlay
+    document.getElementById("autoselect_form").className = ""
+};
+
 function dispatchClick(e){
     var event = document.createEvent('MouseEvents');
     event.initMouseEvent('mousedown', true, true, window);
@@ -835,8 +865,11 @@ function createSearchList(jsonResult){
 	var builder = new ProgramListBuilder(null);
 	for (i=0; i< epgInfos.length; i++){ 
 		var entry = builder.createProgramEntry(true,programmDOM,epgInfos[i],i);
-		//entry.domObject.addEventListener("click",handleClicked,false);
 		entry.domObject.addEventListener("dblclick",handleFullSearchDbleClicked,false);
+        var th = new TouchHandler(entry.domObject);
+        th.onLongTouch(entry.domObject.childNodes[0],entry.handleOnLongTouch);
+        th.onTouchMove(entry,entry.xTouchMove);
+        th.onTouchEnd(entry,entry.xTouchEnd);
 	}
 	rootDOM.appendChild(programmDOM)
     programmDOM.scrollIntoView(true);
@@ -847,4 +880,10 @@ function handleFullSearchDbleClicked(event) {
 	programmList.selectedIndex=this.model.getIndex();
 	var jString=JSON.stringify(this.model.jsonData);
 	executeServerCommand(new ServerCommand("MARK_Programm",jString,this.model));
+}
+
+function setChannelToViewPort() {
+    var selected = channelList.getSelected();
+    if (selected != null)
+        selected.domObject.scrollIntoView(true);
 }

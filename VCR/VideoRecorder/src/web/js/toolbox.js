@@ -1,5 +1,8 @@
 //common helper methods
 
+var TYPE_CHROME=0xB0;
+var TYPE_OTHER=0xB1;
+
 var getCSSRule = function(ruleClass,property){
 	var searchRule='.'+ruleClass
 	for (var i = 0; i < document.styleSheets.length; i++){
@@ -49,9 +52,9 @@ var getDayRowByName = function(theName){
 }
 
 var removeDOMChildren = function(node){
-	while (node.hasChildNodes()){
-		node.removeChild(node.lastChild);
-	}
+    while (node.lastChild){
+       node.removeChild(node.lastChild);
+    } 
 };
 
 var isOverlapping = function (dom1,dom2) {
@@ -186,6 +189,8 @@ TouchHandler.prototype._connectToTouch = function(){
 };
 //thru "bind" context is this, not the dom
 TouchHandler.prototype.handleTouchStart= function(event){
+    /*Note: Touchscroll can only be prevented on *first* touchStart in firefox.
+     * An event.preventDefault() stops any scrolling operations on chrome as well*/
 	var touch=event.changedTouches[0];
 	this.startX=touch.pageX;
 	this.startY=touch.pageY;
@@ -204,6 +209,7 @@ TouchHandler.prototype.handleTouchStart= function(event){
 	this._setLastTouch(event);	
     if (this.connectOnTouchStart !=null)
         this.connectOnTouchStart(touch);
+    return false;
 };
 
 TouchHandler.prototype.handleContextMenu= function(event){
@@ -226,25 +232,27 @@ TouchHandler.prototype.handleTouchLeave= function(event){
 };
 
 TouchHandler.prototype.handleTouchMove= function(event){
+      
 	var touch=event.changedTouches[0];
     var dx = Math.abs(touch.pageX-this.startX);
     var dy = Math.abs(touch.pageY-this.startY);
     touch.touchMode=this.touchMode;
-    if (dx>dy){
-        event.preventDefault();//needed if we want a horizonal swipe - otherwise canx is activated
+    if (dx>dy || this.touchMode==TouchHandler.MODE_LONGTAB){
+        /*needed if we want a horizonal swipe - otherwise canx is activated on chrome.
+        * This prevents scrolling in a list, but fires more touch events (Not working on firefox)
+        */
+        event.preventDefault();
     }
     
-    if (this.connectOnTouchMove !=null && this.connectOnTouchMove(touch)){
-           event.preventDefault();//This prevents scrolling in a list, but fires more touch events
-     }
-
-
+    if (this.connectOnTouchMove!=null && this.connectOnTouchMove(touch)){
+        event.preventDefault();
+    }
+    
 	if (this.touchMode == TouchHandler.MODE_SWIPEY && !isTouched(this.domObject,touch.pageX,touch.pageY)){
     	removeClassName(this.domObject,"InfoRowHover");
 		removeClassName(this.domObject,"InfoRowHit");
-        return;
+        return false;
 	}
-
 
     //make the distance dependend on the node size
     if (this.runOnHorizontalSwipe != null) {
@@ -254,8 +262,8 @@ TouchHandler.prototype.handleTouchMove= function(event){
             addClassName(this.domObject,"InfoRowHit");
         }
     }
-    this._setLastTouch(event);		
-    
+    this._setLastTouch(event);	
+    return false;
 };
 
 /*
@@ -295,7 +303,6 @@ TouchHandler.prototype.handleTouchEnd= function(event){
 	}
 	this.touchMode=TouchHandler.MODE_NONE;
     this.lastTouch=null;
-	//event.preventDefault();
 };
 
 //Context window
@@ -374,4 +381,14 @@ function resetTouchDragItem(){
     touchDragItem.style.left = 0+'px';
     touchDragItem.style.top = 0+'px';
     touchDragItem.innerHTML = "";
+}
+
+function checkBrowserType(){
+    var ua = navigator.userAgent;
+    var matches = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if (matches.length==0)
+        return;
+    if (matches[0].toLowerCase().indexOf("chrome")==0)
+        return TYPE_CHROME;
+    return TYPE_OTHER;
 }

@@ -1,24 +1,4 @@
-/*.InfoRow:hover, .programmrow:hover {
-    color:#738A73;
-}
-
-.icoAction :hover {
-  color:#738A73;
-}
-
-.icoAction :active {  
-  color:#738A73;
-}
-
-#channel_contents li:hover{
-  color:#738A73;
-}
-
-.programmrow:active {
-    background:rgba(255,0,0,0.5);
-}
-*/
-   
+ 
 .InfoRow{
     /*Note: a box shadow will NOT be shown in a table row!*/
 	/*font-size: 12px;*/

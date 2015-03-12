@@ -6,7 +6,8 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="Frontend to the micro DVB recorder">
-		<meta name="viewport" content="user-scalable=no"> <!--Prevents the "zoom" effect -->
+		<meta name="viewport" content="user-scalable=no"/> <!--Prevents the "zoom" effect -->
+        <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no"/>
 		<meta name="mobile-web-app-capable" content="yes"> <!--With a starter makes it fullscreen -->
 		<link rel="stylesheet" type="text/css" href="./css/webdefault.css" />
 		<link rel="stylesheet" type="text/css" href="./css/overlay.css" />
@@ -16,18 +17,21 @@
 	</head>
 
 	
-	<body onload="initialize();">
+	<body>
 	
 	<div id="wrap">
 		<div id="main">
 			<div id="header">Micro DVB Recorder</div>
 			<div id="function">
-				<a href="#autoselect_form">
+				<!-- <a href="#autoselect_form" -->
+                <a href id="startAutoOverlay" data-overlay="autoselect_form">
 					<div id="dropzone" class="icoAction" title="Auto recording">
 						<img src="img/robot-icon.png" height= "36" width="36">
 					</div>
 				</a>
-	     		<a href="#recList_form">
+	     		<!--
+                <a href="#recList_form"> -->
+                <a href id="startRecOverlay" data-overlay="recList_form">
 					<div id="reclistBtn" class="icoAction" title="List of recordings">
 						<img src="img/multimedia.svg" height= "36" width="36">
 					</div>
@@ -78,8 +82,8 @@
 
     <!--The overlays -->	
 	<!-- Reclist OVERLAY #1 -->
-	<a class="overlay" id="recList_form"></a>
-	<div class="popup">
+	<div id="recList_form">
+	<div class="popup" id="rec_popup">
 		<h2>Recording List</h2>
 		<p>Swipe or Double click to remove a recording</p>
 		<!-- Define seperator and list -->
@@ -97,19 +101,21 @@
 			<input type="button" class="recBtn" id="rec2p"value="+"/>
 			<input type="button" class="recBtn" id="rec2m"value="-"/>			
 		</div>		
-		<a class="closeOvl" id="ox1" href=""></a>
+		<a class="closeOvl" id="recOK"></a>
 	</div>
+</div>
 
     <!-- AutoSelect #2 -->
-	<a class="overlay" id="autoselect_form"></a>
-	<div class="popup">
-		<h2>Autoselect List</h2>
-		<p>Swipe or Double click to remove an entry</p>
-		<hr>
-		<div class="SelectFrame" id="autoselectlist">
-		</div>
-		<hr>
-		<a class="closeOvl" id="ox2" href=""></a>
-	</div>
+	<div id="autoselect_form">
+        <div class="popup">
+            <h2>Autoselect List</h2>
+            <p>Swipe or Double click to remove an entry</p>
+            <hr>
+            <div class="SelectFrame" id="autoselectlist">
+            </div>
+            <hr>
+            <a class="closeOvl" id="autoOK"></a>
+        </div>
+    </div>
 	</body>
 </html>

@@ -316,6 +316,7 @@ body > #wrap {height: auto; min-height: 100%;}
 	padding-right:20px;
     padding-left:20px;
     min-width:15%;
+    max-width:50%;
     min-height:5%;
 	opacity: 1;
 	/*background-color: rgba(64, 128, 128, 0.8);
@@ -324,8 +325,10 @@ body > #wrap {height: auto; min-height: 100%;}
      * 860465 = rgba(134,4,101,1)
      * c10592 = rgba(193,5,146,1)
      * */
-	background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);
-	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));
+	/*background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);*/
+	/*background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));*/
+    background: linear-gradient(to bottom,rgba(243,3,183,0.5) 0%,rgba(155,11,119,0.5) 40%,rgba(134,4,101,0.5) 60%,rgba(193,5,146,0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,rgba(243,3,183,0.5)),color-stop(40%,rgba(155,11,119,0.5)),,color-stop(60%,rgba(134,4,101,0.5)),color-stop(100%,rgba(193,5,146,0.5)));
 	background-repeat:repeat-x;
 	-webkit-border-radius: 15px;
     -moz-border-radius: 15px;

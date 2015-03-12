@@ -1,70 +1,71 @@
-.overlay {
-    background-color: rgba(0, 0, 0, 0.6);
-    bottom: 45px;
-    cursor: default;
-    left: 0;
-    opacity: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-    visibility: hidden;
-    z-index: 1;
-
-    -webkit-transition: opacity .5s;
-    -moz-transition: opacity .5s;
-    -ms-transition: opacity .5s;
-    -o-transition: opacity .5s;
-    transition: opacity .5s;
-}
-.overlay:target {
-    visibility: visible;
-     opacity: 1;
+ /*aka wrapper*/
+.overlay::before{ 
+   content: " "; 
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    z-index: 100; 
+    top: 0px; 
+    left: 0; 
+    background-color: rgba(0,0,0,0.5); 
 }
 
-.popup {
+.popup { /*aka visible window*/
     background-color: #fff;
     border: 3px solid #fff;
-    display: inline-block;
     left: 50%;
-    opacity: 0;
     padding: 15px;
     position: fixed;
-    top: 40%;
-    visibility: hidden;
-    /*display:none;*/
-    z-index: 10;
+    top: 0;
+    z-index: 200;
+    /*opacity:0; makes it transparent, but stuff can't be clicked*/
+    visibility: hidden; /*switch to visible activates the transition*/
 
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 
+
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
     -o-border-radius: 10px;
     border-radius: 10px;
 
     -webkit-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
     -moz-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
-    -ms-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
     -o-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
     box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
 
-    -webkit-transition: opacity .5s, top .5s;
-    -moz-transition: opacity .5s, top .5s;
-    -ms-transition: opacity .5s, top .5s;
-    -o-transition: opacity .5s, top .5s;
-    transition: opacity .5s, top .5s;
+    
+/*    -webkit-transition: opacity 0.5s, top 0.5s;
+    -moz-transition: opacity 0.5s, top 0.5s;
+    -o-transition: opacity 0.5s, top 0.5s;
+    transition: opacity 0.5s, top 0.5s;
+    */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: top 0.5s;
+    -o-transition: top 0.5s;
+    transition: top 0.5s;
+
+
 }
-.overlay:target+.popup {
+.overlay .popup{  /*rule for all popups that are DESCENDENDS of overlay*/
+    display:block;
+    opacity:1;
+    top:50%;
+    visibility: visible;
+}
+/*.overlay:target+.popup {
+.overlay .popup {
     top: 50%;
     opacity: 1;
     visibility: visible;
     display:block;
 
 }
+*/
+
 /* defines the circle around X on the upper right side */
 .closeOvl {
     background-color: rgba(255, 0, 0, 0.8);
@@ -78,10 +79,8 @@
     text-decoration: none;
     top: -15px;
 
-
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
     -o-border-radius: 15px;
     border-radius: 15px;
 }
@@ -107,7 +106,6 @@
 	background-color:#00FF00;
 	-webkit-border-radius: 15px;
     -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
     -o-border-radius: 15px;
     border-radius: 15px;
 }
@@ -133,7 +131,6 @@ input#recBtnStore {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
   background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
   background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
-  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
   background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
   color: #000;
   margin: 1px;
