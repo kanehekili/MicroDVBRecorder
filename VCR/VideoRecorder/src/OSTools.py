@@ -27,7 +27,7 @@ def checkIfInstanceRunning(moduleName):
     process = Popen(["ps aux |grep -v grep | grep "+moduleName],shell=True,stdout=subprocess.PIPE)
     result = process.communicate()
     rows = result[0].split('\n')
-    instanceCount =0;
+    instanceCount =0
     for line in rows:
         if line:
             instanceCount+=1
@@ -149,7 +149,18 @@ def fileExists(path):
     return os.path.isfile(path)
 
 def removeFile(path):
-    os.remove(path);
+    os.remove(path)
+
+def moveFile(src,target):
+    os.rename(src, target)
+
+def getPathWithoutExtension(aPath):
+    if aPath:
+        rawPath = os.path.splitext(str(aPath))[0]
+    else:
+        rawPath=""
+    return rawPath
+
 
 '''
 answers the last modification time in seconds 

@@ -13,6 +13,7 @@ import OSTools
 
 
 class RecordQueue():
+    MAINT_DAY = 60*60*24+120
     def __init__(self,channelList,config):
         self._config = config
         self._channelList=channelList
@@ -216,14 +217,16 @@ class RecordQueue():
     def isMaintenanceNeeded(self,recInfo):
         startTime = recInfo.getEPGInfo().getStartTime()
         deltaToNextSchedule = OSTools.getDifferenceInSeconds(startTime, datetime.now())
-        aDay = 60*60*24;
-        return deltaToNextSchedule > aDay
+        return deltaToNextSchedule > self.MAINT_DAY
     
-    def createMaintenanceRecord(self,nextEpg):
+    def createMaintenanceRecord(self,nextEpg=None):
         maintenanceDurance = 15*60;
-        scheduledStartTime = nextEpg.getEPGInfo().getStartTime()
+        if not nextEpg:
+            scheduledStartTime = OSTools.getDateTimeWithOffset(0)
+        else:
+            scheduledStartTime = nextEpg.getEPGInfo().getStartTime()
         self._config.logInfo("creating a maintenance rec entry")
-        aDay = 60*60*24;
+        aDay = self.MAINT_DAY #be sure to be on the next day
         nextStart = OSTools.getDateTimeWithOffset(aDay)
         runGap = OSTools.getDifferenceInSeconds(scheduledStartTime,nextStart)
         #must have 30 minutes gap 
