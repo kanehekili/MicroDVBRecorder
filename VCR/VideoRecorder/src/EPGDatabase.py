@@ -225,10 +225,8 @@ class EpgDatabase:
         
         previousEpgInfo=mergedList[0]
         filledGapList.append(previousEpgInfo)
-        
         for epgInfo in mergedList[1:]:
             if previousEpgInfo.getEndTime() != epgInfo.getStartTime():
-                self._config.logInfo("*-Gap: "+previousEpgInfo.getString()+"->" +epgInfo.getString())
                 #creates a gap info
                 gapInfo = EpgProgramInfo()
                 gapInfo.isConsistent=False
@@ -240,7 +238,12 @@ class EpgDatabase:
                 filledGapList.append(gapInfo)
             previousEpgInfo = epgInfo
             filledGapList.append(epgInfo)
-
+        if len(filledGapList)>0:
+            channelName = previousEpgInfo.getChannel().getName()
+            gapCount = len(filledGapList)
+            theDay = previousEpgInfo.getDateString()
+            msg = "*%i* GAPS on %s in %s" %(gapCount,theDay,channelName)
+            self._config.logInfo(msg)
         mergedList[:]=filledGapList
         
     

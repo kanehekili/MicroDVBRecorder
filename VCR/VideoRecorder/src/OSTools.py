@@ -82,7 +82,11 @@ def convertSecondsToString(secs):
 
 #display the current date + added seconds as human readable string
 def showDateTimeWithOffset(seconds):
-    return getDateTimeWithOffset(seconds).strftime(" %d.%m-%H:%M.%S")
+    newDate = getDateTimeWithOffset(seconds)
+    return dateTimeAsString(newDate)
+
+def dateTimeAsString(aDateTime):
+    return aDateTime.strftime(" %d.%m-%H:%M.%S")
     
 def getDateTimeWithOffset(seconds):
     return datetime.now()+timedelta(seconds=seconds)

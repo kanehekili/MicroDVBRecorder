@@ -215,25 +215,20 @@ class RecordQueue():
         return head
             
     def isMaintenanceNeeded(self,recInfo):
-        startTime = recInfo.getEPGInfo().getStartTime()
-        deltaToNextSchedule = OSTools.getDifferenceInSeconds(startTime, datetime.now())
-        return deltaToNextSchedule > self.MAINT_DAY
+        maintenanceDurance = 15*60;
+        nextStart = OSTools.getDateTimeWithOffset(self.MAINT_DAY)
+        maintEnd = OSTools.addToDateTime(nextStart, maintenanceDurance)
+        scheduledStartTime = recInfo.getEPGInfo().getStartTime()
+        return maintEnd <= scheduledStartTime
     
     def createMaintenanceRecord(self,nextEpg=None):
         maintenanceDurance = 15*60;
-        if not nextEpg:
-            scheduledStartTime = OSTools.getDateTimeWithOffset(0)
-        else:
-            scheduledStartTime = nextEpg.getEPGInfo().getStartTime()
-        self._config.logInfo("creating a maintenance rec entry")
-        aDay = self.MAINT_DAY #be sure to be on the next day
-        nextStart = OSTools.getDateTimeWithOffset(aDay)
-        runGap = OSTools.getDifferenceInSeconds(scheduledStartTime,nextStart)
-        #must have 30 minutes gap 
-        if runGap < maintenanceDurance:
-            td=timedelta(seconds=maintenanceDurance)
-            nextStart=nextStart-td
-        
+        nextStart = OSTools.getDateTimeWithOffset(self.MAINT_DAY)
+
+        maintMsg = "creating maintenance entry for %s" %(OSTools.dateTimeAsString(nextStart))
+        self._config.logInfo(maintMsg)
+        print maintMsg
+   
         maint = RecordingInfo(None);
         maint.setExecutionTime(nextStart)
         maint.setDurance(maintenanceDurance)
