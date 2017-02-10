@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 11, 2012
-
+June 2016: Keep SDCard safe, add path for logging and xmltv data
 @author: matze
 '''
 import os
@@ -9,6 +9,7 @@ import os
 from datetime import timedelta
 import logging
 import ConfigParser
+import OSTools
 
 class Config():
 
@@ -24,7 +25,8 @@ class Config():
     ResourcePath=os.path.join(WebPath,"img")
     RecordDestination = os.path.join("Videos","Recordings")
     ConfigPath = os.path.join(HomeDir,XMLPath,"Config.conf")
-    RecordPath = os.path.join(UserPath,RecordDestination)
+    RecordDir = os.path.join(UserPath,RecordDestination)#default,place to store the films
+    DataDir = HomeDir #default,place to store xmltv +log data
         
     ChannelFile = "channels.conf"
     AutoSelectFile="AutoSelect.conf"
@@ -58,33 +60,39 @@ class Config():
     def __init__(self):
         if not os.path.isfile(self.ConfigPath):
             self._writeDefaultConfig()
+      
         self._loadConfig()
+        self.__setupDirectories()
 
     
+    def __setupDirectories(self):
+        OSTools.ensureDirectory(self.DataDir,self.LogPath)
+        OSTools.ensureDirectory(self.DataDir,self.XMLPath)
+    
     def setupLogging(self,fileName): 
-        path = os.path.join(self.HomeDir,self.LogPath,fileName)
+        path = os.path.join(self.DataDir,self.LogPath,fileName)
         logging.basicConfig(filename=path,level=logging.DEBUG,format='%(asctime)s %(message)s')           
 
     def getCachedXMLTVFilePath(self):
-        return os.path.join(self.HomeDir,self.XMLPath,self.EPGFile)
+        return os.path.join(self.DataDir,self.XMLPath,self.EPGFile)
     
     def getEPGTimestampPath(self):
-        return os.path.join(self.HomeDir,self.XMLPath,self.TimeFile)
+        return os.path.join(self.DataDir,self.XMLPath,self.TimeFile)
     
     def getAutoSelectPath(self):
-        return os.path.join(self.HomeDir,self.XMLPath,self.AutoSelectFile)
+        return os.path.join(self.DataDir,self.XMLPath,self.AutoSelectFile)
     
     def getRecQueuePath(self):
-        return os.path.join(self.HomeDir,self.XMLPath,self.RecQueueFile)
+        return os.path.join(self.DataDir,self.XMLPath,self.RecQueueFile)
     
     def getLoggingPath(self):
-        return os.path.join(self.HomeDir,self.LogPath);
+        return os.path.join(self.DataDir,self.LogPath);
     
     def getWebPath(self):
         return os.path.join(self.HomeDir,self.WebPath);
     #path where to put the recordings in
     def getRecordingPath(self):
-        return self.RecordPath
+        return self.RecordDir
     
     #config and record queue data
     def getResourcePath(self):
@@ -92,7 +100,7 @@ class Config():
     
     #path of the xmltv files - not used anymore 
     def getXMLPath(self):
-        return os.path.join(self.HomeDir,self.XMLPath)
+        return os.path.join(self.DataDir,self.XMLPath)
     
     #path for the additional progs 
     def getBinPath(self):
@@ -140,9 +148,16 @@ class Config():
             Config.SUSPEND_MODE=Config.MODE_SLEEP
         else:
             Config.SUSPEND_MODE=Config.MODE_HIBERNATE
+        
+        #read recording path
         aRecPath = c.get("RECORDING_PATH")
         if aRecPath and len(aRecPath)>4:
-            Config.RecordPath = aRecPath
+            Config.RecordDir = aRecPath
+        #read data path - log & xmltv
+        aDataPath = c.get("DATA_PATH")
+        if aDataPath and len(aDataPath)>4:
+            Config.DataDir = aDataPath
+            
         recType = c.get("RECORD_TYPE")
         if recType:
             Config.RECORD_DEVICE = recType.upper()
@@ -155,10 +170,10 @@ class Config():
    
     def _writeDefaultConfig(self):
         c = ConfigAccessor(self.ConfigPath)
-        c.add("RECORDMARGIN","5")
-        c.add("DAEMON_POLICY","SERVER")
-        c.add("SUSPEND_MODE","SLEEP")
-        c.add("RECORD_TYPE",Config.REC_TYPE_TZAP)
+        c.set("RECORDMARGIN","5")
+        c.set("DAEMON_POLICY","SERVER")
+        c.set("SUSPEND_MODE","SLEEP")
+        c.set("RECORD_TYPE",Config.REC_TYPE_TZAP)
         c.store()
 
  
@@ -173,7 +188,7 @@ class ConfigAccessor():
     def read(self):
         self.parser.read(self._path)
         
-    def add(self,key,value):
+    def set(self,key,value):
         self.parser.set(self.__SECTION,key,value)
     
     def get(self,key):

@@ -174,7 +174,7 @@ class RecordQueue():
                 if epgInfo.startTime ==  recEPGInfo.getStartTime():
                     return recordInfo 
                 if epgInfo.isTimeShiftedWith(recEPGInfo):
-                    self._config.logInfo("RecQ-timeshift:"+epgInfo.getString())
+                    self._config.logInfo("RecQ-timeshift:"+epgInfo.getString()+" was:"+recEPGInfo.getString())
                     epgInfo.setJobID(recEPGInfo.getJobID())
                     recordInfo._epgInfo=epgInfo
                     return recordInfo

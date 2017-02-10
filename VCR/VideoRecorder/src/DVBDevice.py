@@ -72,7 +72,7 @@ class DVB_Grabber():
                 loop+=1
                 xmlData = self._readEPGFromDevice(channelName)
                 dataSize = len(xmlData)
-                msg="Block read:"+channelName+" size:"+str(dataSize)
+                msg="Block read:"+channelName+" ["+freq+"] size:"+str(dataSize)
                 ml.signalMessage(ml.MSG_STATUS,msg)
                 self.configuration.logInfo(msg)
                 print msg

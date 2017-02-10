@@ -645,7 +645,7 @@ class RecorderDialog:
         self._changedRecordList=False
         lbl = gtk.Label("Double click item to cancel recording")
         bx=gtk.EventBox()
-        bx.add(lbl)
+        bx.set(lbl)
         bx.modify_bg(gtk.STATE_NORMAL,bx.get_colormap().alloc_color(self._DAY_BG))
         lbl.modify_fg(gtk.STATE_NORMAL,bx.get_colormap().alloc_color(self._DAY_FG))
         scrolled_window= self.createList(recordQueue)
@@ -660,7 +660,7 @@ class RecorderDialog:
         listWindow.connect("row-activated",self._on_ProgramListDoubleClick,recordQueue)
         sw = gtk.ScrolledWindow()
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        sw.add(listWindow)
+        sw.set(listWindow)
         listWindow.setProgrammInfo(recordQueue.getEpgList())
         return sw 
 
@@ -698,7 +698,7 @@ class AutoSelectDialog:
         self._progProvider=programProvider
         lbl = gtk.Label("Double click item to remove item")
         bx=gtk.EventBox()
-        bx.add(lbl)
+        bx.set(lbl)
         bx.modify_bg(gtk.STATE_NORMAL,bx.get_colormap().alloc_color(self._DAY_BG))
         lbl.modify_fg(gtk.STATE_NORMAL,bx.get_colormap().alloc_color(self._DAY_FG))
         scrolled_window= self.createList(asList)
@@ -719,7 +719,7 @@ class AutoSelectDialog:
         listWindow.set_selection_mode( 'browse' )#Selected if present
         sw = gtk.ScrolledWindow()
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        sw.add(listWindow)
+        sw.set(listWindow)
         return sw 
        
     def _on_Selection(self,clist,row,column,event,aList):

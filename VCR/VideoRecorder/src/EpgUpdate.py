@@ -105,6 +105,7 @@ class EpgUpdater:
             epgReader.convertXMLToEPG(epgReaderPlug)
             self._database.updateChannelList(epgReaderPlug.resultList)
         
+        self._config.logInfo("Channel infos updated")
         epgData= self._database.getData()
         self._updateRecordInfo(epgData)
         

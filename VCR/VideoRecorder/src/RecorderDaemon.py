@@ -90,12 +90,12 @@ class RecorderDaemon():
         if OSTools.fileExists(path):
             with open(path, 'r') as aFile:
                 currentDate=aFile.read()
-                try:
-                    checkDate = datetime.strptime(currentDate,self.EPG_TS_Template)
-                    delta = datetime.now()-checkDate
-                    return delta.days
-                except ValueError:
-                    self._log("Error reading EPG Timestamp:"+str(currentDate))
+            try:
+                checkDate = datetime.strptime(currentDate,self.EPG_TS_Template)
+                delta = datetime.now()-checkDate
+                return delta.days
+            except ValueError:
+                self._log("Error reading EPG Timestamp:"+str(currentDate))
         return -1
 
     def _isTimeLeftForEPGUpdate(self,nextStartTime):

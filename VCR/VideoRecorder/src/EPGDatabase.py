@@ -48,8 +48,7 @@ class EpgDatabase:
     def updateChannelList(self,epgInfoList):
         if len(epgInfoList)==0:
             return
-        self._config.logInfo("Updating channel infos")
- 
+
         channelDict = self.__createChannelDict(epgInfoList) 
             
         for channelName,epgInfos in channelDict.items():
@@ -238,12 +237,6 @@ class EpgDatabase:
                 filledGapList.append(gapInfo)
             previousEpgInfo = epgInfo
             filledGapList.append(epgInfo)
-        if len(filledGapList)>0:
-            channelName = previousEpgInfo.getChannel().getName()
-            gapCount = len(filledGapList)
-            theDay = previousEpgInfo.getDateString()
-            msg = "*%i* GAPS on %s in %s" %(gapCount,theDay,channelName)
-            self._config.logInfo(msg)
         mergedList[:]=filledGapList
         
     
