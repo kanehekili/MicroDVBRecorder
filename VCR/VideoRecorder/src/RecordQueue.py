@@ -200,12 +200,14 @@ class RecordQueue():
         top=0;
         recList = self.getRecList()
         if len(recList)<= top:
+            self._config.logInfo("Empty rec list-creating maint entry")
             return self.createMaintenanceRecord()
  
         head = recList[top]
         #if exec time > 24 hrs return a maintenance entry
         if self.isMaintenanceNeeded(head):
-            return self.createMaintenanceRecord(head)
+            self._config.logInfo("RecQ: Next rec @ %s -creating maint entry" %(head.getEPGInfo().getStartTime()))
+            return self.createMaintenanceRecord()
         
         if len(recList)>top+1:
             successor = recList[top+1]
@@ -221,7 +223,7 @@ class RecordQueue():
         scheduledStartTime = recInfo.getEPGInfo().getStartTime()
         return maintEnd <= scheduledStartTime
     
-    def createMaintenanceRecord(self,nextEpg=None):
+    def createMaintenanceRecord(self):
         maintenanceDurance = 15*60;
         nextStart = OSTools.getDateTimeWithOffset(self.MAINT_DAY)
 

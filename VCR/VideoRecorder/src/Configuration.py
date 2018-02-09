@@ -15,6 +15,8 @@ class Config():
 
     HomeDir = os.path.dirname(__file__)
     UserPath=os.path.expanduser("~")
+    #Due to a problem in systemd:
+    print "curent dir:",HomeDir," user-home:",UserPath
     
     LogPath="log"
     XMLPath = "xmltv"

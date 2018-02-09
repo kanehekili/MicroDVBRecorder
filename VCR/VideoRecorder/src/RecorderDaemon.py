@@ -161,7 +161,7 @@ class RecorderDaemon():
     be used for a unique title for a retry (therefore not overwriting already existing recordings)
     '''        
     def _syncRecordIndex(self,jobID):
-        if self._lastJobId == jobID:
+        if self._lastJobId == jobID and jobID > 1:
             self._recordPartIndex=self._recordPartIndex+1
         else:
             self._recordPartIndex=0

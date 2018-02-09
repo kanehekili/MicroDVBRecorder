@@ -50,6 +50,8 @@ class RecorderHTTPHandler(SimpleHTTPRequestHandler):
         length = int(self.headers.getheader('content-length'))
         try:
             command = self.rfile.read(length)
+            self.send_response(200, "OK")
+            self.end_headers()
             result=self.AppConnector.executePostData(command)
         except:
             result = 'error'

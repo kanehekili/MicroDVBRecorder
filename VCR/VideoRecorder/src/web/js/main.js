@@ -24,7 +24,6 @@ window.onload=initialize;
 
 function initialize(){
     //BROWSER_TYPE=checkBrowserType();
-	connectToServer();
 	hookActionEvents();
 	var rootElement = document.documentElement;
 
@@ -43,6 +42,7 @@ function initialize(){
     else {
         setDynamicCSS("clickdefault.css");
     }
+    connectToServer();
 };
 
 function setDynamicCSS(cssName){

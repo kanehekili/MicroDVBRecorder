@@ -150,7 +150,6 @@ class DVB_C_Grabber(DVB_Grabber):
             if czapErrorIndex != -1:
                 raise Exception(czapInfo[1])
 
-            self.configuration.logInfo("Tuned to channel "+channelName)
             #TODO either arm or not
             cmd = self.configuration.getFilePath(pathToGrab,"tv_grab_dvb")
             processResult=Popen([cmd,"-t 10","-s"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
