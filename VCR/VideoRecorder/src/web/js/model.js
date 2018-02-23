@@ -263,17 +263,21 @@ function ProgramEntry (index,epgInfo,domObject) {
 	this.domObject=domObject;
 	this.jsonData = epgInfo;
 	domObject.model=this;
-    this.touchActive=0;
 }
 	ProgramEntry.prototype.getIndex = function(){
 		return this.index;
 	};
 	
 	ProgramEntry.prototype.registerEvents= function(){
-		this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);
-		this.domObject.draggable=true;
-		this.domObject.addEventListener("dragstart",this.handleDragStart,false);
-		this.domObject.addEventListener("click",this.handleClicked.bind(this),false);
+        //If set no context menu items are passed in touch mode. If not set, Deskop/Mouse/Firefox drag does NOT work
+        if (!TOUCH_MODE){
+		    this.domObject.draggable=true;
+            this.domObject.addEventListener("click",this.handleClicked.bind(this),false);
+            this.domObject.addEventListener("dblclick",this.handleDbleClicked,false);            
+        }
+	    this.domObject.addEventListener("dragstart",this.handleDragStart,false);
+		
+       
         var th = new TouchHandler(this.domObject);
         th.onTab(this,this.toggleSelection);
         th.onTouchMove(this,this.xTouchMove);
@@ -308,8 +312,9 @@ function ProgramEntry (index,epgInfo,domObject) {
     
     };
 
-    //context is Column1
+    //!!context is Column1
     ProgramEntry.prototype.handleOnLongTouch = function(touch) {
+        this.parentNode.model.setSelection();
         if (isTouchedX(this,touch.pageX))
            toggleRecording(this.parentNode.model);
 
@@ -349,7 +354,20 @@ function ProgramEntry (index,epgInfo,domObject) {
 		programmList.selectedIndex=this.getIndex();
 		addClassName(this.domObject,"channelSelected");
 
+    };
+
+   ProgramEntry.prototype.setSelection=function(){
+        var node = programmList.getSelectedNode();
+		if (node==this.domObject){
+			return;
+		}        
+		if (node != null){
+			removeClassName(node,"channelSelected");
+		}
+		programmList.selectedIndex=this.getIndex();
+		addClassName(this.domObject,"channelSelected");
     }
+    
 
 	//JS context: this is DOM not the object...
 	ProgramEntry.prototype.handleDbleClicked = function(event) {
@@ -362,6 +380,11 @@ function ProgramEntry (index,epgInfo,domObject) {
 			this.style.cursor="no-drop";
 			return;
 		}
+        //TODO make it a function
+        var node = programmList.getSelectedNode();
+        if (node != this)
+            return;
+
 		var nbrString=this.model.getIndex();
 		this.model.draggable=true;
 		//Sets the node id for retrieval if dropped
@@ -396,7 +419,7 @@ function ProgramEntry (index,epgInfo,domObject) {
 			showStatus(epgInfo.error);
 		else
 			showStatus("Ready");	
-};	
+    };	
 
 function toggleRecording(progEntry) {
 	//programmList.selectedIndex=progEntry.getIndex();

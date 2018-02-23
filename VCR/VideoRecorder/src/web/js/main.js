@@ -14,6 +14,7 @@ var MODE_DATA = 0xA0;
 var MODE_REC = 0xA1;
 var MODE_BLOCK = 0xA3;
 var touchDragItem;
+var TOUCH_MODE=false;
 
 /*
  * Note:
@@ -37,7 +38,8 @@ function initialize(){
     	touchDragItem = document.createElement("div");
 	    touchDragItem.id="draggable";
 	    rootElement.appendChild(touchDragItem);
-        resetTouchDragItem();        
+        resetTouchDragItem();  
+        TOUCH_MODE=true;      
     }
     else {
         setDynamicCSS("clickdefault.css");
@@ -223,7 +225,7 @@ function updateProgrammList(jsonResult){
 
 
 //---------------- Action events from buttons, DnD and List ----------
-var hookActionEvents = function(){
+function hookActionEvents(){
 	//var nodes = document.getElementsByClassName("icoAction");
 	//Connect the buttons to events
 	
@@ -320,7 +322,7 @@ function getActionDropNode(event){
 		node = node.childNodes[1]; 
 	}
 	return node;
-}
+};
 
 //--Autoselect click handler
 var handleAutoListClicked= function(event) {

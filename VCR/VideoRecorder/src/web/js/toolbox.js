@@ -3,6 +3,7 @@
 var TYPE_CHROME=0xB0;
 var TYPE_OTHER=0xB1;
 
+
 var getCSSRule = function(ruleClass,property){
 	var searchRule='.'+ruleClass
 	for (var i = 0; i < document.styleSheets.length; i++){
@@ -122,6 +123,7 @@ function TouchHandler(aDiv) {
 	this.startY=0;
 	this.touchMode=0;
     this.markHover=false;
+    this.touchTimer=null;
     //hooks for gestures
 	this.runOnDoubleTab=null;
     this.runOnTab=null;
@@ -131,7 +133,7 @@ function TouchHandler(aDiv) {
     this.connectOnTouchStart=null;
     this.connectOnTouchMove=null;
     this.connectOnTouchEnd=null;
-      
+ 
 	this._connectToTouch();
 
     
@@ -191,6 +193,7 @@ TouchHandler.prototype._connectToTouch = function(){
 TouchHandler.prototype.handleTouchStart= function(event){
     /*Note: Touchscroll can only be prevented on *first* touchStart in firefox.
      * An event.preventDefault() stops any scrolling operations on chrome as well*/
+     
 	var touch=event.changedTouches[0];
 	this.startX=touch.pageX;
 	this.startY=touch.pageY;
@@ -200,12 +203,13 @@ TouchHandler.prototype.handleTouchStart= function(event){
     var delta = 1e5;
     if (this.lastTouch!=null)
 	    delta = currHit - this.lastTouch.timeStamp;
+
 	if (delta <350){
 		this.touchMode=TouchHandler.MODE_DBLETAB;
 	} else {
 		this.touchMode=TouchHandler.MODE_TAB;
  	}
-
+    //this.contextTimer();
 	this._setLastTouch(event);	
     if (this.connectOnTouchStart !=null)
         this.connectOnTouchStart(touch);
@@ -213,6 +217,7 @@ TouchHandler.prototype.handleTouchStart= function(event){
 };
 
 TouchHandler.prototype.handleContextMenu= function(event){
+    this.canxTimer();
     this.touchMode=TouchHandler.MODE_LONGTAB;
     removeClassName(this.domObject,"InfoRowHover");
 	addClassName(this.domObject,"InfoRowHit");
@@ -232,7 +237,6 @@ TouchHandler.prototype.handleTouchLeave= function(event){
 };
 
 TouchHandler.prototype.handleTouchMove= function(event){
-      
 	var touch=event.changedTouches[0];
     var dx = Math.abs(touch.pageX-this.startX);
     var dy = Math.abs(touch.pageY-this.startY);
@@ -266,16 +270,8 @@ TouchHandler.prototype.handleTouchMove= function(event){
     return false;
 };
 
-/*
-TouchHandler.prototype.canxTimer = function() {
-    if (this.touchTimer != null)
-        window.clearTimeout(this.touchTimer);
-    this.touchTimer = null;
-}
-*/
-
 TouchHandler.prototype.handleTouchEnd= function(event){
-
+    //this.canxTimer();
 	removeClassName(this.domObject,"InfoRowHover");
 	removeClassName(this.domObject,"InfoRowHit");
 	var touch=event.changedTouches[0];
@@ -298,19 +294,31 @@ TouchHandler.prototype.handleTouchEnd= function(event){
 	}else if (this.touchMode==TouchHandler.MODE_TAB){
     	var currHit = event.timeStamp;
 	    var delta = currHit - this.lastTouch.timeStamp;
-		if (this.runOnTab != null && delta>200)
+		if (this.runOnTab != null && delta>150){
 			this.runOnTab(touch);
+            this.lastTouch=null;
+        }
 	}
 	this.touchMode=TouchHandler.MODE_NONE;
-    this.lastTouch=null;
 };
 
-//Context window
+//Context menu Timer impl - only if context menu doesn't work
 function timerHandleLongTouch(touchHandler){
 	removeClassName(touchHandler.domObject,"InfoRowHover");
 	addClassName(touchHandler.domObject,"InfoRowHit");
 	touchHandler.touchMode=TouchHandler.MODE_LONGTAB;
 }
+
+TouchHandler.prototype.canxTimer = function() {
+    if (this.touchTimer != null)
+        window.clearTimeout(this.touchTimer);
+    this.touchTimer = null;
+}
+
+TouchHandler.prototype.contextTimer = function() {
+    this.touchTimer=window.setTimeout(timerHandleLongTouch.bind(this,this),1000);
+}
+
 
 function isTouchedX(node,touchX){
 	var targetRect = node.getBoundingClientRect();
