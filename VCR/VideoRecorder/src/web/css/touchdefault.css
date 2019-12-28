@@ -9,3 +9,10 @@
     -moz-user-select: none;    
      user-select: none;  
 }
+
+#channel_contents div { 
+	font-size:1.3em;
+    white-space:nowrap 
+}
+
+

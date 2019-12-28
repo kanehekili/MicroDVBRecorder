@@ -8,7 +8,7 @@ import os
 
 from datetime import timedelta
 import logging
-import ConfigParser
+import configparser
 import OSTools
 
 class Config():
@@ -16,7 +16,7 @@ class Config():
     HomeDir = os.path.dirname(__file__)
     UserPath=os.path.expanduser("~")
     #Due to a problem in systemd:
-    print "curent dir:",HomeDir," user-home:",UserPath
+    print(("curent dir:",HomeDir," user-home:",UserPath))
     
     LogPath="log"
     XMLPath = "xmltv"
@@ -51,6 +51,7 @@ class Config():
     REC_TYPE_CZAP = "CZAP"
     REC_TYPE_SZAP = "SZAP"
     REC_TYPE_VLC = "VLC"
+    REC_TYPE_SUNDTEK="SUNDTEK"
     REC_TYPE_FAKE = "FAKE"
     
     #configurable items
@@ -184,7 +185,7 @@ class ConfigAccessor():
 
     def __init__(self,filePath):
         self._path=filePath
-        self.parser = ConfigParser.ConfigParser()
+        self.parser = configparser.ConfigParser()
         self.parser.add_section(self.__SECTION)
         
     def read(self):

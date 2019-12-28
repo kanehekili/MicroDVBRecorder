@@ -1,14 +1,2 @@
-/OSTools.pyc
-/PythonWebBridge.pyc
-/RecorderWebServer.pyc
-/ChannelReader.pyc
-/Configuration.pyc
-/DVBRecorder.pyc
-/EPGDatabase.pyc
-/EPGProgramProvider.pyc
-/EpgReader.pyc
-/EpgUpdate.pyc
-/RecorderDaemon.pyc
-/RecordQueue.pyc
-/DVBDevice.pyc
-/VideoRecorderView.pyc
+/*.pyc
+

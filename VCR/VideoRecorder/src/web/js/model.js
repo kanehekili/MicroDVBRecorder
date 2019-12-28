@@ -135,6 +135,9 @@ function ChannelListEntry (index,domObject) {
 		channelList.selectedIndex=selectedChannel.index;
 		var name = this.textContent;
 		executeServerCommand(new ServerCommand("REQ_Programs",name));
+        //closing overlay
+        document.getElementById("channel_form").className = "";
+
 	};
 
 	/*Context DOM object*/
@@ -216,6 +219,7 @@ function ChannelListEntry (index,domObject) {
 	
 	ChannelListEntry.prototype.setSelection = function(){
 		this.domObject.className="channelSelected";
+        document.getElementById("chanHeader").innerHTML=this.domObject.textContent;
 	};
 
 

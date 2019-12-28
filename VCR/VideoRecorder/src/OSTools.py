@@ -13,7 +13,7 @@ import logging
 try:
     import dbus
 except ImportError:
-    print "No dbus support"    
+    print("No dbus support")    
 
 
 RTC_SLEEP="mem"
@@ -26,7 +26,7 @@ RTC_SHUTDOWN="off"
 def checkIfInstanceRunning(moduleName):
     process = Popen(["ps aux |grep -v grep | grep "+moduleName],shell=True,stdout=subprocess.PIPE)
     result = process.communicate()
-    rows = result[0].split('\n')
+    rows = result[0].decode('utf8').splitlines()
     instanceCount =0
     for line in rows:
         if line:
@@ -41,7 +41,7 @@ def getProcessPID(processName):
     result = Popen(["pidof",processName],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
     if len(result[0])==0:
         return None
-    texts = result[0].split('\n')
+    texts = result[0].decode('utf8').split('\n')
     return texts[0]
 
 def isXServerRunning():
@@ -54,12 +54,12 @@ def isXServerRunning():
 def killProcess(pid):
     if len(pid)>0:
         result = Popen(["kill","-9",str(pid)],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        logging.log(logging.INFO,"kill process :"+str(result[1]))
+        logging.log(logging.INFO,"kill process :"+str(result[1].decode('utf8')))
 
 def getDirectorySize(recPath):
     dirInfo,dirError = Popen(["du","-s",recPath],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()  
     #parse the result
-    numberString = dirInfo.split("\t")[0]
+    numberString = dirInfo.decode('utf8').split("\t")[0]
     try:
         ret = int(numberString)
     except ValueError:

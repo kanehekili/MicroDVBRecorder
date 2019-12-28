@@ -47,7 +47,7 @@ a#recListButton:hover{
     display: inline-block;
     left: 50%;
     opacity: 0;
-    padding: 15px;
+    padding: 10px;
     position: fixed;
     text-align: justify;
     top: 40%;
@@ -123,8 +123,8 @@ a#recListButton:hover{
 /*frame for select list*/
 .SelectFrame {
    display:inline-block;
-   height:200px;
-   width:350px;
+   height:90%;
+   width:60%;
    background:yellow;
   overflow-y:scroll;
 }

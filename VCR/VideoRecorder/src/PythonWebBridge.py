@@ -28,8 +28,8 @@ class WebRecorder():
     MSG_REFRESH = MessageListener.MSG_REFRESH
     
     # Modes or types of rec? 
-    (MODE_DATA, MODE_REC, MODE_BLOCK) = range(0xA0, 0xA3)
-    (TYPE_HEAD, TYPE_PROG, TYPE_INFO) = range(3)
+    (MODE_DATA, MODE_REC, MODE_BLOCK) = list(range(0xA0, 0xA3))
+    (TYPE_HEAD, TYPE_PROG, TYPE_INFO) = list(range(3))
 
 
 
@@ -71,10 +71,10 @@ class WebRecorder():
             ml.signalMessage(self.MSG_REFRESH, "Program info read")  # enforces a new list
         except IOError:
             msg = "No EPG data"
-        except Exception, ex:
+        except Exception as ex:
             msg = "Error reading cached EPG Data: " + str(ex.args[0])
             self.configuration.getLogger().exception(msg)
-            print msg
+            print(msg)
         self.configuration.logInfo(msg)                        
         ml.signalMessage(self.MSG_STATUS, msg)
         
@@ -158,8 +158,8 @@ class WebRecorder():
         jsonDict = json.loads(jsonString)
         hourString = jsonDict["timetext"]
         # Text is unicode!!
-        titleString = jsonDict["text"].encode('utf-8')
-        channelName = jsonDict["chanID"].encode('utf-8')
+        titleString = jsonDict["text"]
+        channelName = jsonDict["chanID"]
         weekModeString = jsonDict["weekMode"]
         
         autoSelector = self.progProvider.getAutoSelector()
@@ -170,8 +170,8 @@ class WebRecorder():
         # NOTE: json makes unicode out of the string
         jsonDict = json.loads(jsonString)
         hourString = jsonDict["timetext"]
-        titleString = jsonDict["text"].encode('utf-8')
-        channelName = jsonDict["chanID"].encode('utf-8')
+        titleString = jsonDict["text"]
+        channelName = jsonDict["chanID"]
         autoSelector = self.progProvider.getAutoSelector()
         autoSelector.removeFromAutoSelectPreference(hourString, str(titleString), str(channelName))
         autoSelector.saveAutoSelectData()
@@ -187,7 +187,7 @@ class WebRecorder():
         jsonList = json.loads(jsonString)
         recInfoList = self.progProvider.getRecordQueue().getRecList();
         for jEntry in jsonList:
-            jobID= jEntry["jobID"].encode('utf-8')
+            jobID= jEntry["jobID"]
             found = next((recEntry for recEntry in recInfoList if recEntry.getEPGInfo().getJobID()==jobID),None)
             if found:
                 found.setMarginStart(jEntry["marginStart"])
@@ -274,7 +274,7 @@ class WebRecorder():
             # adds the header - setting the date only
             # TODO: Empty singleDayList! Should not happen
             if len(singleDayList) == 0:
-                print "ERROR: Empty single day list"
+                print("ERROR: Empty single day list")
                 continue
                 
             headerText = self._formatHeader(singleDayList[0])
@@ -299,7 +299,7 @@ class WebRecorder():
         dayString = jsonData["date"]
         timeString = jsonData["time"]
         # Note JSON data always uses unicode - convert it to byte encoding it to uf8
-        daytoDayList = self.progProvider.getInfosForChannel(aChannelString.encode('utf-8'))
+        daytoDayList = self.progProvider.getInfosForChannel(aChannelString)
         # Well... get the right DAY first....
         for singleDayList in daytoDayList:
             if singleDayList[0].getDateString() in dayString:
@@ -371,7 +371,7 @@ class RecorderPlugin():
     
     
     def __init__(self):
-        print "RecorderPlugin activated"
+        print("RecorderPlugin activated")
         self.count = 0;
         self._webRecorder = WebRecorder()
         self._config = self._webRecorder.configuration
@@ -392,7 +392,7 @@ class RecorderPlugin():
         self._config.logInfo(aString)
     
     def _getArgs(self, commandDic):
-        return commandDic["arg"].encode('utf-8')
+        return commandDic["arg"]
     
     def handleLogCommand(self,command):
         logStep=250;
@@ -423,7 +423,7 @@ class RecorderPlugin():
         startIndex = len(logLines)
         reqLines = lineStart+lineCount
         reqEnd = max(0,startIndex-reqLines)
-        print "start:",startIndex," to:",reqEnd
+        print(("start:",startIndex," to:",reqEnd))
         #aRange=reversed(range(reqEnd,startIndex))   
  
         isEven=False
@@ -435,12 +435,11 @@ class RecorderPlugin():
             while lineIndex > reqEnd:
                 lineIndex-=1;
                 line=logLines[lineIndex]
-                asccode = line.encode('ascii', 'xmlcharrefreplace') #makes utf8 readable!
                 if isEven:
                     divid="evenrow"
                 else:
                     divid="oddrow"
-                htmlFile.write('<div class="'+divid+'">'+asccode+"</div>")
+                htmlFile.write('<div class="'+divid+'">'+line+"</div>")
                 isEven=not isEven
             if reqEnd==0:
                 htmlFile.write(htmlend)
@@ -451,8 +450,8 @@ class RecorderPlugin():
     # Note: arguments must be encoded to utf-8     
     def executePostData(self, jsonCmd):
         try:
-            print "Processing post data:" + jsonCmd
-            self.log("Processing post data:" + jsonCmd);
+            print(("Processing post data:" + jsonCmd))
+            self.log("Processing post data:" + jsonCmd)
             commandDic = json.loads(jsonCmd)
             command = commandDic["cmd"]
             if command == self.Commands[0]:  # channel request
@@ -472,9 +471,7 @@ class RecorderPlugin():
             if command == self.Commands[5]:  # get auto select list
                 return self._webRecorder.getAutoSelectList()
             if command == self.Commands[6]:  # Filter current list
-                # atuple=commandDic["arg"]
-                atuple = tuple([e.encode('utf-8') for e in commandDic["arg"]])
-                return self._webRecorder.getFilterList(atuple)  # channel and The string
+                return self._webRecorder.getFilterList(commandDic["arg"])  # channel and The string
             if command == self.Commands[7]:  # Remove Autoselect entry
                 jsonString = self._getArgs(commandDic)
                 return self._webRecorder.removeFromAutoSelection(jsonString)  # channel and The string
@@ -491,9 +488,9 @@ class RecorderPlugin():
             # more:settings, download file....
             
             
-        except Exception, ex:
+        except Exception as ex:
             msg = "Error running POST data: " + str(ex.args[0])
-            print msg
+            print(msg)
             self._config.getLogger().exception(msg)
             jsonError = self._webRecorder.asJsonError("Server Error", msg)
             return json.dumps(jsonError)

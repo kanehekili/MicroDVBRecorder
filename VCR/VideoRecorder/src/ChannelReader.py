@@ -5,9 +5,8 @@ Created on Aug 10, 2012
 @author: matze
 '''
 import re
-from cgi import escape
 import logging
-
+from html import escape
 class ChannelReader:
     '''
     reads the channel.conf and creates a channel object for each entry
@@ -35,12 +34,19 @@ class ChannelReader:
         for line in stringList:
             token=re.split(':',line)
             maxToken = len(token)
-            if maxToken < 3:
-                logging.log(logging.ERROR,"channel info is corrupt")
+            if maxToken < 6:
+                logging.log(logging.ERROR,"channel info is corrupt:"+token[0])
                 #TODO needs a message for web
             else:
                 aChannel = Channel(token[0],token[1],token[maxToken-1])
+                self._setQAM(aChannel,token[5])
+                aChannel.setSymbolRate(token[3])
                 self._chanels.append(aChannel)     
+
+    def _setQAM(self,aChannel,qamtoken):
+        #get numer from qam
+        digit = int(''.join(filter(str.isdigit, qamtoken)))
+        aChannel.setQam(str(digit))
 
     def getChannels(self):
         return self._chanels
@@ -52,6 +58,8 @@ class Channel:
         self._name=escape(name)
         self._frequency=freq
         self._channelID=prog
+        self._qam="0"
+        self._symbolrate="0"
         
     def getName(self):
         return self._name
@@ -74,4 +82,17 @@ class Channel:
     def getChannelID(self):
         return self._channelID    
    
+    def setSymbolRate(self,rate):
+        self._symbolrate=rate
+        
+    def getSymbolRate(self):
+        return self._symbolrate
+    
+    def setQam(self,qam):
+        self._qam = qam
+    
+    def getQam(self):
+        return self._qam    
+        
+    
         

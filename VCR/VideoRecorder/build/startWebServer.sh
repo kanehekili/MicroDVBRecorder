@@ -2,4 +2,4 @@
 cd "$(dirname "$0")"
 cd mdvbrec/
 echo $(pwd)
-python2 RecorderWebServer.py
+python3 RecorderWebServer.py 8080 Test:Test

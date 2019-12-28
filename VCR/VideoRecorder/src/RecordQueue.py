@@ -24,7 +24,7 @@ class RecordQueue():
             return False
         recList = self.getRecList()
         if self.isInRecordingList(epgProgramInfo, recList):
-            print "Oops -that should not happen (added recording twice)"
+            print("Oops -that should not happen (added recording twice)")
             self._config.logError("QUEUE: tried to add recording twice:"+epgProgramInfo.getString())
             self._dispatchMessage("Error: Rec entry already present")
             return False
@@ -40,7 +40,7 @@ class RecordQueue():
         recInfo = self._mapToItemInRecordingList(epgProgramInfo, recList)
         if recInfo is None:
             self._config.logError("QUEUE: cancel nonexistent record?")
-            print "That info can not be cancelled"
+            print("That info can not be cancelled")
             epgProgramInfo.setJobID('')
             return False
         
@@ -229,7 +229,7 @@ class RecordQueue():
 
         maintMsg = "creating maintenance entry for %s" %(OSTools.dateTimeAsString(nextStart))
         self._config.logInfo(maintMsg)
-        print maintMsg
+        print(maintMsg)
    
         maint = RecordingInfo(None);
         maint.setExecutionTime(nextStart)

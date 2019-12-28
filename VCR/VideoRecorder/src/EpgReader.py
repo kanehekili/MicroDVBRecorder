@@ -50,7 +50,7 @@ class EpgReader:
     def convertXMLToEPG(self,epgReaderPlug):
         try:
             self._xmlToEPG(epgReaderPlug)
-        except Exception, v:
+        except Exception as v:
             data = v.args
             logging.log(logging.ERROR, "Parse Error: "+str(data))
             with open('/tmp/error.xmltv', 'w') as aFile:
@@ -118,12 +118,7 @@ class EpgReader:
          
 
     '''
-    The xml parser expects unicode for conversion:
-    >>Python tries to convert the regular string to Unicode, which is the more general type, 
-    but because you don't specify an explicit conversion, it uses the ASCII codec
-    
-    Right now data is kept as ascii <str>, encoded in "setTitle" and "setDescription"
-    
+    The xml parser expects unicode for conversion
     write a list of epgInfos Array of daily entries[]     
     '''                
     def dumpEPGData(self,programList,path):
@@ -133,7 +128,7 @@ class EpgReader:
                 if epgInfo.isConsistent:
                     epgInfo.storeAsXMLElement(self,rootElement)
 
-        with open(path, 'w') as aFile:
+        with open(path, 'wb') as aFile:
             CT.ElementTree(rootElement).write(aFile, "utf-8")
 
         
@@ -209,9 +204,7 @@ class EpgProgramInfo:
         return seconds
     
     def setTitle(self,titleString):
-        if titleString is not None:
-            self.title = titleString.encode('utf-8')
-            
+        self.title = titleString
         
     def getTitle(self):
         return self.title
@@ -221,9 +214,7 @@ class EpgProgramInfo:
         return escape(self.title)
             
     def setDescription(self,aString):
-        if aString is not None:
-            #self.description=escape(aString)
-            self.description=aString.encode('utf-8')
+        self.description=aString
         
     def getDescription(self):
         return self.description
@@ -324,7 +315,7 @@ class EpgProgramInfo:
         prog= self.getChannel().getName()
         try:
             stringRep= "["+prog+"] "+self.getTitle()+" ("+self.dateToString(self.startTime)+" > "+self.dateToString(self.endTime)+")"
-        except UnicodeDecodeError,ex:
+        except UnicodeDecodeError as ex:
             error = sys.exc_info()[0]
             msg= "Unicode error: "+str(ex.args[0])
             logging.log(logging.ERROR,msg)
@@ -335,7 +326,6 @@ class EpgProgramInfo:
     #-XML part
     '''
     setup self from XML data. 
-    Note that all Strings will be encoded here (in the string setter methods) 
     '''
     def createFromXMLElement(self,builder,program,isUTC):
         
@@ -367,7 +357,6 @@ class EpgProgramInfo:
 
     '''
     Store as XML element - return an subelement to store
-    Note that the text text is decoded from utf-8
     '''
     def storeAsXMLElement(self,builder,rootElement):
         channel = self.getChannel()
@@ -376,13 +365,12 @@ class EpgProgramInfo:
         entry.attrib["start"]=builder._convertTimeToString(self.getStartTime()) 
         entry.attrib["stop"]=builder._convertTimeToString(self.getEndTime())
         titleEntry =CT.SubElement(entry,"title")
-        titleEntry.text=  self.getTitle().decode('utf-8')
+        titleEntry.text=  self.getTitle()
         descEntry = CT.SubElement(entry,"desc")
         jobID = self.getJobID()
         if len(jobID)>0:
             descEntry.attrib["JOBID"]= jobID 
-        descEntry.text = self.getDescription().decode('utf-8')
-        
+        descEntry.text = self.getDescription()
         return entry
 
         

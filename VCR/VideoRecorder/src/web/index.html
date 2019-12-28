@@ -23,6 +23,9 @@
 		<div id="main">
 			<div id="header">Micro DVB Recorder</div>
 			<div id="function">
+                <a id="channelBtn" class="icoAction" title="Toggle channels">
+						<img src="img/dish.png" height= "36" width="36">
+                </a>
 				<!-- <a href="#autoselect_form" -->
                 <a href id="startAutoOverlay" data-overlay="autoselect_form">
 					<div id="dropzone" class="icoAction" title="Auto recording">
@@ -36,12 +39,6 @@
 						<img src="img/multimedia.svg" height= "36" width="36">
 					</div>
 				</a>	
-				<a id="logBtn" class="icoAction" title="Show the log">
-					<img src="img/open_folder.png" height= "36" width="36">
-				</a>
-  				<a id="filterBtn" class="icoAction" title="Filter on selection">
-					<img src="img/filter_list.png" height= "36" width="36">
-				</a>
 				<a id="searchBtn" class="icoAction" title="Search all">
 					<img src="img/system-search.png" height= "36" width="36">
 				</a>
@@ -51,25 +48,30 @@
 				<a id="prevPageBtn" class="icoAction" title="Previous day">
 					<img src="img/go-up.svg" height= "36" width="36">
 				</a>
+  				<a id="filterBtn" class="icoAction" title="Filter on selection">
+					<img src="img/filter_list.png" height= "36" width="36">
+				</a>
+				<a id="logBtn" class="icoAction" title="Show the log">
+					<img src="img/open_folder.png" height= "36" width="36">
+				</a>
 			</div>
 		</div>
 		
 		<div id="datasection">
-			<div id="leftPanel">
+			<div id="leftPanel" class="ChannelPanel">
 				<div id="channelsHeader"  class="tablehead">Channels</div>
 				<div id="channelsscroller" class="yscroller">
-					<ul id="channel_contents"></ul>
+					<div id="channel_contents"></div>
 				</div>
 			</div>
-			<div id="rightPanel">
+			<div id="rightPanel" class ="ProgPanel">
 				<div id= "programmHeader" class="tablehead">
 					<div class="phead1">Rec</div>
-					<div class="phead2">Program Info</div>
+                    <div id= "chanHeader" class="phead3"></div>
 			    </div>
 				<div id= "programmscroller" class="yscroller">
 					<div id= "programmbody"></div>
 				</div>
-										
 			</div>
 		</div>
 	</div>
@@ -117,5 +119,7 @@
             <a class="closeOvl" id="autoOK"></a>
         </div>
     </div>
+    
+    
 	</body>
 </html>

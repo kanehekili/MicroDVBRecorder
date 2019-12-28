@@ -142,7 +142,7 @@ class RecorderDaemon():
         
     def _log(self,aString):
         self._getLogger().log(logging.INFO,aString)
-        print aString
+        print(aString)
 
     def _getLogger(self):
         return logging.getLogger('dvb_scheduler')
@@ -161,7 +161,7 @@ class RecorderDaemon():
     be used for a unique title for a retry (therefore not overwriting already existing recordings)
     '''        
     def _syncRecordIndex(self,jobID):
-        if self._lastJobId == jobID and jobID > 1:
+        if self._lastJobId == jobID and int(jobID) > 1:
             self._recordPartIndex=self._recordPartIndex+1
         else:
             self._recordPartIndex=0
@@ -185,7 +185,7 @@ class RecorderDaemon():
             if isAlive:
                 currentSize = OSTools.getDirectorySize(recPath)
                 delta = currentSize - videoSize
-                print "JOB "+jobID+" - bytes written:"+str(delta) #live sign- not logging
+                print(("JOB "+jobID+" - bytes written:"+str(delta))) #live sign- not logging
                 videoSize = currentSize
                 if delta == 0:
                     self._log("JOB "+jobID+" does not write any data")
@@ -219,11 +219,11 @@ class RecorderDaemon():
     
     def __handleProcessTermination(self,recProcess):
         result=recProcess.communicate()
-        potentialErrorMessage = result[1].strip()
-        msg =">>"+result[0].strip()+" status:"+potentialErrorMessage
+        potentialErrorMessage = result[1].decode('utf8').strip()
+        msg =">>"+result[0].decode('utf8').strip()+" status:"+potentialErrorMessage
         #TODO: check for errors ggf boolean back - cancel recording if necessary
         if "ERROR" in potentialErrorMessage:
-            print "TODO Unhandled {c,t}ZAP error!"
+            print("TODO Unhandled {c,t}ZAP error!")
         self._log(msg)
         
     
@@ -285,13 +285,13 @@ class RecorderDaemon():
                     self._monitorCurrentRecording(process,nextJob)
 
             except KeyboardInterrupt:
-                print '^C received, shutting down daemon'
+                print('^C received, shutting down daemon')
                 self._exit()
 
-            except Exception,ex:
+            except Exception as ex:
                 msg= "Error running SuspensionDaemon: "+str(ex.args[0])
                 self._getLogger().exception(msg)
-                print msg
+                print(msg)
                 errorCount = errorCount + 1
             
     def run(self):
@@ -362,7 +362,7 @@ class VCRPolicy():
         result=OSTools.rtcWake(seconds-coolDown, mode)
         #back online
         self._daemon._setUpLogging()
-        self._log(str(result[0])+":"+str(result[1]))        
+        self._log(str(result[0].decode('utf8'))+":"+str(result[1].decode('utf8')))        
         self._log("Woke up")
 
     
@@ -399,7 +399,7 @@ class ServerPolicy():
             except OSError as osError:
                 currentModificationTime=0.0
                 self._config().logError("Error checking rec file:"+osError.strerror) 
-                print "Error checking rec file"                       
+                print("Error checking rec file")                       
             #check for socket or file changes... 
             if lastQCheck is None:
                 lastQCheck=currentModificationTime #we came from a queue check-so thats the last time we checked 
@@ -468,21 +468,21 @@ class Recorder():
                 aFile.write(text+" -- ")
                 text = epgProgramInfo.getDescription()
                 aFile.write(text+'\n')
-        except IOError,ioex:
+        except IOError as ioex:
             msg = "I/O error saving Recinfo ({0}): {1}".format(ioex.errno, ioex.strerror)
             self._config.logError(msg)
-            print msg
+            print(msg)
         
-        except Exception, ex:
+        except Exception as ex:
             msg = "Unknown error saving Recinfo: "+str(ex.args[0])
             self._config.logError(msg+" Record Info:"+epgProgramInfo.getChannel().getName()+"-"+epgProgramInfo.getStartTimeString())
-            print msg
+            print(msg)
                              
     def _executeRecording(self,args,scheduleTime):
         timeString = scheduleTime.strftime("%H:%M %b %d")
         process = Popen(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=False)
         cmdText=' '.join(args)
-        print "dispatched command::"+cmdText
+        print(("dispatched command::"+cmdText))
         self._config.logInfo("command sent: \n"+cmdText+" | scheduled at:"+timeString)
         #TODO: process still alive - even if done -- still syncing???
         return process
@@ -500,16 +500,16 @@ def main():
         if "job" in cmd.lower():
             job = RecorderDaemon()._getNextJob()
             if job is None:
-                print "No jobs pending"
+                print("No jobs pending")
             else:
-                print "Next Job @"+str(job.getExecutionTime())
+                print(("Next Job @"+str(job.getExecutionTime())))
             return 0; 
         
-        print "start daemon with no args.. Use 'getEpg' to read EPG or 'showJobs' for pending jobs"
+        print("start daemon with no args.. Use 'getEpg' to read EPG or 'showJobs' for pending jobs")
         return 1;
 if __name__ =="__main__":
     if OSTools.checkIfInstanceRunning("RecorderDaemon"):
         OSTools.changeWorkingDirectory(OSTools.getWorkingDirectory())
         sys.exit(main())
     else:
-        print "Daemon already running..." 
+        print("Daemon already running...") 

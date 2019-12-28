@@ -9,4 +9,4 @@ then
    echo Preloaded: $LD_PRELOAD
 fi
 
-python2 RecorderDaemon.py $1
+python3 RecorderDaemon.py $1

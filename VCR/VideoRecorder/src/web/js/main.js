@@ -60,8 +60,10 @@ function setDynamicCSS(cssName){
 
 function refreshProgrammList(){
 	var selected = channelList.getSelected();
-	if (selected != null)
+	if (selected != null){
 		this.executeServerCommand(new ServerCommand("REQ_Programs",selected.getTitle()));
+    }        
+        
 };
 
 
@@ -98,13 +100,11 @@ function handleServerResponse(aServerCommand,jsonResult){
 	if (command=="REQ_Channels"){
 		updateChannels(jsonResult);
 		refreshProgrammList();
-        //setChannelToViewPort();
 		return;
 	} 
 	if (command=="REQ_Programs"){
 		updateProgrammList(jsonResult);
 		isFilterOn=false;
-        //setChannelToViewPort();
 		return;
 	}
 
@@ -134,6 +134,7 @@ function handleServerResponse(aServerCommand,jsonResult){
 		updateAutoselectList(jsonResult);
 		return;
 	}
+    
 	if (command=="AUTO_SELECT"){ //DnD add to autoselect
 		showStatus("Idle");
 		return;
@@ -167,7 +168,7 @@ function updateChannels(jsonResult){
 	var channelDOM=document.getElementById("channel_contents");
 	var sortedChannels = getSortedChannels(channels);
 	for (i=0; i< count; i++){ 
-		var li= document.createElement("li");
+		var li= document.createElement("div");
 		/*textContent replaces innerText and is W3C compliant*/
 		li.className="ChannelItem";
 		li.textContent=sortedChannels[i];
@@ -244,7 +245,9 @@ function hookActionEvents(){
 	button = document.getElementById("searchBtn");
 	button.addEventListener("click",handleSearchClicked,false);
 
-	
+    button = document.getElementById("channelBtn");
+	button.addEventListener("click",handleChannelAction,false);
+    
 	button = document.getElementById("nextPageBtn");
 	button.addEventListener("click",handleNextDayClicked,false);
 	
@@ -291,7 +294,10 @@ var handleDragleave= function(event){
 };
 
 var handleDrop= function(event){
-	var jString=prepareToDrop(event);
+    var jString=prepareToDrop(event);
+    if (jString == null){
+		return null;
+    }
 	executeServerCommand(new ServerCommand("AUTO_SELECT",jString));
 };
 
@@ -300,9 +306,10 @@ function prepareToDrop(event){
 	node.style.webkitTransform="scale(1.0)";
 	node.style.transform="scale(1.0)";
 	var id=event.dataTransfer.getData("text");
-	if (id=="")
+    removeClassName(node,"dropped");	
+	if (id==""){
 		return null;
-	removeClassName(node,"dropped");		
+    }		
 	var selnode = document.getElementById(id);
 	return JSON.stringify(selnode.model.jsonData);
 }
@@ -310,6 +317,9 @@ function prepareToDrop(event){
 function handleDropOnRec(event){
 	var jString=prepareToDrop(event);
 	var id=event.dataTransfer.getData("text");
+    if (id==""){
+		return null;
+    }
 	var node = document.getElementById(id);
 	node.model.updateProgrammInfo(jString);
 	executeServerCommand(new ServerCommand("MARK_Programm",jString,node.model));
@@ -329,19 +339,29 @@ var handleAutoListClicked= function(event) {
 	executeServerCommand(new ServerCommand("LIST_AUTO",""));
 };
 
-
+var handleChannelAction= function(event) {
+	//executeServerCommand(new ServerCommand("LIST_AUTO",""));
+    //toggle the left panel...
+    panel=document.getElementById("leftPanel");
+    proc=document.getElementById("rightPanel");
+    if (panel.className == "ChannelHidden"){
+        panel.className = "ChannelPanel";
+        proc.className = "ProgPanel";
+    }
+    else {
+        panel.className = "ChannelHidden";
+        proc.className = "ProgHidden";
+    }
+    
+};
 //-Log button button
 var handleShowLogClicked=function(event) {
 	window.open("/Log.html",'_blank');
 };
 //--Rec list handler
 var handleRecListClicked= function(event) {
-/*    var popup = document.getElementById("rec_popup");
-    popup.style.opacity=1.0;
-    popup.style.visibility = "visible";*/
 	executeServerCommand(new ServerCommand("LIST_REC",""));
 };
-
 
 //--Filter list handler
 var handleFilterClicked= function(event) {
@@ -403,7 +423,6 @@ var handleKeypress=function(evt) {
 	var keytype = evt.keyIdentifier;
 	if (keytype == null)
 		keytype = evt.key;
-	//console.log("search for:"+searchString+" key="+keytype);
 	var programEntry;
 	if (keytype=="Down"){
 		programEntry = programmList.findNext(searchString);

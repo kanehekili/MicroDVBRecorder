@@ -30,7 +30,7 @@ class EpgDatabase:
             return
         self._config.logInfo("Setup channel infos")
         channelDict = self.__createChannelDict(epgInfoList)
-        for channelName,epgInfos in channelDict.items():
+        for channelName,epgInfos in list(channelDict.items()):
             dayToDayList = self._sortEpgData(epgInfos) #[][]
             #removes all empty arrays
             dayToDayList[:] = [daily for daily in dayToDayList if daily ]
@@ -51,7 +51,7 @@ class EpgDatabase:
 
         channelDict = self.__createChannelDict(epgInfoList) 
             
-        for channelName,epgInfos in channelDict.items():
+        for channelName,epgInfos in list(channelDict.items()):
             dayToDayList = self._sortEpgData(epgInfos) #[][]
             #removes all empty arrays
             dayToDayList[:] = [daily for daily in dayToDayList if daily ]
@@ -76,7 +76,7 @@ class EpgDatabase:
     [channel [dayList [epgPerDay] ] ]
     '''
     def getData(self):
-        return self._channelDictionary.values()
+        return list(self._channelDictionary.values())
     
     
     def findAllInfos(self,searchString):
@@ -96,7 +96,7 @@ class EpgDatabase:
     '''
     def getPersistenceData(self):
         plainList=[]
-        for dayToDayList in self._channelDictionary.values():
+        for dayToDayList in list(self._channelDictionary.values()):
             for daily in dayToDayList:
                 plainList.append(daily)
         
@@ -323,11 +323,11 @@ class AutoSelectAccessor:
         for autoSelect in self.autoSelectList:
             entry = CT.SubElement(rootElement,"Entry")
             entry.attrib["hour"]=str(autoSelect.getHour())
-            entry.attrib["chanID"]=autoSelect.getChannelID().decode('utf-8')
+            entry.attrib["chanID"]=autoSelect.getChannelID()
             entry.attrib["week"]=str(autoSelect.getWeekMode()); 
-            entry.text= autoSelect.getTitle().decode('utf-8')
+            entry.text= autoSelect.getTitle()
         path=self._config.getAutoSelectPath()
-        with open(path, 'w') as aFile:
+        with open(path, 'wb') as aFile:
             CT.ElementTree(rootElement).write(aFile, "utf-8")
 
         
@@ -343,8 +343,8 @@ class AutoSelectAccessor:
         root = CT.fromstring(xmlData)
         for info in root:
             hourString= info.get('hour')
-            channelName = info.get('chanID').encode('utf-8')
-            title=info.text.encode('utf-8')
+            channelName = info.get('chanID')
+            title=info.text
             week = info.get("week")
             if week is None or channelName is None:
                 self._config.logInfo("Invalid autoselection list - ignoring")

@@ -14,7 +14,7 @@
     background-color: #fff;
     border: 3px solid #fff;
     left: 50%;
-    padding: 15px;
+    padding: 5px;
     position: fixed;
     top: 0;
     z-index: 200;
@@ -50,6 +50,19 @@
 
 
 }
+
+/*frame for select list*/
+.SelectFrame {
+   display:inline-block;
+   height:50vh; 
+   max-height:50vh;
+   width:70vw;
+   background:#F8EEEE;
+   margin:5px;
+  overflow-y:scroll;
+  border:2px inset;
+}
+
 .overlay .popup{  /*rule for all popups that are DESCENDENDS of overlay*/
     display:block;
     opacity:1;
@@ -143,16 +156,7 @@ input#recBtnStore {
   box-shadow: 0px 2px 4px #aaa, inset 0px 1px 2px #efefef;
 }
 
-/*frame for select list*/
-.SelectFrame {
-   display:inline-block;
-   height:60vh;
-   width:60vw;
-   background:#F8EEEE;
-   margin:5px;
-  overflow-y:scroll;
-  border:2px inset;
-}
+
 /*row/cell definition of autoselect*/
 .InfoTime,.InfoChannel,.InfoPeriod,.RecMargins {
 	/* display:inline-block; this does not work as in the programm list, since the data tends to go to the bottom*/
@@ -205,5 +209,26 @@ input#recBtnStore {
     color:#F7FE2E;
 	background: linear-gradient(to bottom, #f303b7 0%,#9b0b77 40%,#860465 60%,#c10592 100%);
 	background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#f303b7),color-stop(40%,#9b0b77),color-stop(60%,#860465),color-stop(100%,#c10592));
+}
+
+/*The channel trick*/
+.ChannelPanel {
+    visibility: visible;
+    width: 29vw;
+}
+ 
+.ChannelHidden {
+    width:0;
+    visibility: hidden;
+    display:none;
+}
+
+.ProgPanel {
+    position: relative;
+    width:70vw;
+}
+.ProgHidden {
+    position: unset;
+    width:100vw;
 }
 

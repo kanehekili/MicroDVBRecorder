@@ -84,14 +84,14 @@ class EpgUpdater:
         DVBT = self._getEPGDevice()
         try:
             dvbList = DVBT.collectEPGList()
-        except Exception,ex:
+        except Exception as ex:
             error = ex.args
             aString = str(error)
             self._errorMessage="Error while retrieving EPG data: "+aString
             self._config.logError(self._errorMessage)
             return self._errorMessage
         
-        if len(dvbList) is 0:
+        if len(dvbList) == 0:
             self._errorMessage="No EPG data received"
             self._config.logError(self._errorMessage)
             return self._errorMessage

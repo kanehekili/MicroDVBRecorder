@@ -58,7 +58,7 @@ class DVBRecorder():
             ml.signalMessage(ml.MSG_REFRESH)# enforces a new list
         except IOError:
             msg = "No EPG data"
-        except Exception,ex:
+        except Exception as ex:
             msg= "Error reading cached EPG Data: "+str(ex.args[0])
 
         self.configuration.logInfo(msg)                        
@@ -120,11 +120,6 @@ class DVBRecorder():
             self.configuration.logError("Error saving xml data")
 
         
-#def runEnergySaver(path,recorder):
-#    import subprocess
-#    subprocess.Popen(["python",path],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-#    recorder.configuration.logInfo("Spawned Energy saver")
-  
 def main(argv = None):
     if OSTools.checkIfInstanceRunning("DVBRecorder"):
         recorder = DVBRecorder();
@@ -136,7 +131,7 @@ def main(argv = None):
         recorder.configuration.logInfo("Exit")
         recorder.configuration.logClose()
               
-    print "Goodbye"
+    print("Goodbye")
 
  
     

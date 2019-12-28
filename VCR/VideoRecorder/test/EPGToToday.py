@@ -51,12 +51,13 @@ def moveListInTime(days, infoList):
     storePlainEPGList(infoList)   
 
 def storePlainEPGList(infoList):
-    rootElement = CT.Element('REC')
+    ROOT = "REC"
+    rootElement = CT.Element(ROOT)
     for epgInfo in infoList:
         if epgInfo.isConsistent:
             epgInfo.storeAsXMLElement(epgReader,rootElement)
 
-    with open(targetFile, 'w') as aFile:
+    with open(targetFile, 'wb') as aFile:
         CT.ElementTree(rootElement).write(aFile, "utf-8")
     
 
@@ -65,13 +66,13 @@ def updateEPGInfos():
     infolist = getEpgInfos()
     lowTime = getOldestTimestamp(infolist)
     if not lowTime:
-        print "nothing to change"
+        print("nothing to change")
         return
     td = datetime.now() - lowTime
-    print "Changing time from:",lowTime," offset: ",td.days+1," days"
+    print("Changing time from:",lowTime," offset: ",td.days+1," days")
     days = timedelta(days=td.days+1)
     moveListInTime(days,infolist)
-    print "Saved at: ",targetFile
+    print("Saved at: ",targetFile)
 
 updateEPGInfos()
         

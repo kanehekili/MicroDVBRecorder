@@ -213,9 +213,9 @@ a subclass of tree view. Handles the list store and the formatting
 '''            
 class EpgListWidget(gtk.TreeView):
     #Column numbers of the list store
-    (COL_MODE,COL_OBJECT,COL_TIME,COL_TEXT)=range(4)
+    (COL_MODE,COL_OBJECT,COL_TIME,COL_TEXT)=list(range(4))
     #Modes in the COL_MODE 
-    (MODE_DATA,MODE_DAY_HEADER,MODE_REC,MODE_BLOCK)=range(4)
+    (MODE_DATA,MODE_DAY_HEADER,MODE_REC,MODE_BLOCK)=list(range(4))
     _DAY_FG = "#FFF700"
     _DAY_BG = "#055A00"
     _ENTRY_BG ="#FFFFFF"
@@ -401,7 +401,7 @@ class EpgListWidget(gtk.TreeView):
 
 
 class EPGOverviewWidget(gtk.TreeView):
-    (COL_TIME,COL_TEXT,COL_OBJECT)=range(3)
+    (COL_TIME,COL_TEXT,COL_OBJECT)=list(range(3))
 
     _ENTRY_BG ="#FFFFFF"
     _ENTRY_FG ="#000000"
@@ -535,8 +535,8 @@ class RecorderToolbar:
                 key = icoKeys[index]
                 factory.add(key, icon_set)
 
-        except gobject.GError, error:
-            print 'failed to load GTK logo for toolbar',error
+        except gobject.GError as error:
+            print(('failed to load GTK logo for toolbar',error))
 
 
         
@@ -583,11 +583,11 @@ class RecorderToolbar:
         self.uimgr=uiManager
           
     def cb_quit(self,action):
-        print "Quit"
+        print("Quit")
         self.recorderView._cb_Exit(self.recorderView.window,None)
 
     def cb_saveHTML(self,action):
-        print "Save html"
+        print("Save html")
         #self.recorderView.channelTreeView.get_selection()
         #channel = self.recorderView.getChannelSelected()
         #self._progProvider.saveHTML(self)
