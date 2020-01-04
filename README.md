@@ -1,6 +1,8 @@
 MicroDVBRecorder
 ================
-Version 3.0.2
+Version 3.1.1
+
+![Download](https://github.com/kanehekili/MicroDVBRecorder/blob/master/VideoRecorder/build/mdvbrec3.1.1.tar)
 
 DVB-T/C Recording Daemon + Webservice  Runs on Linux X86 and arm
 
@@ -45,6 +47,7 @@ MDVBRec needs to know which kind of device it should use. Edit the config file "
 <br>RECORD_TYPE = CZAP
 <br>*Indicates where the files should be stored:
 <br>RECORDING_PATH = /home/Video/recme
+<br>Note: Due to problems running the dvb apps on arm an additional support for Sundteks Mediaclient has been created.I've been using the hardware from https://shop.sundtek.de/startseite/ since 5 years and can recommend it....
 
 Recorder Daemon
 ---------------
@@ -63,22 +66,24 @@ If all prerequisites are met it will start reading the EPG data, which might tak
 WebServer
 ---------
 As frontend a Webserver must be startet, using the "startWebServer.sh"
+<br>It starts with User Test Passwd Test on port 8080. Authentication will not be required, if the web server is called from the local network. 
 <br>Enter the follwing URL in your favourite browser (no- not IE ):
 <br>ipaddress:8080/
 <br>You should see the channels as well as the program list 
 
-##GTK GUI
+##GTK GUI (not working with python 3 anymore -deprecated)
 You may use a GTK application instead of the webserver. A desktop file can be found in the "mdvbrec.tar". Copy it to .local/share/applications.
 
 
 MDVBREC Interface
 -----------------
+* Antenna:      Open/Collapse the channel pane (More space on mobile use)
 * Green Arrows: Move up and down one day
 * Magn. Glas:   Search a title on any channel
 * Filter:       If a title has been selected, shows all other of that channel (if they exist)
 * Book:         The log file
-* Film clip?:   Lists all entered recordings. Select one recording to change the prerun/postrun minutes
-* Robo:         By dragging a progamm info onot the Robo icon it will record that titel whenever it is encountered in the future. Note that the titel must reappear at the same hour...
+* Film clip:    Lists all entered recordings. Select one recording to change the prerun/postrun minutes
+* Robo:         By dragging a progamm info onto the Robo icon it will record that titel whenever it is encountered in the future. Note that the titel must reappear at the same hour...
 
 ###Recording
 Double click on a programm item will put it in the record queue. An icon might show that this timeslot is already taken.
@@ -123,4 +128,4 @@ In order to run this daemon the /etc/sudoer file has to be changed:
 * Swipe the entry from left to right or vice versa until it gets marked. On release it will be removed
 
 ----- 
-The software has been used for over two years now- it should be stable..
+The software has been used for over 5 years now- it is stable..
