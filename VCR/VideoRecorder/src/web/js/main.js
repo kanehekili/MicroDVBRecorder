@@ -387,7 +387,7 @@ var handleFilterClicked= function(event) {
 
 //-- Search Button handler
 var handleSearchClicked= function(event) {
-	var result = window.prompt("Search a programm","?");
+	var result = window.prompt("Search a programm","");
 	if (result != null)
 	   executeServerCommand(new ServerCommand("SEARCH_ALL",result));
 }

@@ -328,7 +328,7 @@ class EpgProgramInfo:
     setup self from XML data. 
     '''
     def createFromXMLElement(self,builder,program,isUTC):
-        
+        NOT_AVAILABLE="N.A."
         #the key of the dictionary
         channelid = program.get('channel');
         channel = builder._findChannel(channelid)
@@ -343,8 +343,10 @@ class EpgProgramInfo:
         self.setEndTime(builder.convertToDate(endTimeString,isUTC))
         
         title=program.find('title')
-        if title != None:
+        if title != None and title.text != None:
             self.setTitle(title.text)
+        else:
+            self.setTitle(NOT_AVAILABLE)
 
         description = program.find('desc')
         if description != None:
@@ -352,7 +354,7 @@ class EpgProgramInfo:
             jobid = description.get('JOBID')
             if jobid != None:
                 self.setJobID(jobid)
-        
+
         return self    
 
     '''
