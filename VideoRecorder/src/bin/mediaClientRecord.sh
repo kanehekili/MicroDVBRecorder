@@ -7,23 +7,23 @@
 #opt/bin/mediaclient --tsprogram 53602 -d /dev/dvb/adapter0/dvr0 > "${target}
 
 durance=$1
-target=$2
-freq=$3
-qam=$4
-symbolrate=$5
-progID=$6
+freq=$2
+qam=$3
+symbolrate=$4
+progID=$5
+target=$6
 
 echo rec channelid: $progID to target $target durance $durance seconds
-opt/bin/mediaclient -m DVBC -f "$freq" -M "$qam" -S "$symbolrate" > /dev/null &
+/opt/bin/mediaclient -m DVBC -f "$freq" -M "$qam" -S "$symbolrate" > /dev/null &
 zap_pid=$!
 
 sleep 2
-if ! ps -p zap_pid ; then
+if ! ps -p $zap_pid ; then
 	echo "tuning failed"
 	exit 1
 fi
 # Adapter is dvr0
-opt/bin/mediaclient --tsprogram "$progID" -d /dev/dvb/adapter0/dvr0 > "${target}" &
+/opt/bin/mediaclient --tsprogram "$progID" -d /dev/dvb/adapter0/dvr0 > "${target}" &
 rec_pid=$!
 
 trap "kill $rec_pid $zap_pid" SIGINT SIGTERM EXIT

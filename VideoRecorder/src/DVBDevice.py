@@ -312,7 +312,7 @@ class MediaClientCommand():
     
     def getArguments(self,epgInfo,durance,filePath ):
         channel = epgInfo.getChannel()
-        tArgs = [self.Command,str(durance),channel.getFrequency(),"Q"+channel.getQam(),channel.getSymbolRate().channel.getChannelID()]
+        tArgs = [self.Command,str(durance),channel.getFrequency(),"Q"+channel.getQam(),channel.getSymbolRate(),channel.getChannelID()]
         tArgs.append(""+filePath+"")
         return tArgs    
         

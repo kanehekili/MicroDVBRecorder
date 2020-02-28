@@ -27,7 +27,7 @@ var confirmBox=function(prompt){
 
 var nearestDayRow = function(){
 	var dayrows= document.getElementsByClassName("dayrow");
-	var parent = document.getElementsByClassName("yscroller")[0];
+	var parent = document.getElementsByClassName("yscroller")[1];
 	var pTop = parent.getClientRects()[0].top;
 	var low= 5000;
 	var candidate=null;

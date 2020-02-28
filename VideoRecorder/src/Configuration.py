@@ -51,7 +51,7 @@ class Config():
     REC_TYPE_CZAP = "CZAP"
     REC_TYPE_SZAP = "SZAP"
     REC_TYPE_VLC = "VLC"
-    REC_TYPE_SUNDTEK="SUNDTEK"
+    REC_TYPE_SUNDTEK="SUNDTEK_C"
     REC_TYPE_FAKE = "FAKE"
     
     #configurable items
@@ -110,7 +110,7 @@ class Config():
         return os.path.join(self.HomeDir,self.BinPath)
     
     def getChannelFilePath(self):
-        if self.RECORD_DEVICE == self.REC_TYPE_CZAP:
+        if self.RECORD_DEVICE == self.REC_TYPE_CZAP or self.RECORD_DEVICE == self.REC_TYPE_SUNDTEK:
             return os.path.join(self.UserPath,self.CzapPath,self.ChannelFile)
         else:
             return os.path.join(self.UserPath,self.TzapPath,self.ChannelFile)
