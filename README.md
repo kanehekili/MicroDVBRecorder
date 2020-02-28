@@ -1,8 +1,8 @@
 MicroDVBRecorder
 ================
-Version 3.1.1
+Version 3.1.2
 
-![Download](https://github.com/kanehekili/MicroDVBRecorder/blob/master/VideoRecorder/build/mdvbrec3.1.1.tar)
+![Download](https://github.com/kanehekili/MicroDVBRecorder/blob/master/VideoRecorder/build/mdvbrec3.1.2.tar)
 
 DVB-T/C Recording Daemon + Webservice  Runs on Linux X86 and arm
 
@@ -17,7 +17,7 @@ In order to use the Recorder the following prerequisites have to be met:
 * tmux - if you want to keep the sessions on a server (optional)
 * Firmware for you DVB stick or a Sundtek driver if using a Sundtek Stick
 
-###Preparing the DVB system:
+### Preparing the DVB system:
 Download the "dvb-apps" package. It usually come with a commandline tool called _w_scan_.
 
 MDVBRecorder needs a channel list in *zap format, so in order to retrieve the channels install your DVB-stick, connect it to the device and execute:
@@ -31,7 +31,7 @@ The resulting file needs to be in one of the follwing directories in "home":<br>
 The channels.conf is the base for getting the EPG data as well as the recording. Prior to starting the recorder please check if it works:
 czap "ZDF" or tzap "ARD" or whatever channel names you have.
 
-###Preparing the executables
+### Preparing the executables
 Unpack the _mdvbrec.tar_ file (found in the _build_ folder) to a dedicated folder (i.e Recorder) and make the following files executable:
 * mdvbrec\bin czapRecord.sh,
 * tv_grab_dvb
@@ -41,9 +41,9 @@ In case you are using a Sundtek Media Pro DVB Stick it is strongly recommended t
 <br><code>./sundtek_netinst.sh -system</code>
 <br>The necessary "LD_PRELOAD" export is included in all relevant executables.
 
-###Configuring the basics
+### Configuring the basics
 MDVBRec needs to know which kind of device it should use. Edit the config file "xmltv/config.xml". Tested are TZAP and CZAP. Plugins may be written to support more devices
-<br>*ONE OF "TZAP" "CZAP")
+<br>*ONE OF "TZAP" "CZAP" or "SUNDTEK_C")
 <br>RECORD_TYPE = CZAP
 <br>*Indicates where the files should be stored:
 <br>RECORDING_PATH = /home/Video/recme
@@ -58,7 +58,7 @@ If all prerequisites are met it will start reading the EPG data, which might tak
 <br>An additional "info.txt" file lists the descriptions per file.
 <br>The type of file may either be mp2 (transport stream) or AVCHD (mp4 transport Stream)
 
-###Converting/Handling
+### Converting/Handling
 <br>SD: mp2 ts files can be cut & converted with DVBCut. Very convinient an fast.
 <br>HD: mp4 ? Im working on a VideoCut right now. Until then you may cut the files and convert them using ffmpeg.
 <br>Tip (fastseek): ffmpeg -ss 00:05:30.00 -i in.m2t -t 00:29:00 -vcodec copy  -acodec copy out.mp4
@@ -71,7 +71,7 @@ As frontend a Webserver must be startet, using the "startWebServer.sh"
 <br>ipaddress:8080/
 <br>You should see the channels as well as the program list 
 
-##GTK GUI (not working with python 3 anymore -deprecated)
+#### GTK GUI (not working with python 3 anymore -deprecated)
 You may use a GTK application instead of the webserver. A desktop file can be found in the "mdvbrec.tar". Copy it to .local/share/applications.
 
 
@@ -85,7 +85,7 @@ MDVBREC Interface
 * Film clip:    Lists all entered recordings. Select one recording to change the prerun/postrun minutes
 * Robo:         By dragging a progamm info onto the Robo icon it will record that titel whenever it is encountered in the future. Note that the titel must reappear at the same hour...
 
-###Recording
+### Recording
 Double click on a programm item will put it in the record queue. An icon might show that this timeslot is already taken.
 
 Arm support
@@ -93,7 +93,7 @@ Arm support
 The recorder runs also (daemon and web server) on a cubieboard or rasberry pi. If you use an arm device, replace tv_grab_dvb with the /arm/tv_grab_dvb version by copying it.
 Note that there is no support for "openelec" yet - there are plans to change that.
 
-###Keeping the sessions with tmux
+### Keeping the sessions with tmux
 If tmux is installed you can use tmuxStart.sh to run both daemon and webserver in a session. Whenever you log in via ssh on the device the session can be restored with "tmux a"
 <br>In the tmux window the sessions can be supervised or killed (use crtl+c)
 
@@ -108,7 +108,7 @@ If you are using a Laptop or worse you may activate the VCR Mode.
 * ./serverModeOn switches from VCR mode to server mode
 * ./sleepModeOn switches to VCR Mode. The computer will, if not just recording, be put into sleep.
 
-###Note for VCR Policy
+#### Note for VCR Policy
 In order to run this daemon the /etc/sudoer file has to be changed:
 <p>xUser ALL=NOPASSWD: /usr/sbin/rtcwake</p>
 <p>Defaults:xUser !requiretty</p>
@@ -116,7 +116,7 @@ In order to run this daemon the /etc/sudoer file has to be changed:
 
 .
 ----
-##Touch support for Chrome on Android (Apple not tested)
+## Touch support for Chrome on Android (Apple not tested)
 ### Changing the order of Channels 
 * Touch the channel to move - press until its text color turns yellow. Move it into the desired position, indicated by a blue line.
 
