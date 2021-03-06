@@ -18,7 +18,7 @@ In order to use the Recorder the following prerequisites have to be met:
 * Firmware for you DVB stick or a Sundtek driver if using a Sundtek Stick
 
 ### Preparing the DVB system:
-Download the "dvb-apps" package. It usually come with a commandline tool called _w_scan_.
+Download the "dvb-apps" package. It usually contains a commandline tool called _w_scan_.
 
 MDVBRecorder needs a channel list in *zap format, so in order to retrieve the channels install your DVB-stick, connect it to the device and execute:
 
@@ -32,7 +32,7 @@ The channels.conf is the base for getting the EPG data as well as the recording.
 czap "ZDF" or tzap "ARD" or whatever channel names you have.
 
 ### Preparing the executables
-Unpack the _mdvbrec.tar_ file (found in the _build_ folder) to a dedicated folder (i.e Recorder) and make the following files executable:
+Unpack the  _mdvbrec.tar_  file (found in the _build_ folder) to a dedicated folder (i.e Recorder) and make the following files executable:
 * mdvbrec\bin czapRecord.sh,
 * tv_grab_dvb
 * all sh files in that folder using "chmod+x"
@@ -85,7 +85,7 @@ MDVBREC Interface
 * Film clip:    Lists all entered recordings. Select one recording to change the prerun/postrun minutes
 * Robo:         By dragging a progamm info onto the Robo icon it will record that titel whenever it is encountered in the future. Note that the titel must reappear at the same hour...
 
-### Recording
+###Recording
 Double click on a programm item will put it in the record queue. An icon might show that this timeslot is already taken.
 
 Arm support
@@ -103,7 +103,7 @@ VCR Mode
 If you are using a Laptop or worse you may activate the VCR Mode.
 <br>The mode will put the computer to sleep until the next recording. After the recording, it will sleep again, so saving some energy (and noise)
 <br>Note that the webserver will also not be available at that time...
-<br>If turned on again (e.g by liftig the lid) the Recording deamon will go into Server mode - so VCR mode has to be switched on again.
+<br>If turned on again (e.g by lifting the lid) the Recording deamon will go into Server mode - so VCR mode has to be switched on again.
 <br>For this mode these files help:
 * ./serverModeOn switches from VCR mode to server mode
 * ./sleepModeOn switches to VCR Mode. The computer will, if not just recording, be put into sleep.
@@ -128,4 +128,4 @@ In order to run this daemon the /etc/sudoer file has to be changed:
 * Swipe the entry from left to right or vice versa until it gets marked. On release it will be removed
 
 ----- 
-The software has been used for over 5 years now- it is stable..
+The software has been for many years now- it is stable..

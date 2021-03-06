@@ -26,6 +26,6 @@ fi
 /opt/bin/mediaclient --tsprogram "$progID" -d /dev/dvb/adapter0/dvr0 > "${target}" &
 rec_pid=$!
 
-trap "kill $rec_pid $zap_pid" SIGINT SIGTERM EXIT
+trap "kill $rec_pid" SIGINT SIGTERM EXIT
 sleep $durance
 echo "Rec done"

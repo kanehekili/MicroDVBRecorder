@@ -8,7 +8,7 @@ Created on Aug 15, 2013
 import OSTools
 import sys
 import base64
-from http.server import HTTPServer
+from http.server import ThreadingHTTPServer
 from PythonWebBridge import RecorderPlugin
 from http.server import SimpleHTTPRequestHandler
         
@@ -19,7 +19,7 @@ KXD=""
 def runHTTPServer(port):
     try:
         RecorderHTTPHandler.AppConnector = RecorderPlugin()
-        server = HTTPServer(('', int(port)),RecorderHTTPHandler)
+        server = ThreadingHTTPServer(('', int(port)),RecorderHTTPHandler)
         print('started httpserver...')
         server.serve_forever()
     except KeyboardInterrupt:
@@ -88,13 +88,18 @@ class RecorderHTTPHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         if not self.checkAuthorization():
             SimpleHTTPRequestHandler.do_GET(self)
-            print("No post")
+            self.AppConnector.log("POST FAKE from:"+self.clientAdress)
+            print("POST FAKE from:"+self.clientAdress)
             return;
         length = int(self.headers.get('content-length'))
+        content_type = "application/json"
         try:
-            postdata = self.rfile.read(length)
-            command = postdata.decode('utf-8')
             self.send_response(200, "OK")
+            postdata = self.rfile.read(length)
+            print("POST len: %d query len: %d"%(length,len(postdata)))
+            command = postdata.decode('utf-8')
+
+            self.send_header('Content-type', content_type)
             self.end_headers()
             result=self.AppConnector.executePostData(command)
         except:
