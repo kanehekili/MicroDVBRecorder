@@ -79,6 +79,8 @@ class RecorderHTTPHandler(SimpleHTTPRequestHandler):
             self.path=self.Home+self.path
             if "Log." in self.path:
                 self.AppConnector.handleLogCommand(self.path)
+            elif "Films." in self.path:
+                self.AppConnector.handleFilmCommand(self.path)
             self.AppConnector.log("GET:"+self.path)
             print(("GET:"+self.path))
             SimpleHTTPRequestHandler.do_GET(self)

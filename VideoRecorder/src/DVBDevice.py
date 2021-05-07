@@ -5,7 +5,7 @@ Created on Oct 19, 2012
 @author: matze
 '''
 import time as xtime
-import subprocess
+import subprocess,re
 from subprocess import Popen
 from Configuration import MessageListener, Config
 
@@ -96,9 +96,13 @@ class DVB_Grabber():
         if len(lines)< 2:
             return None
         reduxList=[]
+
         CAT1='<category>'
+        DESC='<desc'
         for line in lines:
             if CAT1 not in line:
+                if DESC in line:
+                    line= re.sub(r'([a-z0-9](?=[A-Z]))', r'\1 ',line)
                 reduxList.append(line)
     
         return ''.join(reduxList)

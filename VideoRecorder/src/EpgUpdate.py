@@ -23,6 +23,9 @@ class EpgUpdater:
 
         self._database = None
         self._errorMessage = None
+        if len(self._channelList)<3:
+            self._errorMessage="No {sct}zap channel file found - Exit"
+
         
 
 

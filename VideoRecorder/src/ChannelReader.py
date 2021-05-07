@@ -32,11 +32,13 @@ class ChannelReader:
     
     def _createChannels(self, stringList):
         for line in stringList:
+            if len(line)<5:
+                continue
             token=re.split(':',line)
             maxToken = len(token)
             if maxToken < 6:
                 logging.log(logging.ERROR,"channel info is corrupt:"+token[0])
-                #TODO needs a message for web
+                print("Corrupt channel info!")
             else:
                 aChannel = Channel(token[0],token[1],token[maxToken-1])
                 self._setQAM(aChannel,token[5])

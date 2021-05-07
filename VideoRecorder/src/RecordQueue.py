@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 from Configuration import MessageListener
 from EpgReader import EpgReader,EpgReaderPlugin, EpgProgramInfo
 import OSTools
+import itertools
+from itertools import tee
 
 
 class RecordQueue():
@@ -30,7 +32,7 @@ class RecordQueue():
             return False
         jobID = self._generateJobID(recList) #all items in that group should have the same id..
         epgProgramInfo.setJobID(jobID)
-        recList.append(RecordingInfo(epgProgramInfo))
+        recList.append(RecordingInfo(epgProgramInfo,self._config.GlueRecordings))
         self._config.logInfo("Added Recording "+str(jobID)+">"+epgProgramInfo.getString())
         self._storeRecordQueue(recList)
         return True
@@ -156,8 +158,6 @@ class RecordQueue():
         for dayToDayList in infoArray:
             for dayList in dayToDayList:
                 for epgInfo in dayList:
-                    #TODO: the right epg data- the rec contains the margins!
-                    #if self.__makeConsistent(epgInfo, recList):
                     found = self.__checkForTimeShiftEntries(epgInfo, recList)
                     if found:
                         syncedRecList.append(found)
@@ -193,8 +193,14 @@ class RecordQueue():
     #interface for the recorder daemon...reads the rec queue altered by the web service
     def _readRecordQueue(self):
         reader = EpgReader(self._channelList)
-        epgReaderPlug = RecReaderPlugin()
+        epgReaderPlug = RecReaderPlugin(self._config.GlueRecordings)
         return reader.readCachedXMLFile(epgReaderPlug,self._config.getRecQueuePath())
+
+    def __pairwise(self,iterable):
+        a, b = tee(iterable)
+        next(b, None)
+        return list(zip(a, b))
+
 
     def getNextRecordingEntry(self):
         top=0;
@@ -209,11 +215,17 @@ class RecordQueue():
             self._config.logInfo("RecQ: Next rec @ %s -creating maint entry" %(head.getEPGInfo().getStartTime()))
             return self.createMaintenanceRecord()
         
-        if len(recList)>top+1:
-            successor = recList[top+1]
-            self._connect(head, successor)
+        if len(recList)<2:
+            self._calculateExecutionTime(head)
+        else:
+            for pred,successor in self.__pairwise(recList):
+                success= self._connect(pred, successor)
+                self._calculateExecutionTime(pred)
+                self._calculateExecutionTime(successor)#partly redundant, but you need the last
+                if not success:
+                    break               
+                
         
-        self._calculateExecutionTime(head)
         return head
             
     def isMaintenanceNeeded(self,recInfo):
@@ -266,13 +278,16 @@ class RecordQueue():
         if headRecInfo.isPredecessorOf(newRecInfo):
             newRecInfo.setPredecessor(headRecInfo)
             headRecInfo.setSuccessor(newRecInfo)
+            return True
+        return False
 
 class RecReaderPlugin(EpgReaderPlugin):
-    def __init__(self):
+    def __init__(self,glueRecordings):
         EpgReaderPlugin.__init__(self,None,False)
+        self.glueRec=glueRecordings
     
     def createEpgObject(self):
-        return RecordingInfo(None)     
+        return RecordingInfo(None,self.glueRec)     
 
 
 class RecordingInfo():
@@ -290,13 +305,14 @@ class RecordingInfo():
     ADJACENT_BEFORE=2
     ADJACENT_AFTER=1
     
-    def __init__(self,epgInfo):
+    def __init__(self,epgInfo,glueTogether=False):
         self._predecessor = None
         self._successor = None
         self._epgInfo = epgInfo
         self._duranceInSeconds=0;
         self.marginStart=self.REC_MARGIN;
         self.marginEnd=self.REC_MARGIN;
+        self.glueRecs = glueTogether
     '''
     Time to start the recording (usually with a margin)
     Created when called by the daemon
@@ -369,6 +385,37 @@ class RecordingInfo():
     
     def hasNeighbours(self):
         return self._successor or self._predecessor    
+
+    def getGluedDurance(self):
+        if not self.glueRecs or not self.isHead():
+            return self.getDurance()
+        #this makes only sense if this the head...
+        items=self.getGlueList()
+        dur=len(items)-1# some seconds plus 
+        for rec in items:
+            dur=dur+rec.getDurance()
+        return dur    
+    
+    def getGlueList(self):
+        res=[]
+        recInfo = self
+        while recInfo:
+            res.append(recInfo)
+            succ = recInfo.getSuccessor()
+            if recInfo.isGluedTo(succ):
+                recInfo=succ
+            else:
+                recInfo=None
+        return res
+    
+   
+    def isGluedTo(self,successor):
+        if successor is None or not self.glueRecs:
+            return False
+        myChan=self.getEPGInfo().getChannel().getName()
+        otherChan =successor.getEPGInfo().getChannel().getName()
+        return myChan==otherChan
+            
         
     def getList(self):
         treeList = []

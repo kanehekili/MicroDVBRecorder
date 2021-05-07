@@ -202,11 +202,15 @@ class RecorderDaemon():
                 
             if not done:
                 #Ensure that an adjacent job can follow - decrease the wait time
-                delta = max(10,OSTools.getDifferenceInSeconds(recordingJob.getEndTime(),datetime.now()))
+                gludu=recordingJob.getGluedDurance()
+                endtime = OSTools.addToDateTime(recordingJob.getExecutionTime(),gludu)
+                delta = max(10,OSTools.getDifferenceInSeconds(endtime,datetime.now()))
                 sleepTime = min(self.HEARTBEAT,delta)
                 if sleepTime != self.HEARTBEAT:
                     emergencyCount+=1;
-                    self._log("stopping in seconds:"+str(sleepTime))#log only the fragments
+                    endTimeString=endtime.strftime("%H:%M.%S")
+                    startTimeString = recordingJob.getExecutionTime().strftime("%H:%M.%S")
+                    self._log("Stopping in seconds: %d (Info Start: %s expected end: %s with dur %d)"%(sleepTime,startTimeString,endTimeString,gludu))#log only the fragments
                     if emergencyCount > 10:
                         self._log("REC Q error- force process termination")
                         recProcess.terminate()
@@ -295,11 +299,15 @@ class RecorderDaemon():
                 errorCount = errorCount + 1
             
     def run(self):
-        self._log("Starting daemon..")
-        self._inhibitor.inhibit_gnome_screensaver(True)
-        self.epgUpdater.readEPGCache()
-        self._initializePolicy()
-        self._startDaemon()
+        msg= self.epgUpdater.getErrorMessage()
+        if msg:
+            print("EPG Error:",msg)
+        else:
+            self._log("Starting daemon..")
+            self._inhibitor.inhibit_gnome_screensaver(True)
+            self.epgUpdater.readEPGCache()
+            self._initializePolicy()
+            self._startDaemon()
         
 
 #---------- Daemon end -------------------
@@ -440,34 +448,47 @@ class Recorder():
         epgInfo = recInfo.getEPGInfo()
         channel = epgInfo.getChannel()
         channelName = channel.getEscapedName()
+        gluedItems=recInfo.getGlueList()
+        diff = recInfo.getExecutionTime() - datetime.now()
+        #if negative - we need to remove that from the glueDurance...
         
         #String for filename
         startTimeString=epgInfo.getStartTime().strftime("%m_%d_%H_%M-")
         recPath = self._config.getRecordingPath() 
         path = self._config.getFilePath(recPath, channelName)
         fileExt=self._config.MPGFileTyp
-        cleanTitle = epgInfo.getTitle().strip()
-        cleanTitle = re.sub('[\\/:"*?<>|%]+', '', cleanTitle)
+        if len(gluedItems)>1:
+            cleanTitle="Collection"
+        else:
+            cleanTitle = epgInfo.getTitle().strip()
+            cleanTitle = re.sub('[\\/:"*?<>|%]+', '', cleanTitle)
+            
         if self._recordFileIndex>0:
             cleanTitle=cleanTitle+"_"+str(self._recordFileIndex)
+ 
         fileName = self._config.getFilePath(path,startTimeString+cleanTitle+fileExt)
-        #Recorder selection
-        argList = self._recDevice.getArguments(epgInfo, recInfo.getDurance(),fileName)
+        argList = self._recDevice.getArguments(epgInfo, recInfo.getGluedDurance(),fileName)
         #Save Title and description in an info file at path
-        self._saveRecordInfo(path,epgInfo,startTimeString)
+        self._saveRecordInfo(path,gluedItems,startTimeString)
         return argList
  
 
-    #store title and description -entries will not be removed! 
-    def _saveRecordInfo(self,path,epgProgramInfo,startTimeString):
+    #store title and description -entries will not be removed!
+    def _saveRecordInfo(self,path,glueItems,startTimeString):
         filePath = self._config.getFilePath(path,"Info.txt")
+        head=None
         try:
             with open(filePath, 'a') as aFile:
-                aFile.write(startTimeString+" ")
-                text = epgProgramInfo.getTitle()
-                aFile.write(text+" -- ")
-                text = epgProgramInfo.getDescription()
-                aFile.write(text+'\n')
+                for recInfo in glueItems:
+                    if not head:
+                        aFile.write(startTimeString+" ")
+                        head=recInfo.getEPGInfo()
+                    else:
+                        aFile.write("    |------- ")
+                    text = recInfo.getEPGInfo().getTitle()
+                    aFile.write(text+" -- ")
+                    text = recInfo.getEPGInfo().getDescription()
+                    aFile.write(text+'\n')
         except IOError as ioex:
             msg = "I/O error saving Recinfo ({0}): {1}".format(ioex.errno, ioex.strerror)
             self._config.logError(msg)
@@ -475,7 +496,7 @@ class Recorder():
         
         except Exception as ex:
             msg = "Unknown error saving Recinfo: "+str(ex.args[0])
-            self._config.logError(msg+" Record Info:"+epgProgramInfo.getChannel().getName()+"-"+epgProgramInfo.getStartTimeString())
+            self._config.logError(msg+" Record Info:"+head.getChannel().getName()+"-"+head.getStartTimeString())
             print(msg)
                              
     def _executeRecording(self,args,scheduleTime):

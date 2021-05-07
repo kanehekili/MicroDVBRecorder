@@ -15,7 +15,7 @@ import OSTools
 import os
 import mimetypes
 import codecs
-
+from importlib.resources import path
 
 class WebRecorder():
     '''
@@ -342,7 +342,6 @@ class WebRecorder():
         title = epgInfo.getTitle()
         description = epgInfo.getDescription()
         jobID = epgInfo.getJobID()
-        ##TODO: this is seconds- break it down to minutes (accept +-5 mins)
         marginStart = recInfo.getMarginAsString(recInfo.marginStart)
         marginStop = recInfo.getMarginAsString(recInfo.marginEnd)
         if len(jobID) > 0:
@@ -375,18 +374,6 @@ class RecorderPlugin():
         self.count = 0;
         self._webRecorder = WebRecorder()
         self._config = self._webRecorder.configuration
-        #self.__linkLogging()
-
-    #TODO: deprected
-    def __linkLogging(self):
-        # ../../../VideoRecorder/src/log/
-        # NO! That is where the command shell sits: currentPath=os.getcwd()
-        destFile = self._config.getFilePath(self._config.getWebPath(), "Log.txt")
-        srcFile = self._config.getLoggingPath();
-        srcFile = OSTools.ensureFile(srcFile, "dvb_suspend.log")
-        self._config.logInfo("Linking file:" + srcFile)
-        if not os.path.lexists(destFile):
-            os.symlink(srcFile, destFile)
 
     def log(self, aString):
         self._config.logInfo(aString)
@@ -401,6 +388,9 @@ class RecorderPlugin():
         else:
             self.LogPos=0
         self.prepareLogFile(self.LogPos,logStep)
+    
+    def handleFilmCommand(self,command):
+        self.prepareFilmPage()
             
     
     def prepareLogFile(self,lineStart,lineCount):
@@ -415,8 +405,9 @@ class RecorderPlugin():
         htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Micro Recorder Log</title><body>'
         htmlend = '--- End ---</body></html>'
         htmlmore = '<a href="./Log.html?NXT">Log more?</a></body></html>'
+        htmlFilms = '<a href="./Films.html">Show Films</a>'
 
-        with codecs.open(srcFile, 'r',"utf-8") as logFile:
+        with codecs.open(srcFile, 'r',encoding='utf-8') as logFile:
             logLines = logFile.readlines()
  
        
@@ -429,7 +420,8 @@ class RecorderPlugin():
         isEven=False
         with open(destFile, 'w+') as htmlFile:
             htmlFile.write(htmlStart)
-            htmlFile.write("<b> The Logs (newest first) </b>")  
+            htmlFile.write("<b> The Logs (newest first) </b>")
+            htmlFile.write(htmlFilms)
             #for line in logLines:
             lineIndex = startIndex
             while lineIndex > reqEnd:
@@ -445,8 +437,39 @@ class RecorderPlugin():
                 htmlFile.write(htmlend)
             else:
                 htmlFile.write(htmlmore)      
+    
+    def prepareFilmPage(self):
+        style ='<style>body { float:left;} div {white-space: nowrap;padding:2px;margin:0px;font-family: Helvetica, Arial, sans-serif;font-size:0.85em;} .evenrow {background-color: #F8E0D7;} .oddrow {background-color: #F8EEEE;} .back {float:right}</style>'
+        htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Recorded Films</title><body>'
+        htmlend = '--- End ---</body></html>'
+        htmlBack = '<div class= back><a href="./Log.html">Back to Log</a></div>'
+        srcFile = self._config.getLoggingPath();
+        srcFile = OSTools.ensureFile(srcFile, "Filmlist.txt")
         
+        destFile = self._config.getFilePath(self._config.getWebPath(), "Films.html")
+        with codecs.open(srcFile, 'r',encoding="utf-8") as logFile:
+            logLines = logFile.readlines()
         
+        isEven=False
+        with open(destFile, 'w+') as htmlFile:
+            htmlFile.write(htmlStart)
+            htmlFile.write("<b> The film list</b>")
+            htmlFile.write(htmlBack)
+            for line in logLines:
+                if isEven:
+                    divid="evenrow"
+                else:
+                    divid="oddrow"
+                hack=self.utf8ToHTMLUmlauts(line)
+                htmlFile.write('<div class="'+divid+'">'+hack+"</div>")
+                isEven=not isEven            
+            htmlFile.write(htmlend)
+        
+
+    #can'be a good solution, but didn't find any better yet 
+    def utf8ToHTMLUmlauts(self,text):
+        return text.replace("ö", "&ouml;").replace("ü", "&uuml;").replace("ä", "&auml;").replace("Ö", "&Ouml;").replace("Ü", "&Uuml;").replace("Ä", "&Auml;").replace("ß", "&szlig;")
+    
     # Note: arguments must be encoded to utf-8     
     def executePostData(self, jsonCmd):
         try:
@@ -495,4 +518,173 @@ class RecorderPlugin():
             jsonError = self._webRecorder.asJsonError("Server Error", msg)
             return json.dumps(jsonError)
         
+
+
+def walkFilms():
+    
+    if not mimetypes.inited:
+        print("init")
+        mimetypes.init()  # try to read system mime.types
+    mimetypes.add_type("video/stream", ".m2t", True)
+    startPath="/home/matze/Videos"
+    zero=len(startPath.split(os.sep))
+    for root, folder, files in os.walk(startPath):
+        #print("Root:",root," dir:",folder)
+        ident = len(root.split(os.sep))-(zero-1)
+        print(ident * '.', os.path.basename(root))
+        
+        for item in files:
+            type= mimetypes.guess_type(item, strict=True)
+            if type[0] and "video" in type[0]:
+                print((ident+1) * '.', item," >" ,type,">")
+
+def testWalk1():
+    style ='<style>body { float:left;} div {white-space: nowrap;padding:2px;margin:0px;font-family: Helvetica, Arial, sans-serif;font-size:0.85em;} .evenrow {background-color: #F8E0D7;} .oddrow {background-color: #F8EEEE;} .back {float:right}</style>'
+    htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Recorded Films</title><body>'
+    htmlend = '--- End ---</body></html>'
+    destFile = "/home/matze/Videos/Films.html"
+    if not mimetypes.inited:
+        print("init")
+        mimetypes.init()  # try to read system mime.types
+    mimetypes.add_type("video/stream", ".m2t", True)    
+    startPath="/home/matze/Videos"
+    
+    ft=DisplayablePath.make_tree(startPath)
+    
+    with open(destFile, 'w+') as htmlFile:
+        htmlFile.write(htmlStart)
+        htmlFile.write("<b> The film list</b>")
+        isEven=False
+        for path in ft:
+            type= mimetypes.guess_type(path.displayable(), strict=True)
+            if path.path.is_dir():
+                tak="<b>"+path.displayable()+"</b>"
+            elif type[0] and "video" in type[0]:
+                tak=path.displayable()
+            else: 
+                tak=None
+            if tak:
+                if isEven:
+                    divid="evenrow"
+                else:
+                    divid="oddrow"
+                htmlFile.write('<div class="'+divid+'">'+tak+"</div>")
+                isEven=not isEven
+        htmlFile.write(htmlend)
+
+def testWalk():
+    if not mimetypes.inited:
+        print("init")
+        mimetypes.init()  # try to read system mime.types
+    mimetypes.add_type("video/stream", ".m2t", True)    
+    startPath="/home/matze/Videos"
+    ft=FileTree()
+    generator=ft.makeTree(startPath)
+    for path in generator:
+        print(path,">",ft.display(path))
+    
+    
+
+class FileTree():
+    display_filename_prefix_middle = '├──'
+    display_filename_prefix_last = '└──'
+    display_parent_prefix_middle = '    '
+    display_parent_prefix_last = '│   '
+
+    def __init__(self,zeroPath):
+        self.starPath=zeroPath
+        self.zeroIndex=zero=len(zeroPath.split(os.sep))
+    
+    def makeTree(self,root):
+        root = Path(str(root))
+        children = sorted(list(path for path in root.iterdir()),key=lambda s: str(s).lower())
+        count = 1
+        for path in children:
+            is_last = count == len(children)
+            yield path
+            if path.is_dir():
+                yield from self.makeTree(path)
+            else:
+                yield path
             
+            
+    def display(self,path):
+        if path.is_dir():
+            return "*"+path.name+"*"
+        return path.name        
+            
+from pathlib import Path
+
+class DisplayablePath(object):
+    display_filename_prefix_middle = '├──'
+    display_filename_prefix_last = '└──'
+    display_parent_prefix_middle = '    '
+    display_parent_prefix_last = '│   '
+
+    def __init__(self, path, parent_path, is_last):
+        self.path = Path(str(path))
+        self.parent = parent_path
+        self.is_last = is_last
+        if self.parent:
+            self.depth = self.parent.depth + 1
+        else:
+            self.depth = 0
+
+    @property
+    def displayname(self):
+        if self.path.is_dir():
+            return "*"+self.path.name+"*"
+        return self.path.name
+
+    @classmethod
+    def make_tree(cls, root, parent=None, is_last=False, criteria=None):
+        root = Path(str(root))
+        criteria = criteria or cls._default_criteria
+
+        displayable_root = cls(root, parent, is_last)
+        yield displayable_root
+
+        children = sorted(list(path
+                               for path in root.iterdir()
+                               if criteria(path)),
+                          key=lambda s: str(s).lower())
+        count = 1
+        for path in children:
+            is_last = count == len(children)
+            if path.is_dir():
+                yield from cls.make_tree(path,
+                                         parent=displayable_root,
+                                         is_last=is_last,
+                                         criteria=criteria)
+            else:
+                yield cls(path, displayable_root, is_last)
+            count += 1
+
+    @classmethod
+    def _default_criteria(cls, path):
+        return True
+
+    def displayable(self):
+        if self.parent is None:
+            return self.displayname
+
+        _filename_prefix = (self.display_filename_prefix_last
+                            if self.is_last
+                            else self.display_filename_prefix_middle)
+
+        parts = ['{!s} {!s}'.format(_filename_prefix,
+                                    self.displayname)]
+
+        parent = self.parent
+        while parent and parent.parent is not None:
+            parts.append(self.display_parent_prefix_middle
+                         if parent.is_last
+                         else self.display_parent_prefix_last)
+            parent = parent.parent
+
+        return ''.join(reversed(parts))
+
+            
+if __name__ =="__main__":
+    testWalk()
+        

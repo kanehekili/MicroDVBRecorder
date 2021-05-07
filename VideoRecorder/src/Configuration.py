@@ -28,7 +28,9 @@ class Config():
     RecordDestination = os.path.join("Videos","Recordings")
     ConfigPath = os.path.join(HomeDir,XMLPath,"Config.conf")
     RecordDir = os.path.join(UserPath,RecordDestination)#default,place to store the films
-    DataDir = HomeDir #default,place to store xmltv +log data
+    DataDir = HomeDir #default,place to store xmltv data
+    LogDir = HomeDir #default,place to store log data
+    GlueRecordings=False
         
     ChannelFile = "channels.conf"
     AutoSelectFile="AutoSelect.conf"
@@ -69,11 +71,11 @@ class Config():
 
     
     def __setupDirectories(self):
-        OSTools.ensureDirectory(self.DataDir,self.LogPath)
+        OSTools.ensureDirectory(self.LogDir,self.LogPath)
         OSTools.ensureDirectory(self.DataDir,self.XMLPath)
     
     def setupLogging(self,fileName): 
-        path = os.path.join(self.DataDir,self.LogPath,fileName)
+        path = os.path.join(self.LogDir,self.LogPath,fileName)
         logging.basicConfig(filename=path,level=logging.DEBUG,format='%(asctime)s %(message)s')           
 
     def getCachedXMLTVFilePath(self):
@@ -89,7 +91,7 @@ class Config():
         return os.path.join(self.DataDir,self.XMLPath,self.RecQueueFile)
     
     def getLoggingPath(self):
-        return os.path.join(self.DataDir,self.LogPath);
+        return os.path.join(self.LogDir,self.LogPath);
     
     def getWebPath(self):
         return os.path.join(self.HomeDir,self.WebPath);
@@ -160,6 +162,12 @@ class Config():
         aDataPath = c.get("DATA_PATH")
         if aDataPath and len(aDataPath)>4:
             Config.DataDir = aDataPath
+
+        aLogPath = c.get("LOG_PATH")
+        if aLogPath and len(aLogPath)>4:
+            Config.LogDir = aLogPath
+
+        Config.GlueRecordings = c.getBool("GLUE")
             
         recType = c.get("RECORD_TYPE")
         if recType:
@@ -203,6 +211,12 @@ class ConfigAccessor():
         if self.parser.has_option(self.__SECTION, key):
             return self.parser.getint(self.__SECTION,key)
         return None
+
+    def getBool(self,key):
+        if self.parser.has_option(self.__SECTION, key):
+            return self.parser.getboolean(self.__SECTION,key)
+        return False
+        
         
     def store(self):
         try:

@@ -69,8 +69,8 @@ def updateEPGInfos():
         print("nothing to change")
         return
     td = datetime.now() - lowTime
-    print("Changing time from:",lowTime," offset: ",td.days+1," days")
-    days = timedelta(days=td.days+1)
+    print("Changing time from:",lowTime," offset: ",td.days," days")
+    days = timedelta(days=td.days)
     moveListInTime(days,infolist)
     print("Saved at: ",targetFile)
 
