@@ -390,7 +390,10 @@ class RecorderPlugin():
         self.prepareLogFile(self.LogPos,logStep)
     
     def handleFilmCommand(self,command):
-        self.prepareFilmPage()
+        #Using the html file from the treewalker now. 
+        #Position is in /web/Films.html - no needd to scan the videos currently
+        #self.prepareFilmPage()
+        pass
             
     
     def prepareLogFile(self,lineStart,lineCount):
@@ -439,6 +442,7 @@ class RecorderPlugin():
                 htmlFile.write(htmlmore)      
     
     def prepareFilmPage(self):
+        #Films.html has been produced by the "Treewalker" - so no need to use this anymore. 
         style ='<style>body { float:left;} div {white-space: nowrap;padding:2px;margin:0px;font-family: Helvetica, Arial, sans-serif;font-size:0.85em;} .evenrow {background-color: #F8E0D7;} .oddrow {background-color: #F8EEEE;} .back {float:right}</style>'
         htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Recorded Films</title><body>'
         htmlend = '--- End ---</body></html>'
@@ -466,7 +470,12 @@ class RecorderPlugin():
             htmlFile.write(htmlend)
         
 
-    #can'be a good solution, but didn't find any better yet 
+    #can'be a good solution, but didn't find any better yet
+    '''
+    Update -this works:
+        tmp = line.encode('ascii', 'xmlcharrefreplace') #binary
+        return tmp.decode('ascii') #back to string, without 'b'
+    ''' 
     def utf8ToHTMLUmlauts(self,text):
         return text.replace("ö", "&ouml;").replace("ü", "&uuml;").replace("ä", "&auml;").replace("Ö", "&Ouml;").replace("Ü", "&Uuml;").replace("Ä", "&Auml;").replace("ß", "&szlig;")
     
@@ -518,173 +527,7 @@ class RecorderPlugin():
             jsonError = self._webRecorder.asJsonError("Server Error", msg)
             return json.dumps(jsonError)
         
-
-
-def walkFilms():
-    
-    if not mimetypes.inited:
-        print("init")
-        mimetypes.init()  # try to read system mime.types
-    mimetypes.add_type("video/stream", ".m2t", True)
-    startPath="/home/matze/Videos"
-    zero=len(startPath.split(os.sep))
-    for root, folder, files in os.walk(startPath):
-        #print("Root:",root," dir:",folder)
-        ident = len(root.split(os.sep))-(zero-1)
-        print(ident * '.', os.path.basename(root))
-        
-        for item in files:
-            type= mimetypes.guess_type(item, strict=True)
-            if type[0] and "video" in type[0]:
-                print((ident+1) * '.', item," >" ,type,">")
-
-def testWalk1():
-    style ='<style>body { float:left;} div {white-space: nowrap;padding:2px;margin:0px;font-family: Helvetica, Arial, sans-serif;font-size:0.85em;} .evenrow {background-color: #F8E0D7;} .oddrow {background-color: #F8EEEE;} .back {float:right}</style>'
-    htmlStart = '<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8">'+style+'<title>Recorded Films</title><body>'
-    htmlend = '--- End ---</body></html>'
-    destFile = "/home/matze/Videos/Films.html"
-    if not mimetypes.inited:
-        print("init")
-        mimetypes.init()  # try to read system mime.types
-    mimetypes.add_type("video/stream", ".m2t", True)    
-    startPath="/home/matze/Videos"
-    
-    ft=DisplayablePath.make_tree(startPath)
-    
-    with open(destFile, 'w+') as htmlFile:
-        htmlFile.write(htmlStart)
-        htmlFile.write("<b> The film list</b>")
-        isEven=False
-        for path in ft:
-            type= mimetypes.guess_type(path.displayable(), strict=True)
-            if path.path.is_dir():
-                tak="<b>"+path.displayable()+"</b>"
-            elif type[0] and "video" in type[0]:
-                tak=path.displayable()
-            else: 
-                tak=None
-            if tak:
-                if isEven:
-                    divid="evenrow"
-                else:
-                    divid="oddrow"
-                htmlFile.write('<div class="'+divid+'">'+tak+"</div>")
-                isEven=not isEven
-        htmlFile.write(htmlend)
-
-def testWalk():
-    if not mimetypes.inited:
-        print("init")
-        mimetypes.init()  # try to read system mime.types
-    mimetypes.add_type("video/stream", ".m2t", True)    
-    startPath="/home/matze/Videos"
-    ft=FileTree()
-    generator=ft.makeTree(startPath)
-    for path in generator:
-        print(path,">",ft.display(path))
-    
-    
-
-class FileTree():
-    display_filename_prefix_middle = '├──'
-    display_filename_prefix_last = '└──'
-    display_parent_prefix_middle = '    '
-    display_parent_prefix_last = '│   '
-
-    def __init__(self,zeroPath):
-        self.starPath=zeroPath
-        self.zeroIndex=zero=len(zeroPath.split(os.sep))
-    
-    def makeTree(self,root):
-        root = Path(str(root))
-        children = sorted(list(path for path in root.iterdir()),key=lambda s: str(s).lower())
-        count = 1
-        for path in children:
-            is_last = count == len(children)
-            yield path
-            if path.is_dir():
-                yield from self.makeTree(path)
-            else:
-                yield path
-            
-            
-    def display(self,path):
-        if path.is_dir():
-            return "*"+path.name+"*"
-        return path.name        
-            
-from pathlib import Path
-
-class DisplayablePath(object):
-    display_filename_prefix_middle = '├──'
-    display_filename_prefix_last = '└──'
-    display_parent_prefix_middle = '    '
-    display_parent_prefix_last = '│   '
-
-    def __init__(self, path, parent_path, is_last):
-        self.path = Path(str(path))
-        self.parent = parent_path
-        self.is_last = is_last
-        if self.parent:
-            self.depth = self.parent.depth + 1
-        else:
-            self.depth = 0
-
-    @property
-    def displayname(self):
-        if self.path.is_dir():
-            return "*"+self.path.name+"*"
-        return self.path.name
-
-    @classmethod
-    def make_tree(cls, root, parent=None, is_last=False, criteria=None):
-        root = Path(str(root))
-        criteria = criteria or cls._default_criteria
-
-        displayable_root = cls(root, parent, is_last)
-        yield displayable_root
-
-        children = sorted(list(path
-                               for path in root.iterdir()
-                               if criteria(path)),
-                          key=lambda s: str(s).lower())
-        count = 1
-        for path in children:
-            is_last = count == len(children)
-            if path.is_dir():
-                yield from cls.make_tree(path,
-                                         parent=displayable_root,
-                                         is_last=is_last,
-                                         criteria=criteria)
-            else:
-                yield cls(path, displayable_root, is_last)
-            count += 1
-
-    @classmethod
-    def _default_criteria(cls, path):
-        return True
-
-    def displayable(self):
-        if self.parent is None:
-            return self.displayname
-
-        _filename_prefix = (self.display_filename_prefix_last
-                            if self.is_last
-                            else self.display_filename_prefix_middle)
-
-        parts = ['{!s} {!s}'.format(_filename_prefix,
-                                    self.displayname)]
-
-        parent = self.parent
-        while parent and parent.parent is not None:
-            parts.append(self.display_parent_prefix_middle
-                         if parent.is_last
-                         else self.display_parent_prefix_last)
-            parent = parent.parent
-
-        return ''.join(reversed(parts))
-
             
 if __name__ =="__main__":
-    testWalk()
+    pass
         
