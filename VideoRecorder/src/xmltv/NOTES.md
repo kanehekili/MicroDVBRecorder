@@ -121,9 +121,8 @@ gcc -O2 -o tspidfilter tspidfilter.c
 No dependencies. Fine under GCC 16.
 
 **Note on service_ids in channels.conf**: service_ids can go stale when
-providers reorganise their multiplexes. WELT was listed as 53627 in
-channels.conf but that id no longer appears in the PAT on 546 MHz
-(discovered 2026-06-19). The ES PIDs (2801/2802) may still be correct.
+providers reorganise their multiplexes. 
+
 Until channels.conf is rescanned, use ES-PID mode for affected channels.
 
 ### `EPGRead.py` (Python 3, stdlib only) — replaces tv_grab_dvb
@@ -202,7 +201,7 @@ approach (next phase) is to pass video/audio PIDs instead.
   into `DVBC_MediaClientGrabber` in `DVBDevice.py` (replaces old
   `mediaclient` + `tv_grab_dvb`). Needs a `channels.map` generated from
   channels.conf. Not yet implemented.
-- **Sundtek `--tsprogram` throttling bug**: Under investigating. No fix
+- **Sundtek `--tsprogram` throttling bug**: Understale investigating. No fix
   yet. `tspidfilter` sidesteps it entirely so there's little reason to
   switch back even if fixed.
 - **`tsduck`** was considered as a filter but won't build under GCC 16

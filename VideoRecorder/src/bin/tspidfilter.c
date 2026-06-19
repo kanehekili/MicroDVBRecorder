@@ -43,7 +43,7 @@
 #define TS_SYNC      0x47
 #define TS_PACKET    188
 #define MAX_PIDS     32
-#define MAX_PROGS    64
+#define MAX_PROGS    128
 #define BLOCK_PKTS   1024
 #define BLOCK_BYTES  (BLOCK_PKTS * TS_PACKET)
 
@@ -61,7 +61,7 @@ static int      n_want   = 0;
 static struct { uint16_t sid; uint16_t pmt_pid; } progs[MAX_PROGS];
 static int      n_progs    = 0;
 static int      pat_seen   = 0;
-static int      fatal_error = 0;   /* set on unrecoverable errors; main loop exits */
+static int      fatal_error = 0;
 
 /* ---------- matched program ---------- */
 static uint16_t match_sid = 0;
@@ -71,6 +71,15 @@ static uint16_t match_pmt = 0xFFFF;
 static uint8_t original_pat[TS_PACKET];
 static uint8_t rewritten_pat[TS_PACKET];
 static int     have_rewritten_pat = 0;
+
+/* ---------- PAT section assembly ----------
+ * A PAT section can span multiple TS packets.  With many programs (e.g. 49)
+ * the section is ~204 bytes, which does not fit in the 183-byte payload of a
+ * single TS packet.  We must accumulate continuation packets before parsing.
+ */
+static uint8_t pat_sbuf[4096];
+static int     pat_sbuf_have = 0;
+static int     pat_sbuf_need = 0;   /* 0 = not yet started */
 
 /* ---------- CRC-32 (MPEG-2 / DVB, poly 0x04C11DB7) ---------- */
 static uint32_t crc_table[256];
@@ -119,18 +128,27 @@ static int write_full(int fd, const uint8_t *buf, size_t n)
     return 0;
 }
 
-/* ---------- section start offset within a TS packet, or -1 ---------- */
-static int section_offset(const uint8_t *pkt)
+/* ---------- payload start offset within a TS packet, or -1 ---------- */
+/* When pusi_only is set, returns -1 if PUSI is not set. */
+static int payload_offset(const uint8_t *pkt, int pusi_only)
 {
     uint8_t afc;
     int idx;
 
-    if (!(pkt[1] & 0x40)) return -1;    /* PUSI not set */
+    if (pusi_only && !(pkt[1] & 0x40)) return -1;
     afc = (pkt[3] >> 4) & 0x3;
-    if (afc == 0 || afc == 2) return -1; /* no payload */
+    if (afc == 0 || afc == 2) return -1;
     idx = 4;
     if (afc == 3) { idx += 1 + pkt[4]; if (idx >= TS_PACKET) return -1; }
-    idx += 1 + pkt[idx];                /* pointer_field */
+    return idx;
+}
+
+/* ---------- section start offset within a TS packet (PUSI only), or -1 -- */
+static int section_offset(const uint8_t *pkt)
+{
+    int idx = payload_offset(pkt, 1);
+    if (idx < 0) return -1;
+    idx += 1 + pkt[idx];              /* skip pointer_field */
     if (idx >= TS_PACKET) return -1;
     return idx;
 }
@@ -168,20 +186,20 @@ static void build_rewritten_pat(void)
     have_rewritten_pat = 1;
 }
 
-/* ---------- parse PAT ---------- */
-static void parse_pat(const uint8_t *pkt)
+/* ---------- parse fully assembled PAT section ---------- */
+static void parse_pat(void)
 {
-    int i, idx;
-    const uint8_t *sec;
+    int i;
+    const uint8_t *sec = pat_sbuf;
     int entry_end;
 
-    idx = section_offset(pkt);
-    if (idx < 0) return;
-    sec = pkt + idx;
+    if (pat_sbuf_have < 8) return;
     if (sec[0] != 0x00) return;
 
     entry_end = 3 + (int)(((sec[1] & 0x0F) << 8) | sec[2]) - 4;
-    n_progs   = 0;
+    /* clamp to what we actually have (guards against malformed sections) */
+    if (entry_end > pat_sbuf_have - 4) entry_end = pat_sbuf_have - 4;
+    n_progs = 0;
 
     for (i = 8; i + 4 <= entry_end; i += 4) {
         uint16_t sid     = ((uint16_t)sec[i]     << 8) | sec[i + 1];
@@ -193,7 +211,6 @@ static void parse_pat(const uint8_t *pkt)
             n_progs++;
         }
     }
-    memcpy(original_pat, pkt, TS_PACKET);
     pat_seen = 1;
 
     if (sid_mode) {
@@ -206,8 +223,43 @@ static void parse_pat(const uint8_t *pkt)
         }
         fprintf(stderr, "tspidfilter: service_id %u not found in PAT\n",
                 (unsigned)want_sid);
+        fprintf(stderr, "tspidfilter: PAT contains %d program(s):\n", n_progs);
+        for (i = 0; i < n_progs; i++)
+            fprintf(stderr, "  service_id=%-6u  pmt_pid=%u\n",
+                    (unsigned)progs[i].sid, (unsigned)progs[i].pmt_pid);
         fatal_error = 1;
     }
+}
+
+/* ---------- accumulate PAT TS packet, call parse_pat when section complete - */
+static void feed_pat_packet(const uint8_t *pkt)
+{
+    int idx, pusi, payload_len, copy, remaining;
+
+    pusi = (pkt[1] & 0x40) != 0;
+    idx  = payload_offset(pkt, 0);
+    if (idx < 0) return;
+
+    if (pusi) {
+        int ptr = pkt[idx++];
+        idx += ptr;                         /* skip tail of previous section */
+        if (idx + 3 > TS_PACKET) return;
+        pat_sbuf_have = 0;
+        pat_sbuf_need = 3 + (((pkt[idx + 1] & 0x0F) << 8) | pkt[idx + 2]);
+        memcpy(original_pat, pkt, TS_PACKET); /* template for rewrite */
+    } else {
+        if (pat_sbuf_need == 0) return;     /* not assembling yet */
+    }
+
+    payload_len = TS_PACKET - idx;
+    if (payload_len <= 0) return;
+
+    remaining = pat_sbuf_need - pat_sbuf_have;
+    copy = payload_len < remaining ? payload_len : remaining;
+    if (copy <= 0 || pat_sbuf_have + copy > (int)sizeof(pat_sbuf)) return;
+
+    memcpy(pat_sbuf + pat_sbuf_have, pkt + idx, copy);
+    pat_sbuf_have += copy;
 }
 
 /* ---------- parse PMT and complete the match ---------- */
@@ -355,8 +407,10 @@ int main(int argc, char **argv)
             pusi = (p[1] & 0x40) != 0;
 
             if (pid == 0x0000) {
-                if (pusi && !pat_seen) {
-                    parse_pat(p);
+                if (!pat_seen) {
+                    feed_pat_packet(p);
+                    if (pat_sbuf_need > 0 && pat_sbuf_have >= pat_sbuf_need)
+                        parse_pat();
                     if (fatal_error) break;
                 }
                 if (have_rewritten_pat) {
@@ -392,7 +446,6 @@ int main(int argc, char **argv)
         if (fatal_error) break;
 
         if (outlen) {
-            /* start the clock on the first byte of real output */
             if (want_duration && start_time == 0)
                 start_time = time(NULL);
 
