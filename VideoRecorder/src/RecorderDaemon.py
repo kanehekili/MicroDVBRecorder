@@ -198,6 +198,9 @@ class RecorderDaemon():
             else:
                 self._log("Quit JOB "+jobID)
                 self.__handleProcessTermination(recProcess)
+                if recProcess.returncode != 0:
+                    self._log("JOB %s failed (exit code %d) - removing from queue" % (jobID, recProcess.returncode))
+                    self.epgUpdater.getRecordQueue().cancelRecording(recordingJob.getEPGInfo(), force=True)
                 done=True
                 
             if not done:

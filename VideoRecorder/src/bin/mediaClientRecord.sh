@@ -1,31 +1,54 @@
 #!/bin/bash
-#record channel for a given time 
-#run mediaclient for locking and recording
-#channels.conf is expected in local .czap directory
-#parameters are: 1)durance in seconds 2)target path 3 channelfreq 4)Qam 5)SymbolRate 6)programID
-#opt/bin/mediaclient -m DVBC -f 3940000000 -M Q256 -S 6900000
-#opt/bin/mediaclient --tsprogram 53602 -d /dev/dvb/adapter0/dvr0 > "${target}
+# Record a DVB-C channel using Sundtek mediaclient + tspidfilter.
+# Parameters passed by MediaClientCommand.getArguments():
+#   $1  durance     recording duration in seconds
+#   $2  freq        frequency in Hz
+#   $3  qam         modulation, e.g. Q256
+#   $4  symbolrate  symbol rate in Hz
+#   $5  service_id  DVB service_id (program number from channels.conf)
+#   $6  target      output file path
 
 durance=$1
 freq=$2
 qam=$3
 symbolrate=$4
-progID=$5
+service_id=$5
 target=$6
 
-echo rec channelid: $progID to target $target durance $durance seconds
-/opt/bin/mediaclient -m DVBC -f "$freq" -M "$qam" -S "$symbolrate" > /dev/null &
-zap_pid=$!
+BINDIR="$(dirname "$0")"
 
-sleep 2
-if ! ps -p $zap_pid ; then
-	echo "tuning failed"
-	exit 1
+# Named pipe so we can track the PID of mediaclient --cat independently.
+# With a regular shell pipe, mediaclient --cat ignores SIGPIPE and keeps
+# running when tspidfilter exits; we need to kill it explicitly.
+FIFO=$(mktemp -u /tmp/dvb_XXXXXX)
+mkfifo "$FIFO"
+
+echo "Recording service_id:$service_id to \"$target\" for ${durance}s"
+
+/opt/bin/mediaclient -d /dev/dvb/adapter0/frontend0 -m DVBC -D DVBC \
+    -f "$freq" -M "$qam" -S "$symbolrate" > /dev/null &
+mc=$!
+
+sleep 1
+if ! kill -0 "$mc" 2>/dev/null; then
+    rm -f "$FIFO"
+    echo "tuning failed" >&2
+    exit 1
 fi
-# Adapter is dvr0
-/opt/bin/mediaclient --tsprogram "$progID" -d /dev/dvb/adapter0/dvr0 > "${target}" &
-rec_pid=$!
 
-trap "kill $rec_pid" SIGINT SIGTERM EXIT
-sleep $durance
-echo "Rec done"
+/opt/bin/mediaclient --cat /dev/dvb/adapter0/dvr0 > "$FIFO" &
+cat_pid=$!
+
+"$BINDIR/tspidfilter" -t "$durance" "$service_id" < "$FIFO" > "$target" &
+filter_pid=$!
+
+cleanup() {
+    kill "$mc" "$cat_pid" "$filter_pid" 2>/dev/null || true
+    rm -f "$FIFO"
+}
+trap cleanup INT TERM EXIT
+
+# wait is interruptible by SIGTERM: the daemon can kill this script and
+# the trap will clean up all three child processes.
+wait "$filter_pid"
+echo "Recording done"
