@@ -1,5 +1,5 @@
 #!/bin/bash
-# Record a DVB-C channel using Sundtek mediaclient + tspidfilter.
+# Record a DVB-C channel using Sundtek mediaclient + tsfilter2.
 # Parameters passed by MediaClientCommand.getArguments():
 #   $1  durance     recording duration in seconds
 #   $2  freq        frequency in Hz
@@ -39,7 +39,7 @@ fi
 /opt/bin/mediaclient --cat /dev/dvb/adapter0/dvr0 > "$FIFO" &
 cat_pid=$!
 
-"$BINDIR/tspidfilter" -t "$durance" "$service_id" < "$FIFO" > "$target" &
+"$BINDIR/tsfilter2" -t "$durance" "$service_id" < "$FIFO" > "$target" &
 filter_pid=$!
 
 cleanup() {

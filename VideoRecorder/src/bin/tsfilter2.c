@@ -1,18 +1,17 @@
 /*
- * tspidfilter - filter MPEG-TS by PID with automatic PAT/PMT rewriting
+ * tsfilter2 - filter MPEG-TS by PID with automatic PAT/PMT rewriting
  *
- * Reads a transport stream on stdin, passes only the packets for a selected
- * program, and produces a clean single-program TS with a rewritten PAT.
+ * Drop-in replacement for tspidfilter with proper multi-packet PMT section
+ * assembly.  tspidfilter parsed the PMT from the first TS packet only; if
+ * the PMT section spans more than one TS packet (common for programs with
+ * many streams and long descriptors) the ES PIDs in the second packet were
+ * silently dropped from the output.
  *
  * Usage:
- *   tspidfilter [-t <seconds>] <service_id>
- *   tspidfilter [-t <seconds>] <pid> [<pid> ...]
+ *   tsfilter2 [-t <seconds>] <service_id>
+ *   tsfilter2 [-t <seconds>] <pid> [<pid> ...]
  *
- *   -t <seconds>  Stop after <seconds> of actual stream data.  The timer
- *                 starts when the first output packet is written (i.e. after
- *                 PMT discovery, when the tuner has locked).  Exiting closes
- *                 the pipe, which sends SIGPIPE to the upstream mediaclient
- *                 --cat process.
+ *   -t <seconds>  Stop after <seconds> of actual stream data.
  *
  *   <service_id>  Value > 8191: service-id mode.  Discovers PMT PID from
  *                 the PAT, then gathers all ES PIDs from that PMT.
@@ -20,16 +19,7 @@
  *   <pid> ...     Values <= 8191: ES-PID mode.  Scans candidate PMTs until
  *                 one containing a specified PID is found.
  *
- * PID 0 (PAT) is always kept and rewritten to list only the matched program.
- *
- * Example:
- *   mediaclient -d /dev/dvb/adapter0/frontend0 -m DVBC -D DVBC \
- *       -f 546000000 -M Q256 -S 6900000 &
- *   mc=$!
- *   mediaclient --cat /dev/dvb/adapter0/dvr0 | tspidfilter -t 120 53002 > out.m2t
- *   kill $mc
- *
- * Build:  gcc -O2 -o tspidfilter tspidfilter.c
+ * Build:  gcc -O2 -o tsfilter2 tsfilter2.c
  */
 
 #include <stdio.h>
@@ -42,14 +32,14 @@
 
 #define TS_SYNC      0x47
 #define TS_PACKET    188
-#define MAX_PIDS     32
+#define MAX_PIDS     64
 #define MAX_PROGS    128
 #define BLOCK_PKTS   1024
 #define BLOCK_BYTES  (BLOCK_PKTS * TS_PACKET)
 
 /* ---------- duration ---------- */
-static int want_duration = 0;          /* seconds; 0 = run until EOF */
-static time_t start_time = 0;         /* set on first output packet */
+static int    want_duration = 0;
+static time_t start_time   = 0;
 
 /* ---------- mode and wanted IDs ---------- */
 static int      sid_mode = 0;
@@ -59,8 +49,8 @@ static int      n_want   = 0;
 
 /* ---------- program table ---------- */
 static struct { uint16_t sid; uint16_t pmt_pid; } progs[MAX_PROGS];
-static int      n_progs    = 0;
-static int      pat_seen   = 0;
+static int      n_progs     = 0;
+static int      pat_seen    = 0;
 static int      fatal_error = 0;
 
 /* ---------- matched program ---------- */
@@ -72,14 +62,19 @@ static uint8_t original_pat[TS_PACKET];
 static uint8_t rewritten_pat[TS_PACKET];
 static int     have_rewritten_pat = 0;
 
-/* ---------- PAT section assembly ----------
- * A PAT section can span multiple TS packets.  With many programs (e.g. 49)
- * the section is ~204 bytes, which does not fit in the 183-byte payload of a
- * single TS packet.  We must accumulate continuation packets before parsing.
- */
+/* ---------- PAT section assembly ---------- */
 static uint8_t pat_sbuf[4096];
 static int     pat_sbuf_have = 0;
-static int     pat_sbuf_need = 0;   /* 0 = not yet started */
+static int     pat_sbuf_need = 0;
+
+/* ---------- PMT section assembly ----------
+ * Unlike tspidfilter, we accumulate continuation packets so the full section
+ * is available before parsing ES PIDs.
+ */
+static uint8_t  pmt_sbuf[4096];
+static int      pmt_sbuf_have         = 0;
+static int      pmt_sbuf_need         = 0;
+static uint16_t pmt_assembling_pid    = 0xFFFF;
 
 /* ---------- CRC-32 (MPEG-2 / DVB, poly 0x04C11DB7) ---------- */
 static uint32_t crc_table[256];
@@ -129,7 +124,6 @@ static int write_full(int fd, const uint8_t *buf, size_t n)
 }
 
 /* ---------- payload start offset within a TS packet, or -1 ---------- */
-/* When pusi_only is set, returns -1 if PUSI is not set. */
 static int payload_offset(const uint8_t *pkt, int pusi_only)
 {
     uint8_t afc;
@@ -143,12 +137,12 @@ static int payload_offset(const uint8_t *pkt, int pusi_only)
     return idx;
 }
 
-/* ---------- section start offset within a TS packet (PUSI only), or -1 -- */
+/* ---------- section start offset (PUSI only), or -1 ---------- */
 static int section_offset(const uint8_t *pkt)
 {
     int idx = payload_offset(pkt, 1);
     if (idx < 0) return -1;
-    idx += 1 + pkt[idx];              /* skip pointer_field */
+    idx += 1 + pkt[idx];
     if (idx >= TS_PACKET) return -1;
     return idx;
 }
@@ -166,7 +160,7 @@ static void build_rewritten_pat(void)
     sec = rewritten_pat + idx;
 
     sec[1] = (sec[1] & 0xF0) | 0x00;
-    sec[2] = 13;                         /* section_length */
+    sec[2] = 13;
 
     sec[8]  = (match_sid  >> 8) & 0xFF;
     sec[9]  =  match_sid        & 0xFF;
@@ -197,7 +191,6 @@ static void parse_pat(void)
     if (sec[0] != 0x00) return;
 
     entry_end = 3 + (int)(((sec[1] & 0x0F) << 8) | sec[2]) - 4;
-    /* clamp to what we actually have (guards against malformed sections) */
     if (entry_end > pat_sbuf_have - 4) entry_end = pat_sbuf_have - 4;
     n_progs = 0;
 
@@ -221,9 +214,9 @@ static void parse_pat(void)
                 return;
             }
         }
-        fprintf(stderr, "tspidfilter: service_id %u not found in PAT\n",
+        fprintf(stderr, "tsfilter2: service_id %u not found in PAT\n",
                 (unsigned)want_sid);
-        fprintf(stderr, "tspidfilter: PAT contains %d program(s):\n", n_progs);
+        fprintf(stderr, "tsfilter2: PAT contains %d program(s):\n", n_progs);
         for (i = 0; i < n_progs; i++)
             fprintf(stderr, "  service_id=%-6u  pmt_pid=%u\n",
                     (unsigned)progs[i].sid, (unsigned)progs[i].pmt_pid);
@@ -231,7 +224,7 @@ static void parse_pat(void)
     }
 }
 
-/* ---------- accumulate PAT TS packet, call parse_pat when section complete - */
+/* ---------- accumulate PAT TS packet ---------- */
 static void feed_pat_packet(const uint8_t *pkt)
 {
     int idx, pusi, payload_len, copy, remaining;
@@ -242,13 +235,13 @@ static void feed_pat_packet(const uint8_t *pkt)
 
     if (pusi) {
         int ptr = pkt[idx++];
-        idx += ptr;                         /* skip tail of previous section */
+        idx += ptr;
         if (idx + 3 > TS_PACKET) return;
         pat_sbuf_have = 0;
         pat_sbuf_need = 3 + (((pkt[idx + 1] & 0x0F) << 8) | pkt[idx + 2]);
-        memcpy(original_pat, pkt, TS_PACKET); /* template for rewrite */
+        memcpy(original_pat, pkt, TS_PACKET);
     } else {
-        if (pat_sbuf_need == 0) return;     /* not assembling yet */
+        if (pat_sbuf_need == 0) return;
     }
 
     payload_len = TS_PACKET - idx;
@@ -262,32 +255,67 @@ static void feed_pat_packet(const uint8_t *pkt)
     pat_sbuf_have += copy;
 }
 
-/* ---------- parse PMT and complete the match ---------- */
-static void try_parse_pmt(const uint8_t *pkt, uint16_t pid)
+/* ---------- accumulate PMT TS packet ---------- */
+static void feed_pmt_packet(const uint8_t *pkt, uint16_t pid)
 {
-    int i, idx, epos, found = 0;
-    const uint8_t *sec;
-    uint16_t this_sid = 0, entry_end, prog_info_len;
+    int idx, pusi, payload_len, copy, remaining;
+
+    pusi = (pkt[1] & 0x40) != 0;
+    idx  = payload_offset(pkt, 0);
+    if (idx < 0) return;
+
+    if (pusi) {
+        int ptr = pkt[idx++];
+        idx += ptr;
+        if (idx + 3 > TS_PACKET) return;
+        pmt_sbuf_have      = 0;
+        pmt_sbuf_need      = 3 + (((pkt[idx + 1] & 0x0F) << 8) | pkt[idx + 2]);
+        pmt_assembling_pid = pid;
+    } else {
+        /* continuation: only accept if it belongs to the section we started */
+        if (pmt_sbuf_need == 0 || pmt_assembling_pid != pid) return;
+    }
+
+    payload_len = TS_PACKET - idx;
+    if (payload_len <= 0) return;
+
+    remaining = pmt_sbuf_need - pmt_sbuf_have;
+    copy = payload_len < remaining ? payload_len : remaining;
+    if (copy <= 0 || pmt_sbuf_have + copy > (int)sizeof(pmt_sbuf)) return;
+
+    memcpy(pmt_sbuf + pmt_sbuf_have, pkt + idx, copy);
+    pmt_sbuf_have += copy;
+}
+
+/* ---------- parse fully assembled PMT section ---------- */
+static void parse_pmt_section(uint16_t pid)
+{
+    int i;
+    const uint8_t *sec = pmt_sbuf;
+    uint16_t this_sid = 0;
+    int entry_end, epos, found = 0;
+    uint16_t prog_info_len;
+
+    if (pmt_sbuf_have < 12) return;
+    if (sec[0] != 0x02) return;
 
     for (i = 0; i < n_progs; i++) {
         if (progs[i].pmt_pid == pid) { this_sid = progs[i].sid; break; }
     }
     if (!this_sid) return;
 
-    idx = section_offset(pkt);
-    if (idx < 0) return;
-    sec = pkt + idx;
-    if (sec[0] != 0x02) return;
-
-    entry_end     = 3 + (int)(((sec[1] & 0x0F) << 8) | sec[2]) - 4;
+    entry_end = 3 + (int)(((sec[1] & 0x0F) << 8) | sec[2]) - 4;
+    /* clamp to the bytes we actually have */
+    if (entry_end > pmt_sbuf_have - 4) entry_end = pmt_sbuf_have - 4;
     if (entry_end < 12) return;
+
     prog_info_len = ((sec[10] & 0x0F) << 8) | sec[11];
     epos          = 12 + (int)prog_info_len;
 
     if (sid_mode) {
         if (this_sid != want_sid) return;
         n_want = 0;
-        while (epos + 5 <= (int)entry_end) {
+        while (epos + 5 <= entry_end) {
             uint16_t es_pid      = (((uint16_t)sec[epos+1] & 0x1F) << 8) | sec[epos+2];
             uint16_t es_info_len = (((uint16_t)sec[epos+3] & 0x0F) << 8) | sec[epos+4];
             if (n_want < MAX_PIDS) want_pid[n_want++] = es_pid;
@@ -295,7 +323,7 @@ static void try_parse_pmt(const uint8_t *pkt, uint16_t pid)
         }
         found = 1;
     } else {
-        while (epos + 5 <= (int)entry_end) {
+        while (epos + 5 <= entry_end) {
             uint16_t es_pid      = (((uint16_t)sec[epos+1] & 0x1F) << 8) | sec[epos+2];
             uint16_t es_info_len = (((uint16_t)sec[epos+3] & 0x0F) << 8) | sec[epos+4];
             for (i = 0; i < n_want; i++)
@@ -307,7 +335,7 @@ static void try_parse_pmt(const uint8_t *pkt, uint16_t pid)
 
     if (found) {
         build_rewritten_pat();
-        fprintf(stderr, "tspidfilter: matched service_id=%u pmt_pid=%u es_pids=",
+        fprintf(stderr, "tsfilter2: matched service_id=%u pmt_pid=%u es_pids=",
                 (unsigned)match_sid, (unsigned)match_pmt);
         for (i = 0; i < n_want; i++)
             fprintf(stderr, i ? ",%u" : "%u", (unsigned)want_pid[i]);
@@ -344,7 +372,6 @@ int main(int argc, char **argv)
 
     build_crc_table();
 
-    /* parse options */
     i = 1;
     if (i < argc && strcmp(argv[i], "-t") == 0) {
         i++;
@@ -353,7 +380,6 @@ int main(int argc, char **argv)
         if (want_duration <= 0) { fprintf(stderr, "%s: -t value must be > 0\n", argv[0]); return 2; }
     }
 
-    /* parse PIDs / service_id */
     for (; i < argc; i++) {
         long v = strtol(argv[i], NULL, 0);
         if (v < 0 || v > 0xFFFF) {
@@ -381,7 +407,7 @@ int main(int argc, char **argv)
         if (carry_len) memcpy(in, carry, carry_len);
         r = read_full(0, in + carry_len, BLOCK_BYTES - carry_len);
         if (r < 0) {
-            fprintf(stderr, "tspidfilter: read error: %s\n", strerror(errno));
+            fprintf(stderr, "tsfilter2: read error: %s\n", strerror(errno));
             free(in); free(out); return 1;
         }
         have = carry_len + (size_t)r;
@@ -395,7 +421,7 @@ int main(int argc, char **argv)
         while (off + TS_PACKET <= have) {
             uint8_t *p = in + off;
             uint16_t pid;
-            int      pusi;
+            int      is_pmt_candidate;
 
             if (p[0] != TS_SYNC) {
                 off++;
@@ -403,8 +429,7 @@ int main(int argc, char **argv)
                 continue;
             }
 
-            pid  = (((uint16_t)p[1] & 0x1F) << 8) | p[2];
-            pusi = (p[1] & 0x40) != 0;
+            pid = (((uint16_t)p[1] & 0x1F) << 8) | p[2];
 
             if (pid == 0x0000) {
                 if (!pat_seen) {
@@ -419,15 +444,22 @@ int main(int argc, char **argv)
                     outlen += TS_PACKET;
                 }
             } else {
-                if (pusi && pat_seen && !have_rewritten_pat) {
-                    if (!sid_mode && match_pmt == 0xFFFF) {
-                        for (i = 0; i < n_progs; i++) {
-                            if (progs[i].pmt_pid == pid) { try_parse_pmt(p, pid); break; }
-                        }
-                    } else if (sid_mode && match_pmt != 0xFFFF && pid == match_pmt) {
-                        try_parse_pmt(p, pid);
+                /* Feed PMT packets (PUSI and continuations) until section complete */
+                if (pat_seen && !have_rewritten_pat) {
+                    is_pmt_candidate = 0;
+                    if (sid_mode && match_pmt != 0xFFFF && pid == match_pmt) {
+                        is_pmt_candidate = 1;
+                    } else if (!sid_mode) {
+                        for (i = 0; i < n_progs; i++)
+                            if (progs[i].pmt_pid == pid) { is_pmt_candidate = 1; break; }
+                    }
+                    if (is_pmt_candidate) {
+                        feed_pmt_packet(p, pid);
+                        if (pmt_sbuf_need > 0 && pmt_sbuf_have >= pmt_sbuf_need)
+                            parse_pmt_section(pid);
                     }
                 }
+
                 if (pid_wanted(pid)) {
                     memcpy(out + outlen, p, TS_PACKET);
                     outlen += TS_PACKET;
@@ -450,7 +482,7 @@ int main(int argc, char **argv)
                 start_time = time(NULL);
 
             if (write_full(1, out, outlen) < 0) {
-                fprintf(stderr, "tspidfilter: write error: %s\n", strerror(errno));
+                fprintf(stderr, "tsfilter2: write error: %s\n", strerror(errno));
                 free(in); free(out); return 1;
             }
 

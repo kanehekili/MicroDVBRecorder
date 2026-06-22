@@ -75,19 +75,24 @@ mediaclient --cat /dev/dvb/adapter0/dvr0 \    # process 2: READER (+ filter)
 
 ## Custom tools (replace czap path and tv_grab_dvb)
 
-### `tspidfilter` (C, zero deps) — program filtering + PAT/PMT rewriting
+### `tsfilter2` (C, zero deps) — program filtering + PAT/PMT rewriting
 
 Replaces `czap -r -p` (dead) and `--tsprogram` (throttled). Reads TS on
 stdin, writes a clean **single-program** TS to stdout.
+
+Correctly assembles PMT sections that span more than one TS packet — common
+for programs with many streams or long descriptors (subtitles, multiple audio
+tracks, teletext). A previous version silently dropped ES PIDs from the second
+packet onward.
 
 **Two calling conventions** (auto-detected by value range, PIDs ≤ 8191):
 
 ```bash
 # Service-id mode (value > 8191): discovers PMT and all ES PIDs automatically
-mediaclient --cat /dev/dvb/adapter0/dvr0 | tspidfilter 53002 > tele5.m2t
+mediaclient --cat /dev/dvb/adapter0/dvr0 | tsfilter2 53002 > tele5.m2t
 
 # ES-PID mode (values ≤ 8191): scans PMTs until one containing a wanted PID is found
-mediaclient --cat /dev/dvb/adapter0/dvr0 | tspidfilter 411 412 > tele5.m2t
+mediaclient --cat /dev/dvb/adapter0/dvr0 | tsfilter2 411 412 > tele5.m2t
 ```
 
 In both modes the tool:
@@ -98,30 +103,30 @@ In both modes the tool:
 - Passes the matched PMT through unchanged.
 - Passes wanted ES PIDs through.
 
-**Duration flag `-t <seconds>`**: tspidfilter exits after the given number
+**Duration flag `-t <seconds>`**: tsfilter2 exits after the given number
 of seconds of *actual output*. The timer starts on the **first output
 packet** (i.e. after PMT discovery / tuner lock), not at process start.
-When tspidfilter exits the named FIFO closes, the caller kills `--cat`
+When tsfilter2 exits the named FIFO closes, the caller kills `--cat`
 explicitly (see `mediaClientRecord.sh`).
 
-**Error handling**: if the service_id is not found in the PAT, tspidfilter
+**Error handling**: if the service_id is not found in the PAT, tsfilter2
 prints an error to stderr and exits with code 1 immediately, ignoring `-t`.
 This prevents the recording daemon from hanging indefinitely on a bad
 service_id.
 
 ```bash
 # stderr on error:
-tspidfilter: service_id 53627 not found in PAT
+tsfilter2: service_id 53627 not found in PAT
 ```
 
 **Build on the Pi:**
 ```bash
-gcc -O2 -o tspidfilter tspidfilter.c
+gcc -O2 -o tsfilter2 tsfilter2.c
 ```
 No dependencies. Fine under GCC 16.
 
 **Note on service_ids in channels.conf**: service_ids can go stale when
-providers reorganise their multiplexes. 
+providers reorganise their multiplexes.
 
 Until channels.conf is rescanned, use ES-PID mode for affected channels.
 
@@ -162,17 +167,17 @@ Key design points:
 - Uses a **named FIFO** (`/tmp/dvb_XXXXXX`) instead of a shell pipeline,
   so that `mediaclient --cat` runs as a tracked background process with a
   known PID and can be killed explicitly on teardown.
-- `tspidfilter -t "$durance" "$service_id"` runs in background; `wait
+- `tsfilter2 -t "$durance" "$service_id"` runs in background; `wait
   $filter_pid` blocks until it exits. `wait` is interruptible by SIGTERM,
   so the daemon can kill the script and the EXIT trap cleans up all three
   child processes.
-- Duration timer starts after tuner lock (inside tspidfilter), absorbing
+- Duration timer starts after tuner lock (inside tsfilter2), absorbing
   the few seconds the Sundtek device takes to go ACTIVE.
 - EXIT trap kills tuner (`$mc`), reader (`$cat_pid`), and filter
   (`$filter_pid`) on any exit path.
 
 **Known issue**: currently passes `service_id` (channels.conf last field)
-to tspidfilter. If the service_id is stale (not in PAT), tspidfilter exits
+to tsfilter2. If the service_id is stale (not in PAT), tsfilter2 exits
 with code 1 and the daemon removes the job from the queue. A more robust
 approach (next phase) is to pass video/audio PIDs instead.
 
@@ -202,8 +207,8 @@ approach (next phase) is to pass video/audio PIDs instead.
   `mediaclient` + `tv_grab_dvb`). Needs a `channels.map` generated from
   channels.conf. Not yet implemented.
 - **Sundtek `--tsprogram` throttling bug**: Understale investigating. No fix
-  yet. `tspidfilter` sidesteps it entirely so there's little reason to
+  yet. `tsfilter2` sidesteps it entirely so there's little reason to
   switch back even if fixed.
 - **`tsduck`** was considered as a filter but won't build under GCC 16
   (`-Werror=array-bounds` in libstdc++). The `-bin` AUR package is x86_64
-  only. `tspidfilter` has no dependencies and builds everywhere.
+  only. `tsfilter2` has no dependencies and builds everywhere.
