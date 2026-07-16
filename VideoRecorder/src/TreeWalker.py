@@ -81,14 +81,11 @@ class TreeWalker():
                 self._fileInDir += 1
 
     def _pushPendingPathes(self,hitPath):
-        test=str(hitPath)
         if len(self._tempPath)>0:
             for tPath in self._tempPath:
-                slider = tPath.path.name
-                if slider in test:
+                if tPath.path in hitPath.parents or tPath.path == hitPath:
                     yield tPath
-
-            self._tempPath=[]        
+            self._tempPath=[]
 
     def _retrieveSave(self,path,contraint):
         content=[]
@@ -102,13 +99,13 @@ class TreeWalker():
         return content
 
     def _filter(self,pPath):
-        if not self.filterMime or pPath.is_dir():
+        if pPath.is_dir():
+            return not pPath.name.startswith('.')
+        if not self.filterMime:
             return True
-        
         res= mimetypes.guess_type(pPath.name)
         if not res[0]:
             return False
-        
         for mType in self.filterMime:
             if mType in res[0]:
                 return True
